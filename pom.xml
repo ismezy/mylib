@@ -20,6 +20,32 @@
         <module>mylib-base</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>nexus</name>
+            <url>http://dev.ystfin.com/nexus/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshot</id>
+            <name>Popocloud Snapshot Repository</name>
+            <url>http://dev.ystfin.com/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>ys-nexus</id>
+            <name>nexus</name>
+            <url>http://dev.ystfin.com/nexus/repository/maven-public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ys-nexus</id>
+            <name>nexus</name>
+            <url>http://dev.ystfin.com/nexus/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencyManagement>
         <dependencies>
@@ -42,6 +68,21 @@
                 <artifactId>javax.persistence-api</artifactId>
                 <version>2.2</version>
             </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>24.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -54,5 +95,27 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
