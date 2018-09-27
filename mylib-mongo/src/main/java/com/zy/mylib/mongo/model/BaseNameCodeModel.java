@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
  * @author ASUS
  */
 @MappedSuperclass
-public class BaseNameCodeModel extends BaseModel {
+public class BaseNameCodeModel extends BaseMongoModel {
     private static final long serialVersionUID = 6599338697014255001L;
     /**
      * 名称

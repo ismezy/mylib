@@ -42,6 +42,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-base</artifactId>
+            <scope>compile</scope>
+            <version>${version}</version>
+        </dependency>
     </dependencies>
 
 </project>

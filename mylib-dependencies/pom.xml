@@ -35,6 +35,11 @@
                 <version>${revision}</version>
             </dependency>
             <dependency>
+                <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-webmvc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-version}</version>

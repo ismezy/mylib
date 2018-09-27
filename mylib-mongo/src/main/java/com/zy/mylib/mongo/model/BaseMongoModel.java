@@ -1,6 +1,7 @@
 package com.zy.mylib.mongo.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.zy.mylib.base.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -12,9 +13,7 @@ import java.io.Serializable;
  * @author 周扬
  */
 @MappedSuperclass
-public class BaseModel implements Serializable {
-    public interface BaseView{}
-
+public class BaseMongoModel implements BaseModel {
     @Id @Column(name = "_id") @JsonView(BaseView.class)
     private String id;
 

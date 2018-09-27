@@ -18,6 +18,7 @@
         <module>mylib-utils</module>
         <module>mylib-mongo</module>
         <module>mylib-base</module>
+        <module>mylib-webmvc</module>
     </modules>
 
     <distributionManagement>
