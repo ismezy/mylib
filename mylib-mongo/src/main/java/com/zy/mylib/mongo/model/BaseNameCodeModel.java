@@ -1,5 +1,7 @@
 package com.zy.mylib.mongo.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
@@ -14,11 +16,13 @@ public class BaseNameCodeModel extends BaseMongoModel {
      * 名称
      */
     @Column
+    @JsonView(ListView.class)
     private String name;
     /**
      * 编号
      */
     @Column
+    @JsonView(ListView.class)
     private String code;
 
     /**
