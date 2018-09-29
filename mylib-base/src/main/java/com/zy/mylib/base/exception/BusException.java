@@ -1,5 +1,8 @@
 package com.zy.mylib.base.exception;
 
+/**
+ * @author ASUS
+ */
 public class BusException extends RuntimeException {
 	public final static String ERROR_CODE = "300";
 	public final static String SUCCESS_CODE = "0000";
@@ -43,6 +46,10 @@ public class BusException extends RuntimeException {
 		this.code = code;
 	}
 
+    public static BusExceptionBuilder builder(){
+        return new BusExceptionBuilder();
+    }
+
     /**
      * Sets new httpStatus.
      *
@@ -59,5 +66,27 @@ public class BusException extends RuntimeException {
      */
     public int getHttpStatus() {
         return httpStatus;
+    }
+
+    private static class BusExceptionBuilder {
+        private String message;
+        private String code = "9999";
+        private int httpStatus = 501;
+
+        public BusExceptionBuilder message(String message){
+            this.message = message;
+            return this;
+        }
+        public BusExceptionBuilder code(String code){
+            this.code = code;
+            return this;
+        }
+        public BusExceptionBuilder httpStatus(int status){
+            this.httpStatus = status;
+            return this;
+        }
+        public BusException build(){
+            return new BusException(message, code, httpStatus);
+        }
     }
 }
