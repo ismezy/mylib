@@ -13,7 +13,6 @@ public class BusException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 5058689238804568643L;
 	
-	public BusException() {}
 	public BusException(String message){
 		super(message);
 		this.setCode(ERROR_CODE);
@@ -68,7 +67,7 @@ public class BusException extends RuntimeException {
         return httpStatus;
     }
 
-    private static class BusExceptionBuilder {
+    public static class BusExceptionBuilder {
         private String message;
         private String code = "9999";
         private int httpStatus = 501;
@@ -85,6 +84,11 @@ public class BusException extends RuntimeException {
             this.httpStatus = status;
             return this;
         }
+
+        /**
+         * 生成
+         * @return
+         */
         public BusException build(){
             return new BusException(message, code, httpStatus);
         }

@@ -30,7 +30,7 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zy</groupId>
+            <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-base</artifactId>
             <version>${revision}</version>
         </dependency>
@@ -46,7 +46,7 @@
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-base</artifactId>
             <scope>compile</scope>
-            <version>${version}</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 
