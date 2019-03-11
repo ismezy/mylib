@@ -35,6 +35,7 @@ public class BaseRest extends I18n {
             logger.warn(ex.getMessage());
             BusException bex = (BusException)ex;
             response.setStatus(bex.getHttpStatus());
+            result.setCode(bex.getCode());
         }
         else if(ex instanceof MethodArgumentNotValidException){
             MethodArgumentNotValidException vex = (MethodArgumentNotValidException)ex;
