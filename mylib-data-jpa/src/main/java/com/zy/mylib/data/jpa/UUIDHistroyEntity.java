@@ -1,5 +1,6 @@
 package com.zy.mylib.data.jpa;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ public class UUIDHistroyEntity extends HistoryEntity{
     @GenericGenerator(name="idGenerator", strategy="uuid")
     @GeneratedValue(generator="idGenerator") @Id
     @Column(length = 32)
+    @JsonView(BaseView.class)
     protected String id;
 
     /**
