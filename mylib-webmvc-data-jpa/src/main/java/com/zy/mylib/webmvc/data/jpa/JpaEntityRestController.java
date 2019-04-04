@@ -1,5 +1,6 @@
 package com.zy.mylib.webmvc.data.jpa;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.model.BaseModel;
 import com.zy.mylib.data.jpa.JpaEntity;
@@ -45,6 +46,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     protected abstract Map<String,Object> getPageExtendParam(T entity, HttpServletRequest request, Map<String, Object> extendParams);
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @JsonView(BaseModel.DetailView.class)
     public T findOne(@PathVariable("id") PK id){
         Optional<T> ret = getManager().findById(id);
         if(ret.isPresent()) {
@@ -54,6 +56,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     @RequestMapping(value = "",method = RequestMethod.POST)
+    @JsonView(BaseModel.DetailView.class)
     public T addEntity(@Validated(BaseModel.AddCheck.class) @RequestBody T entity){
         return addEntityImpl(entity);
     }
@@ -63,6 +66,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     @RequestMapping(value = "",method = RequestMethod.PUT)
+    @JsonView(BaseModel.DetailView.class)
     public T updateEntity(@Validated(BaseModel.UpdateCheck.class) @RequestBody T entity){
         return updateEntityImpl(entity);
     }
@@ -77,6 +81,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
+    @JsonView(BaseModel.ListView.class)
     public List<T> queryList(T entity, HttpServletRequest req){
         Map<String,PageUtils.Operate> operateMap = new HashMap<>(0);
         Map<String,Object> extendParams = new HashMap<>(0);
@@ -85,6 +90,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     @RequestMapping(value = "/pager", method = RequestMethod.GET)
+    @JsonView(BaseModel.ListView.class)
     public Page<T> queryPager(Pageable page, T entity, HttpServletRequest req){
         Map<String,PageUtils.Operate> operateMap = new HashMap<>(0);
         Map<String,Object> extendParams = new HashMap<>(0);
