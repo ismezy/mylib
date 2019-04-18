@@ -9,7 +9,7 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.0.9</revision>
+        <revision>1.2.2</revision>
         <java.version>1.8</java.version>
     </properties>
 
@@ -22,6 +22,7 @@
         <module>mylib-data-jpa</module>
         <module>mylib-webmvc-data-jpa</module>
         <module>mylib-security-shiro</module>
+        <module>mylib-mvc-logger</module>
     </modules>
 
     <distributionManagement>

@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2017/5/15
  */
 @MappedSuperclass
-public class HistoryEntity extends JpaEntity {
+public class HistoryEntity extends UUIDBaseEntity {
     public interface HistoryView{}
     /**
      * 创建人

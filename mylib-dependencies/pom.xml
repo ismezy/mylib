@@ -41,6 +41,11 @@
             </dependency>
             <dependency>
                 <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-mvc-logger</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zy.mylib</groupId>
                 <artifactId>mylib-data-jpa</artifactId>
                 <version>${revision}</version>
             </dependency>
