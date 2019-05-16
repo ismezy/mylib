@@ -1,7 +1,5 @@
 package com.zy.mylib.security.service;
 
-import org.springframework.validation.annotation.Validated;
-
 import java.util.Optional;
 
 /**
@@ -9,7 +7,6 @@ import java.util.Optional;
  * @author 扬
  * @date 2017/5/12
  */
-@Validated
 public interface UserService<T> {
     /**
      * 根据登录名查找用户

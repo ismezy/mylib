@@ -60,6 +60,21 @@
                 <version>${revision}</version>
             </dependency>
             <dependency>
+                <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-cache-guava</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-security-casbin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-security-casbin-zuul</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-version}</version>
@@ -97,6 +112,16 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.casbin</groupId>
+                <artifactId>jcasbin</artifactId>
+                <version>1.3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>3.7.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

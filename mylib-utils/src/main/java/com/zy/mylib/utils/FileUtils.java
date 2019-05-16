@@ -2,6 +2,7 @@ package com.zy.mylib.utils;
 
 import com.google.common.io.Files;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,5 +103,18 @@ public class FileUtils {
      */
     public static String getFilename(String filePath) {
         return FilenameUtils.getName(filePath);
+    }
+
+    public static String readAllText(InputStream is) throws IOException {
+        StringBuffer sb = new StringBuffer(1024 * 3);
+        int len = 0;
+        final int buffLen = 1024;
+        final byte[] buff = new byte[buffLen];
+        do {
+            len = is.read(buff, 0, buffLen);
+            sb.append(new String(buff, 0, len, "utf-8"));
+        } while (len == buffLen );
+        is.close();
+        return sb.toString();
     }
 }
