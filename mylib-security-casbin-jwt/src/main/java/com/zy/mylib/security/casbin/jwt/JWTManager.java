@@ -1,4 +1,4 @@
-package com.zy.mylib.security.casbin.zuul;
+package com.zy.mylib.security.casbin.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 

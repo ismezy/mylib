@@ -1,4 +1,4 @@
-package com.zy.mylib.security.casbin.zuul;
+package com.zy.mylib.security.casbin;
 
 import org.casbin.jcasbin.main.Enforcer;
 

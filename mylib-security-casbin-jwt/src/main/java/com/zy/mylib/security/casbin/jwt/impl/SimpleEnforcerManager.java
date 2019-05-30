@@ -1,11 +1,11 @@
-package com.zy.mylib.security.casbin.zuul.impl;
+package com.zy.mylib.security.casbin.jwt.impl;
 
 import com.zy.mylib.cache.guava.GuavaCacheManager;
 import com.zy.mylib.security.casbin.StringAdapter;
 import com.zy.mylib.security.casbin.StringModel;
-import com.zy.mylib.security.casbin.zuul.EnforcerManager;
+import com.zy.mylib.security.casbin.EnforcerManager;
 import com.zy.mylib.security.casbin.ModelAndPolicy;
-import com.zy.mylib.security.casbin.zuul.UserAuthzService;
+import com.zy.mylib.security.casbin.UserAuthzService;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.Cache;

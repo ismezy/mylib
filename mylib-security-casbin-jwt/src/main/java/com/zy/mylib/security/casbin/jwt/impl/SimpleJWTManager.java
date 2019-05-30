@@ -1,9 +1,9 @@
-package com.zy.mylib.security.casbin.zuul.impl;
+package com.zy.mylib.security.casbin.jwt.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.zy.mylib.security.casbin.zuul.JWTManager;
+import com.zy.mylib.security.casbin.jwt.JWTManager;
 
 /**
  * jwt manager最简实现

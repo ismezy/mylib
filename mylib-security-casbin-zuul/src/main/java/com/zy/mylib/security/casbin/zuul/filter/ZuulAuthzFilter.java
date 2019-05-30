@@ -8,16 +8,11 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.zy.mylib.base.exception.BusException;
-import com.zy.mylib.security.casbin.zuul.EnforcerManager;
-import com.zy.mylib.utils.FileUtils;
+import com.zy.mylib.security.casbin.EnforcerManager;
 import com.zy.mylib.utils.StringUtils;
 import org.casbin.jcasbin.main.Enforcer;
-import org.casbin.jcasbin.model.Model;
-import org.casbin.jcasbin.persist.Adapter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * zuul 授权控制filter

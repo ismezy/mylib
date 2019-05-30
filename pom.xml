@@ -9,7 +9,7 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.3.0</revision>
+        <revision>1.3.2</revision>
         <java.version>1.8</java.version>
     </properties>
 
@@ -26,6 +26,7 @@
         <module>mylib-security-casbin</module>
         <module>mylib-security-casbin-zuul</module>
         <module>mylib-cache-guava</module>
+        <module>mylib-security-casbin-jwt</module>
     </modules>
 
     <distributionManagement>
