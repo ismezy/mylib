@@ -66,6 +66,16 @@
             </dependency>
             <dependency>
                 <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-cache-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zy.mylib</groupId>
+                <artifactId>mylib-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zy.mylib</groupId>
                 <artifactId>mylib-security-casbin</artifactId>
                 <version>${revision}</version>
             </dependency>

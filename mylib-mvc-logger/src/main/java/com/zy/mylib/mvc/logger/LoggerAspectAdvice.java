@@ -4,21 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zy.mylib.base.i18n.I18n;
 import com.zy.mylib.data.jpa.HistoryEntity;
-import com.zy.mylib.data.jpa.UUIDBaseEntity;
-import com.zy.mylib.security.utils.UserUtils;
-import com.zy.mylib.utils.DateUtils;
+import com.zy.mylib.security.LoginUser;
+import com.zy.mylib.security.Passport;
 import com.zy.mylib.utils.StringUtils;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.subject.support.WebDelegatingSubject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.expression.MapAccessor;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
@@ -28,6 +22,7 @@ import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,15 +37,17 @@ import java.util.Map;
  *
  */
 @Aspect
-public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
+public class LoggerAspectAdvice<UT extends LoginUser> extends I18n {
 	static final Logger logger = LoggerFactory.getLogger(LoggerAspectAdvice.class);
 
-	@Autowired(required = false)
+	@Inject
 	private LoggerService<UT> loggerService;
-    @Autowired(required = false)
-    private OperateHistoryService<UT> operateHistory;
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Inject
+	private OperateHistoryService<UT> operateHistory;
+	@Inject
+	private ObjectMapper objectMapper;
+	@Inject
+    private Passport<UT> passport;
 
 	@Pointcut("@annotation(com.zy.mylib.mvc.logger.ApiLogger)")
 	public void serviceAspect(){
@@ -69,8 +66,8 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
             try {
                 if (!StringUtils.isBlank(history.user())) {
                     user = com.zy.mylib.utils.BeanUtils.getEntityByMethodParamPath(history.user(), jp);
-                } else if (SecurityUtils.getSubject().isAuthenticated()) {
-                    user = UserUtils.getCurrentUser();
+                } else if (passport.isAuthenticated()) {
+                    user = passport.getUser();
                 }
                 if (this.operateHistory != null) {
                     for (String entityName : history.historyEntities()) {
@@ -131,10 +128,10 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
             Object id = getIsCreate(he);
             if (id == null) {
                 he.setCreateTime(new Date());
-                he.setCreateUserId(user.getId());
+                he.setCreateUserId(user.getUserId());
             } else {
                 he.setLastModifyTime(new Date());
-                he.setLastModifyUserId(user.getId());
+                he.setLastModifyUserId(user.getUserId());
             }
         }else {
             if (step == 2) {
@@ -173,41 +170,20 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
-	private String getSuccessLoggerContent(JoinPoint jp, ApiLogger logger, Object retVal) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	private String getSuccessLoggerContent(JoinPoint jp, ApiLogger logger, Object retVal) {
 		// 新方式
-		if(StringUtils.isNotBlank(logger.request())) {
-			Map<String, Object> params  = this.getAllParams(jp);
-			params.put("returnValue", retVal);
-			return parseEL(logger.request() + logger.success(), params);
-		}
-		Object[] args = jp.getArgs();
-		ParamDefine[] pds = logger.paramProperties();
-		Object[] msgParam = new Object[pds.length];
-		for (int i = 0; i < msgParam.length; i++) {
-			Object tmp = args[pds[i].paramIndex()];
-			if(StringUtils.isBlank(pds[i].property())){
-				msgParam[i] = tmp;
-			}
-			else{
-				msgParam[i] = BeanUtils.getProperty(tmp, pds[i].property());
-			}
-		}
-		// 执行成功描述，可为空
-		String desc = String.format(logger.content(), msgParam);
-		if(StringUtils.isNotBlank(logger.ret())){
-			Object[] retParam = new Object[logger.retProperties().length];
-			for (int i = 0; i < retParam.length; i++) {
-				if(StringUtils.isBlank(logger.retProperties()[i])){
-					retParam[i] = retVal;
-				}
-				else{
-					retParam[i] = BeanUtils.getProperty(retVal, logger.retProperties()[i]);
-				}
-			}
-			desc += String.format(logger.ret(), retParam);
-		}
-		return desc;
+		Map<String, Object> params  = this.getAllParams(jp);
+		params.put("returnValue", retVal);
+		return parseEL(logger.request() + logger.success(), params);
 	}
+
+	private String getId(JoinPoint jp, ApiLogger logger, Object retVal) {
+		// 新方式
+		Map<String, Object> params  = this.getAllParams(jp);
+		params.put("returnValue", retVal);
+		return parseEL(logger.id(), params);
+	}
+
 	private SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.MIXED,
 			this.getClass().getClassLoader());
 	private SpelExpressionParser parser = new SpelExpressionParser(config);
@@ -221,11 +197,16 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
 	 * @return
 	 */
 	private String parseEL(String success, Map<String, Object> params) {
-		StandardEvaluationContext context = new StandardEvaluationContext(params);
-		context.addPropertyAccessor(mapAccessor);
-		Expression expr = parser.parseExpression(success, parserContext);
-		String ret = expr.getValue(context, String.class);
-		return ret;
+		try {
+			StandardEvaluationContext context = new StandardEvaluationContext(params);
+			context.addPropertyAccessor(mapAccessor);
+			Expression expr = parser.parseExpression(success, parserContext);
+			String ret = expr.getValue(context, String.class);
+			return ret;
+		} catch (Exception e) {
+			logger.error("日志表达解析错误", e);
+			return "";
+		}
 	}
 
 	/**
@@ -244,92 +225,54 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
 		try {
 			ApiLogger loggerDef = getLoggerDefine(jp, ApiLogger.class);
 			String loggerContent = getSuccessLoggerContent(jp,loggerDef,retVal);
-			if(loggerDef.console()){
-				Subject sub = SecurityUtils.getSubject();
-				if(sub.isAuthenticated()){
-					Object user = sub.getPrincipal();
-					WebDelegatingSubject webSub = (WebDelegatingSubject) sub;
-					logger.info("{} 用户:{},IP:{}", loggerContent, user, webSub.getHost());
-				}
-				else{
-					logger.info("{}",loggerContent);
-				}
-			}
-			if(loggerDef.db() && loggerService != null){
-				Subject sub = SecurityUtils.getSubject();
-				String ip = "";
-				UT user = null;
-				if(sub.isAuthenticated()){
-					user = UserUtils.getCurrentUser();
-					WebDelegatingSubject webSub = (WebDelegatingSubject) sub;
-					ip = webSub.getHost();
-				}
-				loggerService.addLog(loggerDef.cloudUser(),loggerDef.type(), loggerContent, user, ip, new Date());
-			}
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+			String id = getId(jp, loggerDef, retVal);
+			writeLog(loggerDef, loggerContent, id);
+		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}
+
+	private void writeLog(ApiLogger loggerDef, String loggerContent, String id) {
+		if(loggerDef.console()){
+			if(passport.isAuthenticated()){
+				UT user = passport.getUser();
+				logger.info("{} 用户:{},IP:{}", loggerContent, user, user.getIp());
+			}
+			else{
+				logger.info("{}",loggerContent);
+			}
+		}
+		if(loggerDef.db() && loggerService != null) {
+			String ip = "";
+			UT user = null;
+			if (passport.isAuthenticated()) {
+				user = passport.getUser();
+				ip = user.getIp();
+			}
+			loggerService.addLog("", id, loggerDef.type(), loggerContent, user, ip, new Date());
+		}
+	}
+
 	@AfterThrowing(pointcut="serviceAspect()",throwing="e")
 	public void afterServiceAspectThrowable(JoinPoint jp, Throwable e){
 		ApiLogger loggerDef;
 		try {
 			loggerDef = getLoggerDefine(jp, ApiLogger.class);
 			String loggerContent = getExceptionLoggerContent(jp,loggerDef,e);
-			if(loggerDef.file()){
-				Subject sub = SecurityUtils.getSubject();
-				if(sub.isAuthenticated()){
-					UT user = UserUtils.getCurrentUser();
-					WebDelegatingSubject webSub = (WebDelegatingSubject) sub;
-					logger.info("{} 用户:{},IP:{}", loggerContent,user, webSub.getHost());
-				}
-				else{
-					logger.info("{}",loggerContent);
-				}
-			}
-			if(loggerDef.db() && loggerService != null){
-				Subject sub = SecurityUtils.getSubject();
-				String loginName = "";
-				String ip = "";
-				UT user = null;
-				if(sub.isAuthenticated()){
-					user = UserUtils.getCurrentUser();
-					WebDelegatingSubject webSub = (WebDelegatingSubject) sub;
-					ip = webSub.getHost();
-				}
-				loggerService.addLog(loggerDef.cloudUser(), loggerDef.type(),loggerContent, user, ip, new Date());
-			}
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e1) {
+			String id = getId(jp, loggerDef, null);
+			writeLog(loggerDef, loggerContent, id);
+		} catch (NoSuchMethodException | SecurityException e1) {
 			e1.printStackTrace();
 		}
 	}
 
 
 	private String getExceptionLoggerContent(JoinPoint jp,
-											 ApiLogger logger, Throwable e) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+											 ApiLogger logger, Throwable e) {
 		// 新方式
-		if(StringUtils.isNotBlank(logger.request())) {
-			Map<String, Object> params  = this.getAllParams(jp);
-			params.put("exception", e);
-			return parseEL(logger.request() + logger.error(), params);
-		}
-		Object[] args = jp.getArgs();
-		ParamDefine[] pds = logger.paramProperties();
-		Object[] msgParam = new Object[pds.length];
-		for (int i = 0; i < msgParam.length; i++) {
-			Object tmp = args[pds[i].paramIndex()];
-			if(StringUtils.isBlank(pds[i].property())){
-				msgParam[i] = tmp;
-			}
-			else{
-				msgParam[i] = BeanUtils.getProperty(tmp, pds[i].property());
-			}
-		}
-
-		String desc = String.format(logger.content(), msgParam);
-		desc += "出现异常:" + e.getMessage();
-		
-		return desc;
+		Map<String, Object> params  = this.getAllParams(jp);
+		params.put("exception", e);
+		return parseEL(logger.request() + logger.error(), params);
 	}
 
 	/**
@@ -345,7 +288,6 @@ public class LoggerAspectAdvice<UT extends UUIDBaseEntity> extends I18n {
 		for(int i = 0; i < params.length; i++) {
 			result.put(params[i], args[i]);
 		}
-		result.put("loginUser", UserUtils.getCurrentUser());
 		return result;
 	}
 }

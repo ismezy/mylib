@@ -13,46 +13,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)  
 @Documented
 public @interface ApiLogger {
-	/**
-	 * api访问日志，可用format格式
-	 * @deprecated
-	 * 现在使用@ApiLogger(request = "", success="", error="")
-	 * @return
-	 */
-	@Deprecated
-	String content() default "";
-	/**
-	 * api访问结果日志，可用format格式
-	 * @deprecated 现在使用@ApiLogger(request = "", success="", error="")
-	 * @return
-	 */
-	@Deprecated
-	String ret() default "";
-
-	/**
-	 * 操作日志内容参数描述
-	 * @return
-	 */
-	ParamDefine[] paramProperties() default {};
-	@Deprecated
-	// warning: "地地地地"
-	String[] retProperties() default {};
-
-	/**
-	 * @deprecated 现在使用@ApiLogger(request = "", success="", error="")
-	 * @return
-	 */
-	@Deprecated
-	String cloudUser() default "";
 	String type() default "";
-	/**
-	 * 是否记录到文件,默认true
-	 * @deprecated 使用console = true
-	 * @return
-	 */
-	@AliasFor("console")
-	@Deprecated
-	boolean file() default true;
 
 	boolean console() default true;
 	/**
@@ -70,12 +31,12 @@ public @interface ApiLogger {
 	String request() default "";
 
 	/**
-	 * 成功时的文本模板默认值为"|,成功[${resultValue}]。"，例：
-	 * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", success=",成功，id=${resultValue.id}")
+	 * 成功时的文本模板默认值为"|,成功[${returnValue}]。"，例：
+	 * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", success=",成功，id=${returnValue.id}")
 	 * public String addCodemap(@RequestBody Codemap codemap);
 	 * @return
 	 */
-	String success() default ",成功[${resultValue}]。";
+	String success() default ",成功[${returnValue}]。";
 	/**
 	 * api失败时的文本模板默认值为",失败[${exception.message}]！"，例：
 	 * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", error=",失败，原因为${exception.message}")
@@ -83,4 +44,10 @@ public @interface ApiLogger {
 	 * @return
 	 */
 	String error() default  ",失败[${exception.message}]！";
+
+	/**
+	 * 目标id
+	 * @return
+	 */
+	String id() default "";
 }

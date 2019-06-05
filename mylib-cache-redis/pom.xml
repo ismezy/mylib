@@ -10,24 +10,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mylib-security-casbin</artifactId>
+    <artifactId>mylib-cache-redis</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.casbin</groupId>
-            <artifactId>jcasbin</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-security</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-utils</artifactId>
-            <version>${version}</version>
-        </dependency>
-
     </dependencies>
-
 </project>

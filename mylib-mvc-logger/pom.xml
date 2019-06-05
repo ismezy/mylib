@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-security-shiro</artifactId>
+            <artifactId>mylib-security</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
