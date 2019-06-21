@@ -6,9 +6,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
  * @author ASUS
  */
