@@ -3,6 +3,7 @@ package com.zy.mylib.mvc.logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zy.mylib.base.i18n.I18n;
+import com.zy.mylib.base.model.BaseModel;
 import com.zy.mylib.data.jpa.HistoryEntity;
 import com.zy.mylib.security.LoginUser;
 import com.zy.mylib.security.Passport;
@@ -137,7 +138,7 @@ public class LoggerAspectAdvice<UT extends LoginUser> extends I18n {
             if (step == 2) {
                 Object id = getIsCreate(he);
                 try {
-                    String json = objectMapper.writeValueAsString(he);
+                    String json = objectMapper.writerWithView(BaseModel.DetailView.class).writeValueAsString(he);
                     operateHistory.addHistory(json, history.operateType(), user, id);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
@@ -236,10 +237,10 @@ public class LoggerAspectAdvice<UT extends LoginUser> extends I18n {
 		if(loggerDef.console()){
 			if(passport.isAuthenticated()){
 				UT user = passport.getUser();
-				logger.info("{} 用户:{},IP:{}", loggerContent, user, user.getIp());
+				logger.info("{}, {} 用户:{},IP:{}", loggerDef.type(), loggerContent, user, user.getIp());
 			}
 			else{
-				logger.info("{}",loggerContent);
+				logger.info("{}, {}",loggerDef.type(), loggerContent);
 			}
 		}
 		if(loggerDef.db() && loggerService != null) {

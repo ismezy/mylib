@@ -1,6 +1,6 @@
 package com.zy.mylib.security.casbin;
 
-import com.zy.mylib.security.casbin.ModelAndPolicy;
+import org.casbin.jcasbin.main.Enforcer;
 
 /**
  * 用户权限服务接口
@@ -11,5 +11,5 @@ public interface UserAuthzService {
      * @param user
      * @return
      */
-    ModelAndPolicy getEnforcer(String user);
+    Enforcer getEnforcer(String user);
 }

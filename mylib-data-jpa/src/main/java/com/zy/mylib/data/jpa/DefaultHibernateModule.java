@@ -1,4 +1,4 @@
-package com.zy.mylib.jackson;
+package com.zy.mylib.data.jpa;
 
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;

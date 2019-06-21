@@ -12,10 +12,9 @@ import javax.inject.Named;
 /**
  * @author ASUS
  */
-@Named
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
-    @Inject
     Passport<LoginUser> passport;
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(LoginUser.class);
@@ -24,5 +23,23 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         return passport.getUser();
+    }
+
+    /**
+     * Sets new passport.
+     *
+     * @param passport New value of passport.
+     */
+    public void setPassport(Passport<LoginUser> passport) {
+        this.passport = passport;
+    }
+
+    /**
+     * Gets passport.
+     *
+     * @return Value of passport.
+     */
+    public Passport<LoginUser> getPassport() {
+        return passport;
     }
 }

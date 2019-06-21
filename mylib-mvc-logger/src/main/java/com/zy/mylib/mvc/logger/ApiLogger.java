@@ -36,7 +36,7 @@ public @interface ApiLogger {
 	 * public String addCodemap(@RequestBody Codemap codemap);
 	 * @return
 	 */
-	String success() default ",成功[${returnValue}]。";
+	String success() default ",成功。";
 	/**
 	 * api失败时的文本模板默认值为",失败[${exception.message}]！"，例：
 	 * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", error=",失败，原因为${exception.message}")
