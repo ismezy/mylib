@@ -40,4 +40,9 @@ public class SysConfigItem extends NameCodeEntity {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String description() {
+        return "系统配置项";
+    }
 }

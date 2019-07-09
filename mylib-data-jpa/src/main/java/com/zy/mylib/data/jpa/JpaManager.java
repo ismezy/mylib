@@ -33,4 +33,8 @@ public interface JpaManager<T extends JpaEntity,PK extends Serializable> {
     Page<T> findPage(Pageable page, Specification<T> sepc);
 
     List<T> getList(Specification<T> sepc);
+
+    T add(T entity);
+
+    T update(T entity);
 }

@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
  * @date 2017/5/15
  */
 @MappedSuperclass
-public class HistoryNameCodeEntity extends UUIDHistroyEntity {
+public abstract class HistoryNameCodeEntity extends HistoryEntity {
 
     @JsonView(BaseView.class)
     @Column(length = 64)

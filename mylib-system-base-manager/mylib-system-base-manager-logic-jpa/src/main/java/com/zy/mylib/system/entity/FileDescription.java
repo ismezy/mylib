@@ -220,4 +220,9 @@ public class FileDescription extends UUIDBaseEntity {
     public String getCustomFileName() {
         return customFileName;
     }
+
+    @Override
+    public String description() {
+        return "附件";
+    }
 }

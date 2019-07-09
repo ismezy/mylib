@@ -4,7 +4,9 @@ import java.lang.annotation.*;
 
 /**
  * 历史记录日志
- * Created by 扬 on 2017/5/15.
+ *
+ * @author 扬
+ * @date 2017/5/15
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

@@ -108,4 +108,9 @@ public class ArchiveNo extends UUIDBaseEntity {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+    @Override
+    public String description() {
+        return "流水号";
+    }
 }

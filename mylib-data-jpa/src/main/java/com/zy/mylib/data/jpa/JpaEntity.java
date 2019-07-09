@@ -10,9 +10,15 @@ import javax.persistence.MappedSuperclass;
  * @author ASUS
  */
 @MappedSuperclass
-public class JpaEntity implements BaseModel {
+public abstract class JpaEntity implements BaseModel {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 实体描述
+     * @return
+     */
+    public abstract String description();
 }

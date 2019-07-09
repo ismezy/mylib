@@ -31,13 +31,17 @@
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-base</artifactId>
-            <scope>compile</scope>
+            <artifactId>mylib-utils</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-base</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 

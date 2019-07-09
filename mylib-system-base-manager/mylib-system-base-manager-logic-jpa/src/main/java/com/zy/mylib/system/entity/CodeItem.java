@@ -73,4 +73,9 @@ public class CodeItem extends NameCodeEntity {
 	public String getValue() {
 		return value;
 	}
+
+	@Override
+	public String description() {
+		return "字典项";
+	}
 }

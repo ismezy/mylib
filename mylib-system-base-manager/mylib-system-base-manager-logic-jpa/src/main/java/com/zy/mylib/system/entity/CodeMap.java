@@ -13,4 +13,8 @@ import javax.persistence.Table;
 public class CodeMap extends NameCodeEntity {
 	private static final long serialVersionUID = -3532091040124604358L;
 
+	@Override
+	public String description() {
+		return "字典分类";
+	}
 }
