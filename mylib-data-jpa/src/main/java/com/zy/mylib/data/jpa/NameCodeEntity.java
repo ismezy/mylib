@@ -16,7 +16,7 @@ public abstract class NameCodeEntity extends UUIDBaseEntity {
     @Column(length = 64)
     private String name;
     @JsonView(BaseView.class)
-    @Column(length = 32)
+    @Column(length = 64)
     private String code;
 
     /**
