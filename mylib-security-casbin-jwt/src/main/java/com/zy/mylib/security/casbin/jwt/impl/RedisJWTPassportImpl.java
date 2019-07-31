@@ -43,15 +43,18 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
         return attrs.getRequest();
     }
 
+    protected String getToken() {
+        return this.getRequest().getHeader(HEADER_TOKEN_KEY);
+    }
+
     @Override
     public LoginUser getUser() {
-        String token = this.getRequest().getHeader(HEADER_TOKEN_KEY);
-        return cache.get(token, "user");
+        return cache.get(getToken(), "user");
     }
 
     @Override
     public boolean isAuthenticated() {
-        String token = this.getRequest().getHeader(HEADER_TOKEN_KEY);
+        String token = getToken();
         if(StringUtils.isBlank(token)) {
             return false;
         }
@@ -85,8 +88,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
 
     @Override
     public void logout() {
-        String token = this.getRequest().getHeader(HEADER_TOKEN_KEY);
-        cache.removeToken(token);
+        cache.removeToken(getToken());
     }
 
     @Override
@@ -100,4 +102,57 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
     }
 
 
+    /**
+     * Gets algorithm.
+     *
+     * @return Value of algorithm.
+     */
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    /**
+     * Gets cache.
+     *
+     * @return Value of cache.
+     */
+    public RedisUserCache getCache() {
+        return cache;
+    }
+
+    /**
+     * Sets new cache.
+     *
+     * @param cache New value of cache.
+     */
+    public void setCache(RedisUserCache cache) {
+        this.cache = cache;
+    }
+
+    /**
+     * Sets new algorithm.
+     *
+     * @param algorithm New value of algorithm.
+     */
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    /**
+     * Gets redisOperations.
+     *
+     * @return Value of redisOperations.
+     */
+    public RedisOperations<String, ? extends Serializable> getRedisOperations() {
+        return redisOperations;
+    }
+
+    /**
+     * Sets new redisOperations.
+     *
+     * @param redisOperations New value of redisOperations.
+     */
+    public void setRedisOperations(RedisOperations<String, ? extends Serializable> redisOperations) {
+        this.redisOperations = redisOperations;
+    }
 }
