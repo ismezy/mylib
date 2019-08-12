@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,4 +38,7 @@ public interface JpaManager<T extends JpaEntity,PK extends Serializable> {
     T add(T entity);
 
     T update(T entity);
+
+    Page<T> pager(Pageable pageable, T filter, Map<String, PageUtils.Operate> operateMap, Map<String, Object> extParams);
+
 }
