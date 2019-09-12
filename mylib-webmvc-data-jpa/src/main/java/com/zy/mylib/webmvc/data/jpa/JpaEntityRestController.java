@@ -62,7 +62,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     protected T addEntityImpl(T entity){
-        return getManager().save(entity);
+        return getManager().add(entity);
     }
 
     @RequestMapping(value = "",method = RequestMethod.PUT)
@@ -72,7 +72,7 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     }
 
     protected T updateEntityImpl(T entity){
-        return getManager().save(entity);
+        return getManager().update(entity);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
@@ -94,7 +94,6 @@ public abstract class JpaEntityRestController<T extends JpaEntity,PK extends Ser
     public Page<T> queryPager(Pageable page, T entity, HttpServletRequest req){
         Map<String,PageUtils.Operate> operateMap = new HashMap<>(0);
         Map<String,Object> extendParams = new HashMap<>(0);
-        Specification<T> specification = getSpecification(entity, getPageOperate(entity,operateMap),getPageExtendParam(entity,req,extendParams));
-        return getManager().findPage(page,specification);
+        return getManager().pager(page, entity, getPageOperate(entity,operateMap),getPageExtendParam(entity,req,extendParams));
     }
 }

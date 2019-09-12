@@ -69,6 +69,9 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
                 .withClaim("phone", user.getTelephone())
                 .withClaim("name", user.getUserName())
                 .withClaim("type", user.getType())
+                .withClaim("orgId", user.getOrgId())
+                .withClaim("orgName", user.getOrgName())
+                .withClaim("orgPath", user.getOrgPath())
                 .withArrayClaim("roles", user.getRoles().toArray(new String[0]))
                 .withIssuedAt(now)
                 // 1天有效
