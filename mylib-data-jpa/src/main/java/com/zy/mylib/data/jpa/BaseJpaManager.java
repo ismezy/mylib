@@ -115,7 +115,7 @@ public abstract class BaseJpaManager<T extends JpaEntity,PK extends Serializable
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(StringUtils.equals(existId, newId) && exist != null && newId != null) {
+			if(!StringUtils.equals(existId, newId) && exist != null && newId != null) {
 				throw BusException.builder().message(entity.description() + "已存在").build();
 			}
 		}
