@@ -1,6 +1,5 @@
 package com.zy.mylib.utils;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -28,7 +27,7 @@ public class HashUtils{
 
     public static byte[] sha256(String content) throws IOException, NoSuchAlgorithmException {
         byte[] buff = content.getBytes("utf-8");
-        ByteInputStream byteInputStream = new ByteInputStream(buff, buff.length);
+        ByteArrayInputStream byteInputStream = new ByteArrayInputStream(buff);
         return createChecksum(byteInputStream, "SHA-256");
     }
 
