@@ -1,7 +1,9 @@
 package com.zy.mylib.utils;
 
 /**
- * Created by 扬 on 2017/5/15.
+ *
+ * @author 扬
+ * @date 2017/5/15
  */
 public class ArrayUtils {
     /**

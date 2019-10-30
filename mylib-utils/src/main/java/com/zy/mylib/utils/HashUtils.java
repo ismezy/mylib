@@ -1,8 +1,11 @@
 package com.zy.mylib.utils;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  *
@@ -23,22 +26,41 @@ public class HashUtils{
         return result;
     }
 
-    public static byte[] createChecksum(File file) throws IOException, NoSuchAlgorithmException {
-        InputStream fis = new FileInputStream(file);
-        byte[] buffer = new byte[1024];
+    public static byte[] sha256(String content) throws IOException, NoSuchAlgorithmException {
+        byte[] buff = content.getBytes("utf-8");
+        ByteInputStream byteInputStream = new ByteInputStream(buff, buff.length);
+        return createChecksum(byteInputStream, "SHA-256");
+    }
+
+    public static String toBase64String(byte[] buff) {
+        return Base64.getEncoder().encode(buff).toString();
+    }
+
+    public static byte[] createChecksum(InputStream is, String algorithm) throws IOException, NoSuchAlgorithmException {
         //如果想使用SHA-1或SHA-256，则传入SHA-1,SHA-256
-        MessageDigest complete = MessageDigest.getInstance("MD5");
+        BufferedInputStream bis = new BufferedInputStream(is);
+        MessageDigest complete = MessageDigest.getInstance(algorithm);
         int numRead;
+        byte[] buff = new byte[1024];
         do {
             //从文件读到buffer，最多装满buffer
-            numRead = fis.read(buffer);
+            numRead = bis.read(buff);
             if (numRead > 0) {
                 //用读到的字节进行MD5的计算，第二个参数是偏移量
-                complete.update(buffer, 0, numRead);
+                complete.update(buff, 0, numRead);
             }
         } while (numRead != -1);
-        fis.close();
+        bis.close();
+        is.close();
         return complete.digest();
+    }
+
+    public static byte[] createChecksum(File file) throws IOException, NoSuchAlgorithmException {
+        return createChecksum(file, "MD5");
+    }
+    public static byte[] createChecksum(File file, String algorithm) throws IOException, NoSuchAlgorithmException {
+        InputStream fis = new FileInputStream(file);
+        return createChecksum(fis, algorithm);
     }
 
     /**
