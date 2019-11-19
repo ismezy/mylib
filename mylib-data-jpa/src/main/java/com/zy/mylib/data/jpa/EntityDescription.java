@@ -18,6 +18,5 @@ public @interface EntityDescription {
    *
    * @return
    */
-  @AliasFor("description")
   String value() default "";
 }
