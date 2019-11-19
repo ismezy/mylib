@@ -8,13 +8,15 @@ import java.util.Optional;
 
 /**
  * 系统配置JPA接口
+ *
  * @author ASUS
  */
 public interface SysConfigItemDao extends JpaRepository<SysConfigItem, String> {
-    /**
-     * 按code查找
-     * @param s
-     * @return
-     */
-    Optional<SysConfigItem> findByCode(String s);
+  /**
+   * 按code查找
+   *
+   * @param s
+   * @return
+   */
+  Optional<SysConfigItem> findByCode(String s);
 }

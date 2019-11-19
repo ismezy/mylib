@@ -13,31 +13,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author 扬
  * @date 2017/3/21
  */
 @Service
 public class CodeItemManagerImpl extends BaseJpaManager<CodeItem, String> implements CodeItemManager {
-    @Inject
-    private CodeItemDao dao;
-    @Override
-    protected JpaRepository<CodeItem, String> getRepository() {
-        return dao;
-    }
+  @Inject
+  private CodeItemDao dao;
 
-    @Override
-    public List<CodeItem> findByCodeMap(String codemap) {
-        return dao.findByCodemap(codemap);
-    }
+  @Override
+  protected JpaRepository<CodeItem, String> getRepository() {
+    return dao;
+  }
 
-    @Override
-    public Map<String, CodeItem> findMapByCode(String codeMap) {
-        List<CodeItem> list = dao.findByCodemapOrderBySortAscCodeAsc(codeMap);
-        LinkedHashMap<String,CodeItem> map = new LinkedHashMap<>();
-        for (CodeItem codeItem : list) {
-            map.put(codeItem.getCode(),codeItem);
-        }
-        return map;
+  @Override
+  public List<CodeItem> findByCodeMap(String codemap) {
+    return dao.findByCodemap(codemap);
+  }
+
+  @Override
+  public Map<String, CodeItem> findMapByCode(String codeMap) {
+    List<CodeItem> list = dao.findByCodemapOrderBySortAscCodeAsc(codeMap);
+    LinkedHashMap<String, CodeItem> map = new LinkedHashMap<>();
+    for (CodeItem codeItem : list) {
+      map.put(codeItem.getCode(), codeItem);
     }
+    return map;
+  }
 }

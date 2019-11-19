@@ -17,22 +17,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ELTest {
-    @Test
-    public void test() {
-        SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.MIXED,
-                this.getClass().getClassLoader());
+  @Test
+  public void test() {
+    SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.MIXED,
+      this.getClass().getClassLoader());
 
-        SpelExpressionParser parser = new SpelExpressionParser(config);
+    SpelExpressionParser parser = new SpelExpressionParser(config);
 
-        Map<String, Object> params = new HashMap<>(1);
-        params.put("test", null);
-        ParserContext parserContext = new TemplateParserContext("${", "}");
-        StandardEvaluationContext context = new StandardEvaluationContext(params);
-        context.addPropertyAccessor(new MapAccessor());
-        Expression expr = parser.parseExpression("${test?.value}", parserContext);
-        String ret = expr.getValue(context, String.class);
-        System.out.println(ret);
-    }
+    Map<String, Object> params = new HashMap<>(1);
+    params.put("test", null);
+    ParserContext parserContext = new TemplateParserContext("${", "}");
+    StandardEvaluationContext context = new StandardEvaluationContext(params);
+    context.addPropertyAccessor(new MapAccessor());
+    Expression expr = parser.parseExpression("${test?.value}", parserContext);
+    String ret = expr.getValue(context, String.class);
+    System.out.println(ret);
+  }
 
 }
 

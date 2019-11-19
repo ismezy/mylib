@@ -9,16 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author 扬
  * @date 2017/3/21
  */
 @Service
 public class CodeMapManagerImpl extends BaseJpaManager<CodeMap, String> implements CodeMapManager {
-    @Autowired
-    private CodeMapDao dao;
-    @Override
-    protected JpaRepository<CodeMap, String> getRepository() {
-        return dao;
-    }
+  @Autowired
+  private CodeMapDao dao;
+
+  @Override
+  protected JpaRepository<CodeMap, String> getRepository() {
+    return dao;
+  }
 }

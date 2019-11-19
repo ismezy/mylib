@@ -2,26 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>mylib-system-base-manager</artifactId>
-        <groupId>com.zy.mylib</groupId>
-        <!--suppress MavenPropertyInParent-->
-        <version>${revision}</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>mylib-system-base-manager</artifactId>
+    <groupId>com.zy.mylib</groupId>
+    <!--suppress MavenPropertyInParent-->
+    <version>${revision}</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mylib-system-base-manager-logic-jpa</artifactId>
+  <artifactId>mylib-system-base-manager-logic-jpa</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-data-jpa</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-utils</artifactId>
-            <version>${revision}</version>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-data-jpa</artifactId>
+      <version>${revision}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-utils</artifactId>
+      <version>${revision}</version>
+    </dependency>
+  </dependencies>
 </project>

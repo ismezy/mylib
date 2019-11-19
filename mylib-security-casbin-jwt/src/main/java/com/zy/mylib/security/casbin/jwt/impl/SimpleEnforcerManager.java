@@ -11,31 +11,31 @@ import org.casbin.jcasbin.main.Enforcer;
  * enforcer 管理基础实现
  */
 public class SimpleEnforcerManager implements EnforcerManager {
-    /**
-     * 用户权限服务
-     */
-    private UserAuthzService userAuthzService;
+  /**
+   * 用户权限服务
+   */
+  private UserAuthzService userAuthzService;
 
-    @Override
-    public Enforcer getEnforcer(String user) {
-        return userAuthzService.getEnforcer(user);
-    }
+  @Override
+  public Enforcer getEnforcer(String user) {
+    return userAuthzService.getEnforcer(user);
+  }
 
-    /**
-     * Sets new 用户权限服务.
-     *
-     * @param userAuthzService New value of 用户权限服务.
-     */
-    public void setUserAuthzService(UserAuthzService userAuthzService) {
-        this.userAuthzService = userAuthzService;
-    }
+  /**
+   * Sets new 用户权限服务.
+   *
+   * @param userAuthzService New value of 用户权限服务.
+   */
+  public void setUserAuthzService(UserAuthzService userAuthzService) {
+    this.userAuthzService = userAuthzService;
+  }
 
-    /**
-     * Gets 用户权限服务.
-     *
-     * @return Value of 用户权限服务.
-     */
-    public UserAuthzService getUserAuthzService() {
-        return userAuthzService;
-    }
+  /**
+   * Gets 用户权限服务.
+   *
+   * @return Value of 用户权限服务.
+   */
+  public UserAuthzService getUserAuthzService() {
+    return userAuthzService;
+  }
 }

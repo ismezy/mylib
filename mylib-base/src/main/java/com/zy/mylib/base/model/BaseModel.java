@@ -5,32 +5,38 @@ import java.io.Serializable;
 
 /**
  * 基础模型
+ *
  * @author ASUS
  */
 @MappedSuperclass
 public interface BaseModel extends Serializable {
-    /**
-     * JSON基础视图
-     */
-    interface BaseView{}
+  /**
+   * JSON基础视图
+   */
+  interface BaseView {
+  }
 
-    /**
-     * JSON列表视图
-     */
-    interface ListView extends BaseView{}
+  /**
+   * JSON列表视图
+   */
+  interface ListView extends BaseView {
+  }
 
-    /**
-     * JSON详细视图
-     */
-    interface DetailView extends ListView{}
+  /**
+   * JSON详细视图
+   */
+  interface DetailView extends ListView {
+  }
 
-    /**
-     * 添加验证
-     */
-    interface AddCheck{}
+  /**
+   * 添加验证
+   */
+  interface AddCheck {
+  }
 
-    /**
-     * 修改验证
-     */
-    interface UpdateCheck{}
+  /**
+   * 修改验证
+   */
+  interface UpdateCheck {
+  }
 }

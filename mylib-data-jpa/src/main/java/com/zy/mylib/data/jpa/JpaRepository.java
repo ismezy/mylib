@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 /**
  * 基础DAO接口
- * @author 扬
  *
+ * @author 扬
  */
 @NoRepositoryBean
-public interface JpaRepository<T,PK extends Serializable> extends PagingAndSortingRepository<T, PK>,
-        JpaSpecificationExecutor<T> {
+public interface JpaRepository<T, PK extends Serializable> extends PagingAndSortingRepository<T, PK>,
+  JpaSpecificationExecutor<T> {
 }

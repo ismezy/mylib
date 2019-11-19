@@ -7,42 +7,44 @@ import com.zy.mylib.security.casbin.jwt.JWTManager;
 
 /**
  * jwt manager最简实现
+ *
  * @author ASUS
  */
 public class SimpleJWTManager implements JWTManager {
-    /**
-     * jwt 加密算法
-     */
-    private Algorithm algorithm;
-    @Override
-    public DecodedJWT decode(String tokenString) {
-        return JWT.require(algorithm).build().verify(tokenString);
-    }
+  /**
+   * jwt 加密算法
+   */
+  private Algorithm algorithm;
 
-    @Override
-    public String sign(String user, String phone, String name, String role) {
-        return JWT.create().withSubject(user)
-                .withClaim("name", name)
-                .withClaim("phone", phone)
-                .withClaim("role", role)
-                .sign(algorithm);
-    }
+  @Override
+  public DecodedJWT decode(String tokenString) {
+    return JWT.require(algorithm).build().verify(tokenString);
+  }
 
-    /**
-     * Gets jwt 加密算法.
-     *
-     * @return Value of jwt 加密算法.
-     */
-    public Algorithm getAlgorithm() {
-        return algorithm;
-    }
+  @Override
+  public String sign(String user, String phone, String name, String role) {
+    return JWT.create().withSubject(user)
+      .withClaim("name", name)
+      .withClaim("phone", phone)
+      .withClaim("role", role)
+      .sign(algorithm);
+  }
 
-    /**
-     * Sets new jwt 加密算法.
-     *
-     * @param algorithm New value of jwt 加密算法.
-     */
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
+  /**
+   * Gets jwt 加密算法.
+   *
+   * @return Value of jwt 加密算法.
+   */
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
+
+  /**
+   * Sets new jwt 加密算法.
+   *
+   * @param algorithm New value of jwt 加密算法.
+   */
+  public void setAlgorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+  }
 }

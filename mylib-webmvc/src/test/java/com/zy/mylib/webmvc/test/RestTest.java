@@ -21,19 +21,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = TestRest.class)
 @EnableWebMvc
 public class RestTest {
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    void setup(WebApplicationContext wac) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+  @BeforeEach
+  void setup(WebApplicationContext wac) {
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+  }
 
-    @Test
-    public void test1GetTest() throws Exception {
-        mockMvc.perform(get("/test/world!")
-                .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.hello").value("world!"));
-    }
+  @Test
+  public void test1GetTest() throws Exception {
+    mockMvc.perform(get("/test/world!")
+      .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+      .andExpect(jsonPath("$.hello").value("world!"));
+  }
 }

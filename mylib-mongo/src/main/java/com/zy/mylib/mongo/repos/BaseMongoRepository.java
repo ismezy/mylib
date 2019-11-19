@@ -7,11 +7,12 @@ import java.io.Serializable;
 
 /**
  * Mongodb 持久基础类
- * @author zy
+ *
  * @param <T>
  * @param <PK>
+ * @author zy
  */
 @NoRepositoryBean
-public interface BaseMongoRepository<T,PK extends Serializable> extends MongoRepository<T, PK>{
+public interface BaseMongoRepository<T, PK extends Serializable> extends MongoRepository<T, PK> {
 
 }

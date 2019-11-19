@@ -10,11 +10,11 @@ import java.io.InputStream;
  * @author ASUS
  */
 public class InputStreamModel extends Model {
-    public InputStreamModel(InputStream inputStream) {
-        try {
-            this.loadModelFromText(FileUtils.readAllText(inputStream));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public InputStreamModel(InputStream inputStream) {
+    try {
+      this.loadModelFromText(FileUtils.readAllText(inputStream));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }

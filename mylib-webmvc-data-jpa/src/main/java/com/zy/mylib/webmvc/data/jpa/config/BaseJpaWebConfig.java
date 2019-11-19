@@ -24,44 +24,44 @@ import java.util.List;
  * @author ASUS
  */
 public class BaseJpaWebConfig extends DelegatingWebMvcConfiguration {
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        System.out.println("******************************Configuring swagger resource handler");
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-        super.addResourceHandlers(registry);
-    }
+  @Override
+  protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    System.out.println("******************************Configuring swagger resource handler");
+    registry.addResourceHandler("swagger-ui.html")
+      .addResourceLocations("classpath:/META-INF/resources/");
+    registry.addResourceHandler("/webjars/**")
+      .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    super.addResourceHandlers(registry);
+  }
 
-    @Override
-    protected void addCorsMappings(CorsRegistry registry) {
-        System.out.println("*** addCorsMappings called");
-        registry.addMapping("/v2/api-docs").allowedOrigins("*");
-        super.addCorsMappings(registry);
-    }
+  @Override
+  protected void addCorsMappings(CorsRegistry registry) {
+    System.out.println("*** addCorsMappings called");
+    registry.addMapping("/v2/api-docs").allowedOrigins("*");
+    super.addCorsMappings(registry);
+  }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        ModulesObjectMapper mapper = new ModulesObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        mapper.configure(SerializationFeature.WRAP_EXCEPTIONS, true);
-        mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+  @Override
+  public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    ModulesObjectMapper mapper = new ModulesObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    mapper.configure(SerializationFeature.WRAP_EXCEPTIONS, true);
+    mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
 //        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
 //        mapper.configure(SerializationFeature.EAGER_SERIALIZER_FETCH,false);
 //        mapper.configure(Des)
 //        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 //                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 //        mapper.setFilterProvider()
-        List<Module> maperModules = new ArrayList<>();
-        DefaultHibernateModule hModule = new DefaultHibernateModule();
-        maperModules.add(hModule);
-        // 添加page jsonview支持
-        SimpleModule pageModule = new SimpleModule("jackson-page-with-jsonview", Version.unknownVersion());
-        pageModule.addSerializer(Page.class, new PageSerializer());
-        maperModules.add(pageModule);
-        mapper.setModules(maperModules);
+    List<Module> maperModules = new ArrayList<>();
+    DefaultHibernateModule hModule = new DefaultHibernateModule();
+    maperModules.add(hModule);
+    // 添加page jsonview支持
+    SimpleModule pageModule = new SimpleModule("jackson-page-with-jsonview", Version.unknownVersion());
+    pageModule.addSerializer(Page.class, new PageSerializer());
+    maperModules.add(pageModule);
+    mapper.setModules(maperModules);
 
 //        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
 //        List<MediaType> stringSupports = Lists.newArrayList();
@@ -71,40 +71,40 @@ public class BaseJpaWebConfig extends DelegatingWebMvcConfiguration {
 
 //        jsonConvert.setObjectMapper(mapper);
 
-        int xmlMapIndex = -1;
-        for(int i = 0; i < converters.size(); i++){
-            HttpMessageConverter c = converters.get(i);
-            if(c instanceof MappingJackson2HttpMessageConverter){
-                ((MappingJackson2HttpMessageConverter)c).setObjectMapper(mapper);
-            }else if(c instanceof MappingJackson2XmlHttpMessageConverter){
-                xmlMapIndex = i;
-            }
-        }
-        if(xmlMapIndex >= 0){
-            converters.remove(xmlMapIndex);
-        }
-        super.extendMessageConverters(converters);
+    int xmlMapIndex = -1;
+    for (int i = 0; i < converters.size(); i++) {
+      HttpMessageConverter c = converters.get(i);
+      if (c instanceof MappingJackson2HttpMessageConverter) {
+        ((MappingJackson2HttpMessageConverter) c).setObjectMapper(mapper);
+      } else if (c instanceof MappingJackson2XmlHttpMessageConverter) {
+        xmlMapIndex = i;
+      }
+    }
+    if (xmlMapIndex >= 0) {
+      converters.remove(xmlMapIndex);
+    }
+    super.extendMessageConverters(converters);
+  }
+
+  class PageSerializer extends StdSerializer<Page> {
+
+    public PageSerializer() {
+      super(Page.class);
     }
 
-    class PageSerializer extends StdSerializer<Page> {
-
-        public PageSerializer() {
-            super(Page.class);
-        }
-
-        @Override
-        public void serialize(Page value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-            gen.writeStartObject();
-            gen.writeNumberField("number", value.getNumber());
-            gen.writeNumberField("numberOfElements", value.getNumberOfElements());
-            gen.writeNumberField("totalElements", value.getTotalElements());
-            gen.writeNumberField("totalPages", value.getTotalPages());
-            gen.writeNumberField("size", value.getSize());
-            gen.writeFieldName("content");
-            provider.defaultSerializeValue(value.getContent(), gen);
-            gen.writeEndObject();
-        }
-
+    @Override
+    public void serialize(Page value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+      gen.writeStartObject();
+      gen.writeNumberField("number", value.getNumber());
+      gen.writeNumberField("numberOfElements", value.getNumberOfElements());
+      gen.writeNumberField("totalElements", value.getTotalElements());
+      gen.writeNumberField("totalPages", value.getTotalPages());
+      gen.writeNumberField("size", value.getSize());
+      gen.writeFieldName("content");
+      provider.defaultSerializeValue(value.getContent(), gen);
+      gen.writeEndObject();
     }
+
+  }
 }
 

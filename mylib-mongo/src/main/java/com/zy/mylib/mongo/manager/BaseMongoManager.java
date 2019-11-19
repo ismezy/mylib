@@ -11,33 +11,36 @@ import java.util.Optional;
 
 /**
  * mongodb基础管理接口
- * @author 周扬
+ *
  * @param <T>
  * @param <PK>
+ * @author 周扬
  */
-public interface BaseMongoManager<T,PK extends Serializable> {
-    Optional<T> findById(PK id);
+public interface BaseMongoManager<T, PK extends Serializable> {
+  Optional<T> findById(PK id);
 
-    List<T> findAll();
+  List<T> findAll();
 
-    Page<T> findPage(Pageable page, Example<T> example);
+  Page<T> findPage(Pageable page, Example<T> example);
 
-    List<T> queryList(Example<T> example);
+  List<T> queryList(Example<T> example);
 
-    T save(T entity);
+  T save(T entity);
 
-    Iterable<T> save(Iterable<T> entities);
+  Iterable<T> save(Iterable<T> entities);
 
-    void remove(T entity);
+  void remove(T entity);
 
-    void remove(Iterable<T> entities);
+  void remove(Iterable<T> entities);
 
-    void remove(PK id);
-    /**
-     * 返回异常
-     * @param messageTemplate 消息模板
-     * @param args 模板参数
-     * @return
-     */
-    BusException newBusException(String messageTemplate, Object... args);
+  void remove(PK id);
+
+  /**
+   * 返回异常
+   *
+   * @param messageTemplate 消息模板
+   * @param args            模板参数
+   * @return
+   */
+  BusException newBusException(String messageTemplate, Object... args);
 }

@@ -9,12 +9,12 @@ import javax.persistence.Table;
  * @author ASUS
  */
 @Entity
-@Table(name="sys_codemap")
+@Table(name = "sys_codemap")
 public class CodeMap extends NameCodeEntity {
-	private static final long serialVersionUID = -3532091040124604358L;
+  private static final long serialVersionUID = -3532091040124604358L;
 
-	@Override
-	public String description() {
-		return "字典分类";
-	}
+  @Override
+  public String description() {
+    return "字典分类";
+  }
 }
