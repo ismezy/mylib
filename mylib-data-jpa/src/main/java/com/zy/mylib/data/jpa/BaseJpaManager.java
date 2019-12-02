@@ -269,10 +269,10 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
     idsQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
       .setMaxResults(pageable.getPageSize());
     List<String> ids = idsQuery.getResultList();
-    query.setParameter(1, ids);
     Long count = countQuery.getSingleResult();
     List<T> content = new ArrayList<T>();
     if(ids.size() > 0) {
+      query.setParameter(1, ids);
       content = query.getResultList();
     }
     Page<T> page = new PageImpl<T>(content, pageable, count);
