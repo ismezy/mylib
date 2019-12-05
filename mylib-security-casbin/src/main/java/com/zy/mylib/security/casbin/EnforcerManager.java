@@ -2,14 +2,17 @@ package com.zy.mylib.security.casbin;
 
 import org.casbin.jcasbin.main.Enforcer;
 
+import java.io.Serializable;
+
 /**
  * enforcer管理
+ * @author ASUS
  */
-public interface EnforcerManager {
+public interface EnforcerManager<T extends Serializable> {
   /**
    * 获取enforcer
    *
    * @return
    */
-  Enforcer getEnforcer(String user);
+  Enforcer getEnforcer(T user);
 }

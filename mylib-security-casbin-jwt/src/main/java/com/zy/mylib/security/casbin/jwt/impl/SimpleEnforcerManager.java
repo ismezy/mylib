@@ -1,5 +1,6 @@
 package com.zy.mylib.security.casbin.jwt.impl;
 
+import com.zy.mylib.security.LoginUser;
 import com.zy.mylib.security.casbin.StringAdapter;
 import com.zy.mylib.security.casbin.StringModel;
 import com.zy.mylib.security.casbin.EnforcerManager;
@@ -10,14 +11,14 @@ import org.casbin.jcasbin.main.Enforcer;
 /**
  * enforcer 管理基础实现
  */
-public class SimpleEnforcerManager implements EnforcerManager {
+public class SimpleEnforcerManager implements EnforcerManager<LoginUser> {
   /**
    * 用户权限服务
    */
-  private UserAuthzService userAuthzService;
+  private UserAuthzService<LoginUser> userAuthzService;
 
   @Override
-  public Enforcer getEnforcer(String user) {
+  public Enforcer getEnforcer(LoginUser user) {
     return userAuthzService.getEnforcer(user);
   }
 

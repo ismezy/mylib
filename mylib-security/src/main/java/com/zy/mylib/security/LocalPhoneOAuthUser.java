@@ -12,6 +12,10 @@ public class LocalPhoneOAuthUser extends OAuthUser {
    * 手机号
    */
   private String phone;
+  /**
+   * 要登录的系统编号
+   */
+  private String system;
 
   public LocalPhoneOAuthUser() {
   }
@@ -51,5 +55,23 @@ public class LocalPhoneOAuthUser extends OAuthUser {
    */
   public String getPhone() {
     return phone;
+  }
+
+  /**
+   * Gets 要登录的系统编号.
+   *
+   * @return Value of 要登录的系统编号.
+   */
+  public String getSystem() {
+    return system;
+  }
+
+  /**
+   * Sets new 要登录的系统编号.
+   *
+   * @param system New value of 要登录的系统编号.
+   */
+  public void setSystem(String system) {
+    this.system = system;
   }
 }

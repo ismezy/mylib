@@ -27,16 +27,19 @@ public class LoginUser implements Serializable {
    * 角色
    */
   private Set<String> roles;
+  /**
+   * 访问策略
+   */
+  private Set<String> policy;
+  /**
+   * 当前登录系统编号
+   */
+  private String system;
 
   /**
    * 手机号码
    */
   private String telephone;
-
-  /**
-   * 许可
-   */
-  private Set<String> permissons;
 
   /**
    * 所属机构名称
@@ -100,24 +103,6 @@ public class LoginUser implements Serializable {
    */
   public String getType() {
     return type;
-  }
-
-  /**
-   * Gets 许可.
-   *
-   * @return Value of 许可.
-   */
-  public Set<String> getPermissons() {
-    return permissons;
-  }
-
-  /**
-   * Sets new 许可.
-   *
-   * @param permissons New value of 许可.
-   */
-  public void setPermissons(Set<String> permissons) {
-    this.permissons = permissons;
   }
 
   /**
@@ -240,5 +225,41 @@ public class LoginUser implements Serializable {
   @Override
   public String toString() {
     return getUserName() + ":" + getUserId();
+  }
+
+  /**
+   * Gets 当前登录系统编号.
+   *
+   * @return Value of 当前登录系统编号.
+   */
+  public String getSystem() {
+    return system;
+  }
+
+  /**
+   * Sets new 当前登录系统编号.
+   *
+   * @param system New value of 当前登录系统编号.
+   */
+  public void setSystem(String system) {
+    this.system = system;
+  }
+
+  /**
+   * Sets new 访问策略.
+   *
+   * @param policy New value of 访问策略.
+   */
+  public void setPolicy(Set<String> policy) {
+    this.policy = policy;
+  }
+
+  /**
+   * Gets 访问策略.
+   *
+   * @return Value of 访问策略.
+   */
+  public Set<String> getPolicy() {
+    return policy;
   }
 }

@@ -31,22 +31,16 @@ public class AuthzFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-    String user = "anon";
     boolean isLogin = passport.isAuthenticated();
-    if (isLogin) {
-      try {
-        user = passport.getUser().getUserId();
-        isLogin = true;
-      } catch (JWTVerificationException e) {
-        e.printStackTrace();
-      }
-    }
+    LoginUser user = passport.getUser();
+    isLogin = true;
     Enforcer enforcer = enforcerManager.getEnforcer(user);
-    if (!"anon".equals(user)) {
-      enforcer.addRoleForUser(user, "user");
+    if (isLogin) {
+      enforcer.addRoleForUser(user.getUserId(), "user");
     }
     HttpServletRequest request = (HttpServletRequest) req;
-    boolean pass = enforcer.enforce(user, request.getRequestURI(), request.getMethod());
+    boolean pass = enforcer.enforce(user == null?"guest":user.getUserId(),
+      request.getRequestURI(), request.getMethod());
     if (!pass) {
       throw BusException.builder().message(isLogin ? "未授权" : "未登录").httpStatus(isLogin ? 403 : 401).build();
     }

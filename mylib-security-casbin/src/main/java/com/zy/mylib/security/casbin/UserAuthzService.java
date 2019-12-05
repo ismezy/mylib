@@ -2,15 +2,17 @@ package com.zy.mylib.security.casbin;
 
 import org.casbin.jcasbin.main.Enforcer;
 
+import java.io.Serializable;
+
 /**
  * 用户权限服务接口
  */
-public interface UserAuthzService {
+public interface UserAuthzService<T extends Serializable> {
   /**
    * 获取用户enforcer
    *
    * @param user
    * @return
    */
-  Enforcer getEnforcer(String user);
+  Enforcer getEnforcer(T user);
 }
