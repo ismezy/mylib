@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @MappedSuperclass
 public abstract class HistoryEntity extends UUIDBaseEntity {
-  public interface HistoryView {
+  public interface HistoryView extends DetailView {
   }
 
   /**

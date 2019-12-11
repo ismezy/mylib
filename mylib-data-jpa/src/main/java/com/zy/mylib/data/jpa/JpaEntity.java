@@ -1,6 +1,7 @@
 package com.zy.mylib.data.jpa;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.zy.mylib.base.model.BaseModel;
 import com.zy.mylib.utils.StringUtils;
 
@@ -23,6 +24,7 @@ public abstract class JpaEntity implements BaseModel {
    * 所属系统
    */
   @Column(length = 32)
+  @JsonView(BaseView.class)
   String system;
 
   /**

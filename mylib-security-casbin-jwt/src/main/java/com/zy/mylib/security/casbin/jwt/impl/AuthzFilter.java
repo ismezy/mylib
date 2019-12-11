@@ -33,7 +33,6 @@ public class AuthzFilter implements Filter {
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     boolean isLogin = passport.isAuthenticated();
     LoginUser user = passport.getUser();
-    isLogin = true;
     Enforcer enforcer = enforcerManager.getEnforcer(user);
     if (isLogin) {
       enforcer.addRoleForUser(user.getUserId(), "user");
