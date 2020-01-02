@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 @Named
 public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBean {
   final static String HEADER_TOKEN_KEY = "token";
+  final static String QUERY_TOKEN_KEY = "__token";
+
   private RedisUserCache cache;
   @Inject
   @Named("jwtTokenRedisOperations")
@@ -45,7 +47,14 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
   }
 
   protected String getToken() {
-    return this.getRequest().getHeader(HEADER_TOKEN_KEY);
+    HttpServletRequest request = this.getRequest();
+    String headerToken = request.getHeader(HEADER_TOKEN_KEY);
+    if(headerToken != null) {
+      return headerToken;
+    } else {
+      String queryToken = request.getParameter(QUERY_TOKEN_KEY);
+      return queryToken;
+    }
   }
 
   @Override
