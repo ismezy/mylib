@@ -2,37 +2,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <artifactId>mylib</artifactId>
-    <groupId>com.zy.mylib</groupId>
-    <!--suppress MavenPropertyInParent-->
-    <version>${revision}</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>mylib</artifactId>
+        <groupId>com.zy.mylib</groupId>
+        <!--suppress MavenPropertyInParent-->
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>mylib-security-casbin-zuul</artifactId>
+    <artifactId>mylib-security-casbin-zuul</artifactId>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-security-casbin-jwt</artifactId>
-      <version>${version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.netflix.zuul</groupId>
-      <artifactId>zuul-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-utils</artifactId>
-      <version>${version}</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-security-casbin-jwt</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.zuul</groupId>
+            <artifactId>zuul-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-utils</artifactId>
+            <version>${version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

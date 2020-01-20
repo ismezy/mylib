@@ -3,24 +3,24 @@ package com.zy.mylib.security;
 import java.io.Serializable;
 
 public interface Passport<T extends Serializable> {
-  T getUser();
+    T getUser();
 
-  boolean isAuthenticated();
+    boolean isAuthenticated();
 
-  /**
-   * 登录，返回token
-   *
-   * @param user
-   * @return
-   */
-  String login(T user);
+    /**
+     * 登录，返回token
+     *
+     * @param user
+     * @return
+     */
+    String login(T user);
 
-  void logout();
+    void logout();
 
-  /**
-   * passport 类型
-   *
-   * @return
-   */
-  String getPrivoder();
+    /**
+     * passport 类型
+     *
+     * @return
+     */
+    String getPrivoder();
 }

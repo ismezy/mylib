@@ -9,6 +9,6 @@ import java.util.List;
  * @author ASUS
  */
 public interface ArchiveNoDao extends JpaRepository<ArchiveNo, String> {
-  List<ArchiveNo> findByType(String type);
+    List<ArchiveNo> findByType(String type);
 
 }

@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CodeMapManagerImpl extends BaseJpaManager<CodeMap, String> implements CodeMapManager {
-  @Autowired
-  private CodeMapDao dao;
+    @Autowired
+    private CodeMapDao dao;
 
-  @Override
-  protected JpaRepository<CodeMap, String> getRepository() {
-    return dao;
-  }
+    @Override
+    protected JpaRepository<CodeMap, String> getRepository() {
+        return dao;
+    }
 }

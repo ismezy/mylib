@@ -16,28 +16,28 @@ import java.util.Optional;
  */
 @Component("securityUserUtils")
 public class UserUtils implements ApplicationContextAware {
-  protected static ApplicationContext context;
+    protected static ApplicationContext context;
 
-  /**
-   * 获取当前用户
-   *
-   * @return
-   */
-  public static <T> T getCurrentUser() {
-    if (SecurityUtils.getSubject().getPrincipal() instanceof String) {
-      UserService userManager = context.getBean(UserService.class);
-      Optional<T> user = userManager.findById((String) SecurityUtils.getSubject().getPrincipal());
-      return user.get();
+    /**
+     * 获取当前用户
+     *
+     * @return
+     */
+    public static <T> T getCurrentUser() {
+        if (SecurityUtils.getSubject().getPrincipal() instanceof String) {
+            UserService userManager = context.getBean(UserService.class);
+            Optional<T> user = userManager.findById((String) SecurityUtils.getSubject().getPrincipal());
+            return user.get();
+        }
+        return (T) SecurityUtils.getSubject().getPrincipal();
     }
-    return (T) SecurityUtils.getSubject().getPrincipal();
-  }
 
-  public static boolean isLogin() {
-    return SecurityUtils.getSubject().isAuthenticated();
-  }
+    public static boolean isLogin() {
+        return SecurityUtils.getSubject().isAuthenticated();
+    }
 
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    context = applicationContext;
-  }
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+    }
 }

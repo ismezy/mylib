@@ -13,10 +13,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EntityDescription {
-  /**
-   * 实体描述
-   *
-   * @return
-   */
-  String value() default "";
+    /**
+     * 实体描述
+     *
+     * @return
+     */
+    String value() default "";
 }

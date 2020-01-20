@@ -8,11 +8,11 @@ import java.io.Serializable;
  * @author ASUS
  */
 public interface OAuthUserVerifier<IN extends OAuthUser, OUT extends Serializable> {
-  /**
-   * 如果可校验通过返回用户，否则抛出BusException
-   *
-   * @param oauthUser
-   * @return
-   */
-  OUT verify(IN oauthUser);
+    /**
+     * 如果可校验通过返回用户，否则抛出BusException
+     *
+     * @param oauthUser
+     * @return
+     */
+    OUT verify(IN oauthUser);
 }

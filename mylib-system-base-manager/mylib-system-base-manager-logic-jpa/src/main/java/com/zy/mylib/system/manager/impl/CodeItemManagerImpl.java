@@ -18,26 +18,26 @@ import java.util.Map;
  */
 @Service
 public class CodeItemManagerImpl extends BaseJpaManager<CodeItem, String> implements CodeItemManager {
-  @Inject
-  private CodeItemDao dao;
+    @Inject
+    private CodeItemDao dao;
 
-  @Override
-  protected JpaRepository<CodeItem, String> getRepository() {
-    return dao;
-  }
-
-  @Override
-  public List<CodeItem> findByCodeMap(String codemap) {
-    return dao.findByCodemap(codemap);
-  }
-
-  @Override
-  public Map<String, CodeItem> findMapByCode(String codeMap) {
-    List<CodeItem> list = dao.findByCodemapOrderBySortAscCodeAsc(codeMap);
-    LinkedHashMap<String, CodeItem> map = new LinkedHashMap<>();
-    for (CodeItem codeItem : list) {
-      map.put(codeItem.getCode(), codeItem);
+    @Override
+    protected JpaRepository<CodeItem, String> getRepository() {
+        return dao;
     }
-    return map;
-  }
+
+    @Override
+    public List<CodeItem> findByCodeMap(String codemap) {
+        return dao.findByCodemap(codemap);
+    }
+
+    @Override
+    public Map<String, CodeItem> findMapByCode(String codeMap) {
+        List<CodeItem> list = dao.findByCodemapOrderBySortAscCodeAsc(codeMap);
+        LinkedHashMap<String, CodeItem> map = new LinkedHashMap<>();
+        for (CodeItem codeItem : list) {
+            map.put(codeItem.getCode(), codeItem);
+        }
+        return map;
+    }
 }

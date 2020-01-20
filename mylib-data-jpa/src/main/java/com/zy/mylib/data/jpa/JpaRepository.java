@@ -13,5 +13,5 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface JpaRepository<T, PK extends Serializable> extends PagingAndSortingRepository<T, PK>,
-  JpaSpecificationExecutor<T> {
+        JpaSpecificationExecutor<T> {
 }

@@ -12,10 +12,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestRest extends BaseRest {
-  @GetMapping("/{context}")
-  public Map<String, String> testMono(@PathVariable String context) {
-    Map ret = new HashMap<>(1);
-    ret.put("hello", context);
-    return ret;
-  }
+    @GetMapping("/{context}")
+    public Map<String, String> testMono(@PathVariable String context) {
+        Map ret = new HashMap<>(1);
+        ret.put("hello", context);
+        return ret;
+    }
 }

@@ -20,33 +20,33 @@ import javax.servlet.http.HttpServletRequest;
  * @author ASUS
  */
 public class ZuulAuthzFilter extends ZuulFilter {
-  /**
-   * enforcer manager
-   */
-  private EnforcerManager enforcerManager;
-  /**
-   * 启用
-   */
-  private boolean enabled = true;
-  private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
+    /**
+     * enforcer manager
+     */
+    private EnforcerManager enforcerManager;
+    /**
+     * 启用
+     */
+    private boolean enabled = true;
+    private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
 
-  @Override
-  public String filterType() {
-    return "pre";
-  }
+    @Override
+    public String filterType() {
+        return "pre";
+    }
 
-  @Override
-  public int filterOrder() {
-    return 0;
-  }
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
 
-  @Override
-  public boolean shouldFilter() {
-    return this.enabled;
-  }
+    @Override
+    public boolean shouldFilter() {
+        return this.enabled;
+    }
 
-  @Override
-  public Object run() throws ZuulException {
+    @Override
+    public Object run() throws ZuulException {
 //        Model model = new Model();
 //        try {
 //            model.loadModelFromText(FileUtils.readAllText(modelStream));
@@ -54,62 +54,62 @@ public class ZuulAuthzFilter extends ZuulFilter {
 //            e.printStackTrace();
 //            throw new ZuulException(e, "读取model失败", 500, e.getCause().toString());
 //        }
-    RequestContext ctx = RequestContext.getCurrentContext();
-    HttpServletRequest request = ctx.getRequest();
-    String token = request.getHeader("token");
-    String user = "anon";
-    boolean isLogin = false;
-    if (!StringUtils.isBlank(token)) {
-      try {
-        DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-        user = jwt.getSubject();
-        isLogin = true;
-      } catch (JWTVerificationException e) {
-        e.printStackTrace();
-      }
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        String token = request.getHeader("token");
+        String user = "anon";
+        boolean isLogin = false;
+        if (!StringUtils.isBlank(token)) {
+            try {
+                DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
+                user = jwt.getSubject();
+                isLogin = true;
+            } catch (JWTVerificationException e) {
+                e.printStackTrace();
+            }
+        }
+        Enforcer enforcer = this.getEnforcerManager().getEnforcer(user);
+        enforcer.enableLog(true);
+        boolean pass = enforcer.enforce(user, request.getRequestURI(), request.getMethod());
+        if (!pass) {
+            throw BusException.builder().message(isLogin ? "未授权" : "未登录").httpStatus(isLogin ? 403 : 401).build();
+        }
+        return null;
     }
-    Enforcer enforcer = this.getEnforcerManager().getEnforcer(user);
-    enforcer.enableLog(true);
-    boolean pass = enforcer.enforce(user, request.getRequestURI(), request.getMethod());
-    if (!pass) {
-      throw BusException.builder().message(isLogin ? "未授权" : "未登录").httpStatus(isLogin ? 403 : 401).build();
+
+    /**
+     * Sets new 启用.
+     *
+     * @param enabled New value of 启用.
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
-    return null;
-  }
 
-  /**
-   * Sets new 启用.
-   *
-   * @param enabled New value of 启用.
-   */
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+    /**
+     * Gets 启用.
+     *
+     * @return Value of 启用.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-  /**
-   * Gets 启用.
-   *
-   * @return Value of 启用.
-   */
-  public boolean isEnabled() {
-    return enabled;
-  }
+    /**
+     * Sets new enforcer manager.
+     *
+     * @param enforcerManager New value of enforcer manager.
+     */
+    public void setEnforcerManager(EnforcerManager enforcerManager) {
+        this.enforcerManager = enforcerManager;
+    }
 
-  /**
-   * Sets new enforcer manager.
-   *
-   * @param enforcerManager New value of enforcer manager.
-   */
-  public void setEnforcerManager(EnforcerManager enforcerManager) {
-    this.enforcerManager = enforcerManager;
-  }
-
-  /**
-   * Gets enforcer manager.
-   *
-   * @return Value of enforcer manager.
-   */
-  public EnforcerManager getEnforcerManager() {
-    return enforcerManager;
-  }
+    /**
+     * Gets enforcer manager.
+     *
+     * @return Value of enforcer manager.
+     */
+    public EnforcerManager getEnforcerManager() {
+        return enforcerManager;
+    }
 }

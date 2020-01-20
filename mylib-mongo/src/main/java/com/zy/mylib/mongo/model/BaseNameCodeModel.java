@@ -13,55 +13,55 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class BaseNameCodeModel extends BaseMongoModel {
-  private static final long serialVersionUID = 6599338697014255001L;
-  /**
-   * 名称
-   */
-  @Column
-  @Indexed
-  @JsonView(ListView.class)
-  private String name;
-  /**
-   * 编号
-   */
-  @Column
-  @Indexed
-  @JsonView(ListView.class)
-  private String code;
+    private static final long serialVersionUID = 6599338697014255001L;
+    /**
+     * 名称
+     */
+    @Column
+    @Indexed
+    @JsonView(ListView.class)
+    private String name;
+    /**
+     * 编号
+     */
+    @Column
+    @Indexed
+    @JsonView(ListView.class)
+    private String code;
 
-  /**
-   * Sets new 编号.
-   *
-   * @param code New value of 编号.
-   */
-  public void setCode(String code) {
-    this.code = code;
-  }
+    /**
+     * Sets new 编号.
+     *
+     * @param code New value of 编号.
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-  /**
-   * Sets new 名称.
-   *
-   * @param name New value of 名称.
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
+    /**
+     * Sets new 名称.
+     *
+     * @param name New value of 名称.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  /**
-   * Gets 编号.
-   *
-   * @return Value of 编号.
-   */
-  public String getCode() {
-    return code;
-  }
+    /**
+     * Gets 编号.
+     *
+     * @return Value of 编号.
+     */
+    public String getCode() {
+        return code;
+    }
 
-  /**
-   * Gets 名称.
-   *
-   * @return Value of 名称.
-   */
-  public String getName() {
-    return name;
-  }
+    /**
+     * Gets 名称.
+     *
+     * @return Value of 名称.
+     */
+    public String getName() {
+        return name;
+    }
 }

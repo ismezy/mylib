@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  * @author ASUS
  */
 public interface CodeMapDao extends JpaRepository<CodeMap, String> {
-  Page<CodeMap> findByCodeLikeOrNameLike(Pageable page, String code, String name);
+    Page<CodeMap> findByCodeLikeOrNameLike(Pageable page, String code, String name);
 
-  Page<CodeMap> findByCodeLikeAndNameLike(Pageable page, String code, String name);
+    Page<CodeMap> findByCodeLikeAndNameLike(Pageable page, String code, String name);
 }

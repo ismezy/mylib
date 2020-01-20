@@ -12,46 +12,46 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class HistoryNameCodeEntity extends HistoryEntity {
 
-  @JsonView(BaseView.class)
-  @Column(length = 64)
-  private String name;
-  @JsonView(BaseView.class)
-  @Column(length = 32)
-  private String code;
+    @JsonView(BaseView.class)
+    @Column(length = 64)
+    private String name;
+    @JsonView(BaseView.class)
+    @Column(length = 32)
+    private String code;
 
-  /**
-   * Gets name.
-   *
-   * @return Value of name.
-   */
-  public String getName() {
-    return name;
-  }
+    /**
+     * Gets name.
+     *
+     * @return Value of name.
+     */
+    public String getName() {
+        return name;
+    }
 
-  /**
-   * Gets code.
-   *
-   * @return Value of code.
-   */
-  public String getCode() {
-    return code;
-  }
+    /**
+     * Gets code.
+     *
+     * @return Value of code.
+     */
+    public String getCode() {
+        return code;
+    }
 
-  /**
-   * Sets new code.
-   *
-   * @param code New value of code.
-   */
-  public void setCode(String code) {
-    this.code = code;
-  }
+    /**
+     * Sets new code.
+     *
+     * @param code New value of code.
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-  /**
-   * Sets new name.
-   *
-   * @param name New value of name.
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
+    /**
+     * Sets new name.
+     *
+     * @param name New value of name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

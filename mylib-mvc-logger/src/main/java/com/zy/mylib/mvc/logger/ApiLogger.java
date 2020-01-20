@@ -11,48 +11,48 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ApiLogger {
-  String type() default "";
+    String type() default "";
 
-  boolean console() default true;
+    boolean console() default true;
 
-  /**
-   * 是否记录数据库,默认true
-   *
-   * @return
-   */
-  boolean db() default true;
+    /**
+     * 是否记录数据库,默认true
+     *
+     * @return
+     */
+    boolean db() default true;
 
-  /**
-   * 请求文本模板，例：
-   *
-   * @return
-   * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]")
-   * public String addCodemap(@RequestBody Codemap codemap);
-   */
-  String request() default "";
+    /**
+     * 请求文本模板，例：
+     *
+     * @return
+     * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]")
+     * public String addCodemap(@RequestBody Codemap codemap);
+     */
+    String request() default "";
 
-  /**
-   * 成功时的文本模板默认值为"|,成功[${returnValue}]。"，例：
-   *
-   * @return
-   * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", success=",成功，id=${returnValue.id}")
-   * public String addCodemap(@RequestBody Codemap codemap);
-   */
-  String success() default ",成功。";
+    /**
+     * 成功时的文本模板默认值为"|,成功[${returnValue}]。"，例：
+     *
+     * @return
+     * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", success=",成功，id=${returnValue.id}")
+     * public String addCodemap(@RequestBody Codemap codemap);
+     */
+    String success() default ",成功。";
 
-  /**
-   * api失败时的文本模板默认值为",失败[${exception.message}]！"，例：
-   *
-   * @return
-   * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", error=",失败，原因为${exception.message}")
-   * public String addCodemap(@RequestBody Codemap codemap);
-   */
-  String error() default ",失败[${exception.message}]！";
+    /**
+     * api失败时的文本模板默认值为",失败[${exception.message}]！"，例：
+     *
+     * @return
+     * @ApiLogger(request = "${loginUser?.userName}新增了字典[${codemap.code}]", error=",失败，原因为${exception.message}")
+     * public String addCodemap(@RequestBody Codemap codemap);
+     */
+    String error() default ",失败[${exception.message}]！";
 
-  /**
-   * 目标id
-   *
-   * @return
-   */
-  String id() default "";
+    /**
+     * 目标id
+     *
+     * @return
+     */
+    String id() default "";
 }

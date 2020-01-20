@@ -11,24 +11,24 @@ import java.util.concurrent.TimeUnit;
  * @author ASUS
  */
 public class RedisCacheManager implements CacheManager {
-  private RedisOperations<Object, Object> redisOperations;
-  private long expire;
-  private TimeUnit timeUnit;
+    private RedisOperations<Object, Object> redisOperations;
+    private long expire;
+    private TimeUnit timeUnit;
 
-  public RedisCacheManager(RedisOperations<Object, Object> redisOperations, long expire, TimeUnit timeUnit) {
-    this.redisOperations = redisOperations;
-    this.expire = expire;
-    this.timeUnit = timeUnit;
+    public RedisCacheManager(RedisOperations<Object, Object> redisOperations, long expire, TimeUnit timeUnit) {
+        this.redisOperations = redisOperations;
+        this.expire = expire;
+        this.timeUnit = timeUnit;
 
-  }
+    }
 
-  @Override
-  public Cache getCache(String name) {
-    return new RedisCache(name, redisOperations, expire, timeUnit);
-  }
+    @Override
+    public Cache getCache(String name) {
+        return new RedisCache(name, redisOperations, expire, timeUnit);
+    }
 
-  @Override
-  public Collection<String> getCacheNames() {
-    return null;
-  }
+    @Override
+    public Collection<String> getCacheNames() {
+        return null;
+    }
 }

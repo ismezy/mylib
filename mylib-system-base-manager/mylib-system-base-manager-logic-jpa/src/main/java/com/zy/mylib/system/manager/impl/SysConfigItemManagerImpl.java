@@ -22,52 +22,53 @@ import java.util.Optional;
  * @author ASUS
  */
 @Service
+@CacheConfig(cacheNames = "systemConfigCache")
 public class SysConfigItemManagerImpl extends BaseJpaManager<SysConfigItem, String> implements SysConfigItemManager {
-  @Autowired
-  private SysConfigItemDao sysConfigItemDao;
+    @Autowired
+    private SysConfigItemDao sysConfigItemDao;
 
-  @Override
-  protected JpaRepository<SysConfigItem, String> getRepository() {
-    return sysConfigItemDao;
-  }
-
-  @Override
-  @CacheEvict(allEntries = true)
-  @Transactional(rollbackFor = RuntimeException.class)
-  public SysConfigItem save(SysConfigItem entity) {
-    return super.save(entity);
-  }
-
-  @Override
-  @CacheEvict(allEntries = true)
-  @Transactional(rollbackFor = RuntimeException.class)
-  public void remove(String id) {
-    super.remove(id);
-  }
-
-  @Override
-  public SysConfigItem findByCode(String code) {
-    return sysConfigItemDao.findByCode(code).get();
-  }
-
-  @Override
-  @Cacheable(key = "#{code}")
-  public String getConfigValue(String code, String defaultValue) {
-    try {
-      return this.findByCode(code).getValue();
-    } catch (Exception e) {
+    @Override
+    protected JpaRepository<SysConfigItem, String> getRepository() {
+        return sysConfigItemDao;
     }
-    SysConfigItem item = new SysConfigItem();
-    item.setCode(code);
-    item.setValue(defaultValue);
-    return save(item).getValue();
-  }
 
-  @Override
-  @CacheEvict(allEntries = true)
-  public String changeConfigValue(String code, String value) {
-    SysConfigItem item = this.findByCode(code);
-    item.setValue(value);
-    return save(item).getValue();
-  }
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = RuntimeException.class)
+    public SysConfigItem save(SysConfigItem entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void remove(String id) {
+        super.remove(id);
+    }
+
+    @Override
+    public SysConfigItem findByCode(String code) {
+        return sysConfigItemDao.findByCode(code).get();
+    }
+
+    @Override
+    @Cacheable(key = "#{code}")
+    public String getConfigValue(String code, String defaultValue) {
+        try {
+            return this.findByCode(code).getValue();
+        } catch (Exception e) {
+        }
+        SysConfigItem item = new SysConfigItem();
+        item.setCode(code);
+        item.setValue(defaultValue);
+        return save(item).getValue();
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    public String changeConfigValue(String code, String value) {
+        SysConfigItem item = this.findByCode(code);
+        item.setValue(value);
+        return save(item).getValue();
+    }
 }

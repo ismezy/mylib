@@ -20,19 +20,19 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/files/temp")
 public class TempFileController {
-  @Inject
-  private SysConfigItemManager configManager;
-  @Value("${project.path.temp}")
-  String tempPath;
+    @Inject
+    private SysConfigItemManager configManager;
+    @Value("${project.path.temp}")
+    String tempPath;
 
-  @GetMapping("/download/{filename}.{ext}")
-  public void download(@PathVariable("filename") String filename, @PathVariable("ext") String extFileName, HttpServletResponse res) {
-    File file = new File(tempPath, filename + "." + extFileName);
-    try {
-      FileUtils.copy(file, res.getOutputStream());
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw BusException.builder().message("下载失败").build();
+    @GetMapping("/download/{filename}.{ext}")
+    public void download(@PathVariable("filename") String filename, @PathVariable("ext") String extFileName, HttpServletResponse res) {
+        File file = new File(tempPath, filename + "." + extFileName);
+        try {
+            FileUtils.copy(file, res.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw BusException.builder().message("下载失败").build();
+        }
     }
-  }
 }
