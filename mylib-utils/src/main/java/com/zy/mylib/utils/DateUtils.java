@@ -17,6 +17,19 @@ public class DateUtils {
     public static String DATE_FORMAT_CHINESE = "yyyy年M月d日";
 
     /**
+     * 日期解析
+     * @param date
+     * @param format
+     * @return
+     * @throws ParseException
+     */
+    public static Date parse(String date, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.parse(date);
+    }
+
+
+    /**
      * 返回格式：2007-08-14
      *
      * @return

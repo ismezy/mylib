@@ -52,7 +52,7 @@ public class SysConfigItemManagerImpl extends BaseJpaManager<SysConfigItem, Stri
     }
 
     @Override
-    @Cacheable(key = "#{code}")
+    @CachePut(key = "#code")
     public String getConfigValue(String code, String defaultValue) {
         try {
             return this.findByCode(code).getValue();
