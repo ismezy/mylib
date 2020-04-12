@@ -298,7 +298,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
                         e.printStackTrace();
                     }
                 }
-                if (value == null) {
+                if ((value instanceof  CharSequence && StringUtils.isBlank((CharSequence) value)) || value == null) {
                     continue;
                 }
                 if (value instanceof JpaEntity) {
