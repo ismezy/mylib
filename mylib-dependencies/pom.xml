@@ -95,16 +95,6 @@
             </dependency>
             <dependency>
                 <groupId>com.zy.mylib</groupId>
-                <artifactId>mylib-system-base-manager-logic-jpa</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zy.mylib</groupId>
-                <artifactId>mylib-system-base-manager-rest-jpa</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zy.mylib</groupId>
                 <artifactId>mylib-kotlin-support</artifactId>
                 <version>${revision}</version>
             </dependency>
