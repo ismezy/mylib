@@ -23,7 +23,7 @@ public abstract class JpaEntity implements BaseModel {
     /**
      * 所属系统
      */
-    @Column(length = 32)
+    @Column(length = 32, name = "system_code")
     @JsonView(BaseView.class)
     String system;
 
