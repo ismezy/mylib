@@ -167,7 +167,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
         if (StringUtils.isBlank(word)) {
             return word;
         }
-        return word.substring(0, 1).toLowerCase() + (word.length() > 2 ? word.substring(1) : "");
+        return word.substring(0, 1).toLowerCase() + (word.length() > 1 ? word.substring(1) : "");
     }
 
     class Condition {
