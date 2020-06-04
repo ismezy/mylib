@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -198,9 +199,9 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
             switch (operate) {
                 case like:
                     return prop + " like concat('%', ?" + index + " , '%')";
-                case startsWith:
-                    return prop + " like concat('%', ?" + index + ")";
                 case endsWith:
+                    return prop + " like concat('%', ?" + index + ")";
+                case startsWith:
                     return prop + " like concat(?" + index + ", '%')";
                 case noteq:
                     return prop + " <> ?" + index;
@@ -283,7 +284,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
         List<Condition> ret = new ArrayList<>(20);
         Method[] methods = filter.getClass().getMethods();
         for (Method m : methods) {
-            if (m.getName().startsWith("get") && m.getParameterCount() == 0) {
+            if (m.getName().startsWith("get") && m.getParameterCount() == 0 && m.getAnnotation(Transient.class) == null) {
                 String prop = firstLowerCase(m.getName().substring(3));
                 if ("class".equals(prop)) {
                     continue;
@@ -302,7 +303,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
                     continue;
                 }
                 if (value instanceof JpaEntity) {
-                    ret.addAll(genWhere(prop + ".", (JpaEntity) value, operateMap, extParams));
+                    ret.addAll(genWhere(path + prop + ".", (JpaEntity) value, operateMap, extParams));
                 } else {
                     ret.add(genWhere(value, path + prop, operateMap));
                 }

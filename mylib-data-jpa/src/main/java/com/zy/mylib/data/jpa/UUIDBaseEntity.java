@@ -21,6 +21,19 @@ public abstract class UUIDBaseEntity extends JpaEntity {
     @JsonView(BaseView.class)
     protected String id;
 
+    public static <T extends UUIDBaseEntity> T newEntity(String id, Class<T> type) {
+        try {
+            T ret = type.newInstance();
+            ret.setId(id);
+            return ret;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("error");
+    }
+
     /**
      * Sets new id.
      *
