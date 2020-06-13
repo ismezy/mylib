@@ -1,6 +1,7 @@
 package com.zy.mylib.security;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,6 +60,11 @@ public class LoginUser implements Serializable {
      * 登录IP
      */
     private String ip;
+
+    /**
+     * 其他信息
+     */
+    private Map<String, String> other;
 
     /**
      * Gets 用户中文名.
@@ -261,5 +267,23 @@ public class LoginUser implements Serializable {
      */
     public Set<String> getPolicy() {
         return policy;
+    }
+
+    /**
+     * Sets new 其他信息.
+     *
+     * @param other New value of 其他信息.
+     */
+    public void setOther(Map<String, String> other) {
+        this.other = other;
+    }
+
+    /**
+     * Gets 其他信息.
+     *
+     * @return Value of 其他信息.
+     */
+    public Map<String, String> getOther() {
+        return other;
     }
 }
