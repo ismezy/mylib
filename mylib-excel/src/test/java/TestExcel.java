@@ -15,9 +15,7 @@ public class TestExcel {
     private String[] middleName = {"欣", "爱", "小", "百", "千", "万"};
     private String[] lastName = {"桐", "宜", "国", "勇", "刚", "民", "庆", "玲", "凤", "龙"};
     Random random = new Random(new Date().getTime());
-    /**
-     *
-     */
+
     @Test
     public void genExcel() throws IOException {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream("sample.xlsx");

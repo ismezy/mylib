@@ -1,4 +1,4 @@
-package com.mylib.qrcode;
+package com.zy.mylib.qrcode;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -29,7 +29,6 @@ public class QRCodeUtils {
      * @throws WriterException
      */
     public static BufferedImage buildQrCode(String content, int width, int height, BufferedImage logo) throws WriterException {
-        String format = "png";
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>(2);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
@@ -44,27 +43,23 @@ public class QRCodeUtils {
     }
 
     private static BufferedImage getQRCodeWithOverlay(BufferedImage qrcode, BufferedImage logo) {
-        BufferedImage scaledOverlay = scaleOverlay(logo);
+        int centerX = qrcode.getWidth() / 2;
+        int centerY = qrcode.getHeight() / 2;
+        float radius = qrcode.getWidth() * 0.2f;
 
-        Integer deltaHeight = qrcode.getHeight() - scaledOverlay.getHeight();
-        Integer deltaWidth = qrcode.getWidth() - scaledOverlay.getWidth();
-
-        BufferedImage combined = new BufferedImage(qrcode.getWidth(), logo.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage combined = new BufferedImage(qrcode.getWidth(), qrcode.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = (Graphics2D) combined.getGraphics();
         g2.drawImage(qrcode, 0, 0, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        g2.drawImage(scaledOverlay, Math.round(deltaWidth / 2), Math.round(deltaHeight / 2), null);
+        g2.setColor(Color.gray);
+        g2.fillArc((int)(centerX - radius * 1.6/ 2) , (int)(centerY - radius * 1.6/ 2),
+                (int)(radius * 1.6), (int)(radius * 1.6), 0, 360);
+        g2.setColor(Color.white);
+        g2.fillArc((int)(centerX - radius * 1.5 / 2) , (int)(centerY - radius * 1.5 / 2),
+                (int)(radius * 1.5), (int)(radius * 1.5), 0, 360);
+        g2.drawImage(logo, (int)(centerX - radius / 2) , (int)(centerY - radius / 2),
+                (int)radius, (int)radius, Color.white, null);
+        g2.dispose();
         return combined;
     }
 
-    private static BufferedImage scaleOverlay(BufferedImage qrcode) {
-        Integer scaledWidth = Math.round(qrcode.getWidth() * 0.2f);
-        Integer scaledHeight = Math.round(qrcode.getHeight() * 0.2f);
-
-        BufferedImage imageBuff = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = imageBuff.createGraphics();
-        g.drawImage(qrcode.getScaledInstance(scaledWidth, scaledHeight, BufferedImage.SCALE_SMOOTH), 0, 0, new Color(0, 0, 0), null);
-        g.dispose();
-        return imageBuff;
-    }
 }

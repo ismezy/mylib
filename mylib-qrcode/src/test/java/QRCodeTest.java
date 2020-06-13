@@ -1,5 +1,5 @@
 import com.google.zxing.WriterException;
-import com.mylib.qrcode.QRCodeUtils;
+import com.zy.mylib.qrcode.QRCodeUtils;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class QRCodeTest {
 
     @Test
     public void testBuildQrCodeWithLogo() throws WriterException, IOException {
-        BufferedImage logo = ImageIO.read(ClassLoader.getSystemResourceAsStream("logo.jpg"));
+        BufferedImage logo = ImageIO.read(ClassLoader.getSystemResourceAsStream("logo.png"));
         BufferedImage bufferedImage = QRCodeUtils.buildQrCode("hello world", 800, 800, logo);
         ImageIO.write(bufferedImage, "PNG", new File("/qrcode-with-logo.png"));
     }
