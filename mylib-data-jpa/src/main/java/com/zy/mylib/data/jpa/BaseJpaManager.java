@@ -184,6 +184,9 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
 
         public List<Object> getParams() {
             List<Object> ret = new ArrayList<>(10);
+            if(operate == PageUtils.Operate.isNull || operate == PageUtils.Operate.notNull) {
+                return ret;
+            }
             if (value.getClass().isArray()) {
                 Object[] array = (Object[]) value;
                 for (Object o : array) {
