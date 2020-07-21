@@ -1,6 +1,7 @@
 package com.zy.mylib.security;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,6 +61,11 @@ public class LoginUser implements Serializable {
      * 登录IP
      */
     private String ip;
+
+    /**
+     * 最后登录时间
+     */
+    private Date lastLoginTime;
 
     /**
      * 其他信息
@@ -285,5 +291,23 @@ public class LoginUser implements Serializable {
      */
     public Map<String, String> getOther() {
         return other;
+    }
+
+    /**
+     * Sets new 最后登录时间.
+     *
+     * @param lastLoginTime New value of 最后登录时间.
+     */
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * Gets 最后登录时间.
+     *
+     * @return Value of 最后登录时间.
+     */
+    public Date getLastLoginTime() {
+        return lastLoginTime;
     }
 }
