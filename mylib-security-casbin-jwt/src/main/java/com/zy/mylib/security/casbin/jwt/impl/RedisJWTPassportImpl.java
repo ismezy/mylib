@@ -101,6 +101,14 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
         return token;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(LoginUser user) {
+        cache.put(getToken(), "user", user);
+    }
+
     @Override
     public void logout() {
         cache.removeToken(getToken());
