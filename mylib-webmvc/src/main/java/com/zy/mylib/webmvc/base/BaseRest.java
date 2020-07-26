@@ -7,6 +7,7 @@ import com.zy.mylib.webmvc.model.RestMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +26,10 @@ public class BaseRest extends I18n {
 
     @Autowired(required = false)
     private LocalMessage message;
+
+    @Value("${mylib.exception.defaultMessage:请求失败}")
+    private String defaultMessage;
+
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -56,6 +61,7 @@ public class BaseRest extends I18n {
             result.setMessage(message);
         } else {
             logger.error(ex.getMessage(), ex);
+            result.setMessage(defaultMessage);
         }
         return result;
     }
