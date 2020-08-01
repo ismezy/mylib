@@ -35,7 +35,7 @@ public class BaseRest extends I18n {
     @ResponseBody
     public RestMessage handleUncaughtException(Exception ex, WebRequest request, HttpServletResponse response) throws Exception {
         RestMessage result = new RestMessage("501", ex.getMessage());
-        response.setStatus(501);
+        response.setStatus(500);
         if (ex instanceof BusException) {
             logger.warn(ex.getMessage());
             BusException bex = (BusException) ex;

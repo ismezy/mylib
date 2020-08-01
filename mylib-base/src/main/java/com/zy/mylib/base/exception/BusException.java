@@ -77,7 +77,7 @@ public class BusException extends RuntimeException {
     public static class BusExceptionBuilder {
         private String message;
         private String code = "9999";
-        private int httpStatus = 501;
+        private int httpStatus = 500;
 
         public BusExceptionBuilder message(String message) {
             this.message = message;
