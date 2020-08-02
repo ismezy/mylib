@@ -1,4 +1,4 @@
-package com.zy.mylib.mybatis;
+package com.zy.mylib.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

@@ -46,6 +46,8 @@
         <module>mylib-kotlin-support</module>
         <module>mylib-qrcode</module>
         <module>mylib-excel</module>
+        <module>mylib-mybatis</module>
+        <module>mylib-webmvc-mybatis</module>
     </modules>
 
     <distributionManagement>
@@ -150,6 +152,16 @@
                 <groupId>org.jxls</groupId>
                 <artifactId>jxls-poi</artifactId>
                 <version>2.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>3.3.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,20 +1,21 @@
 package com.zy.mylib.webmvc.mybatis.test.sys.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.zy.mylib.mybatis.entity.UuidBaseEntity;
+import io.swagger.annotations.ApiModel;
 
 /**
  * <p>
- * 
+ * Api用户
  * </p>
  *
  * @author zhouyang
  * @since 2020-07-25
  */
-public class ApiUser implements Serializable {
-
-
+@ApiModel(description = "Api用户")
+@TableName
+public class ApiUser extends UuidBaseEntity {
     private static final long serialVersionUID = 3237411302995330359L;
-    private String id;
 
     private String code;
 
@@ -24,15 +25,6 @@ public class ApiUser implements Serializable {
 
     private String system;
 
-
-    /**
-     * Gets id.
-     *
-     * @return Value of id.
-     */
-    public String getId() {
-        return id;
-    }
 
     /**
      * Sets new system.
@@ -86,15 +78,6 @@ public class ApiUser implements Serializable {
      */
     public String getCode() {
         return code;
-    }
-
-    /**
-     * Sets new id.
-     *
-     * @param id New value of id.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**

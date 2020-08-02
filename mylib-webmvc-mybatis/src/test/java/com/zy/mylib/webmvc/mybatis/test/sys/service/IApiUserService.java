@@ -1,6 +1,6 @@
 package com.zy.mylib.webmvc.mybatis.test.sys.service;
 
-import com.zy.mylib.mybatis.MyBatisBaseManager;
+import com.zy.mylib.mybatis.manager.MyBatisBaseManager;
 import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser;
 
 /**
@@ -12,5 +12,10 @@ import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser;
  * @since 2020-07-25
  */
 public interface IApiUserService extends MyBatisBaseManager<ApiUser> {
-
+    /**
+     * 按code查找
+     * @param code
+     * @return
+     */
+    ApiUser findByCode(String code);
 }
