@@ -4,8 +4,6 @@ import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper;
 import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 /**
  * <p>
  *  Mapper 接口
