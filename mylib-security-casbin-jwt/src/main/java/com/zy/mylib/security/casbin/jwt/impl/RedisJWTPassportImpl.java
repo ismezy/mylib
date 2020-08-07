@@ -1,5 +1,6 @@
 package com.zy.mylib.security.casbin.jwt.impl;
 
+import ch.qos.logback.core.util.TimeUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.zy.mylib.base.exception.BusException;
@@ -8,6 +9,7 @@ import com.zy.mylib.security.LoginUser;
 import com.zy.mylib.security.Passport;
 import com.zy.mylib.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,10 +29,22 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
     final static String HEADER_TOKEN_KEY = "token";
     final static String QUERY_TOKEN_KEY = "__token";
 
-    private RedisUserCache cache;
+    private RedisUserCache userCache;
+
+    /**
+     * 登录重试次数,默认5次
+     */
+    @Value("${mylib.auth.retry:5}")
+    private Integer retry;
+    /**
+     * 拒绝登录时间，分钟(默认10分钟)
+     */
+    @Value("${mylib.auth.rejectMin:10}")
+    private Integer rejectMin;
+
     @Inject
     @Named("jwtTokenRedisOperations")
-    private RedisOperations<String, ? extends Serializable> redisOperations;
+    private RedisOperations<String, Serializable> redisOperations;
 
     private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
 //
@@ -46,7 +60,8 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
         return attrs.getRequest();
     }
 
-    protected String getToken() {
+    @Override
+    public String getToken() {
         HttpServletRequest request = this.getRequest();
         String headerToken = request.getHeader(HEADER_TOKEN_KEY);
         if (headerToken != null) {
@@ -59,7 +74,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
 
     @Override
     public LoginUser getUser() {
-        return cache.get(getToken(), "user");
+        return userCache.get(getToken(), "user");
     }
 
     @Override
@@ -68,7 +83,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
         if (StringUtils.isBlank(token)) {
             return false;
         }
-        Boolean b = cache.get(token, "isAuthenticated");
+        Boolean b = userCache.get(token, "isAuthenticated");
         return b == null ? false : b;
     }
 
@@ -96,9 +111,43 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
             remoteAddr = request.getRemoteAddr();
         }
         user.setIp(remoteAddr);
-        cache.put(token, "user", user);
-        cache.put(token, "isAuthenticated", true);
+        userCache.put(token, "user", user);
+        userCache.put(token, "isAuthenticated", true);
         return token;
+    }
+
+    @Override
+    public void onLoginFailed(String user) {
+        HttpServletRequest request = getRequest();
+        String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+        if (StringUtils.isBlank(remoteAddr)) {
+            remoteAddr = request.getRemoteAddr();
+        }
+        String key = "login:failed:" + remoteAddr + ":" + user;
+        Integer count = (Integer) redisOperations.opsForValue().get(key);
+
+        if(count == null) {
+            count = 1;
+            redisOperations.opsForValue().set(key, count, rejectMin, TimeUnit.MINUTES);
+        }  else {
+            redisOperations.opsForValue().set(key, count + 1);
+            redisOperations.expire(key, rejectMin, TimeUnit.MINUTES);
+        }
+    }
+
+    @Override
+    public boolean isLock(String user) {
+        HttpServletRequest request = getRequest();
+        String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+        if (StringUtils.isBlank(remoteAddr)) {
+            remoteAddr = request.getRemoteAddr();
+        }
+        String key = "login:failed:" + remoteAddr + ":" + user;
+        Integer count = (Integer) redisOperations.opsForValue().get(key);
+        if(count != null && count >= this.retry) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -106,12 +155,12 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
      */
     @Override
     public void update(LoginUser user) {
-        cache.put(getToken(), "user", user);
+        userCache.put(getToken(), "user", user);
     }
 
     @Override
     public void logout() {
-        cache.removeToken(getToken());
+        userCache.removeToken(getToken());
     }
 
     @Override
@@ -121,7 +170,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        cache = new RedisUserCache(redisOperations, 1, TimeUnit.DAYS);
+        userCache = new RedisUserCache(redisOperations, 1, TimeUnit.DAYS);
     }
 
 
@@ -139,17 +188,17 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
      *
      * @return Value of cache.
      */
-    public RedisUserCache getCache() {
-        return cache;
+    public RedisUserCache getUserCache() {
+        return userCache;
     }
 
     /**
      * Sets new cache.
      *
-     * @param cache New value of cache.
+     * @param userCache New value of cache.
      */
-    public void setCache(RedisUserCache cache) {
-        this.cache = cache;
+    public void setUserCache(RedisUserCache userCache) {
+        this.userCache = userCache;
     }
 
     /**
@@ -175,7 +224,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
      *
      * @param redisOperations New value of redisOperations.
      */
-    public void setRedisOperations(RedisOperations<String, ? extends Serializable> redisOperations) {
+    public void setRedisOperations(RedisOperations<String, Serializable> redisOperations) {
         this.redisOperations = redisOperations;
     }
 }

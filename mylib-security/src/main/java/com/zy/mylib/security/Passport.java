@@ -19,12 +19,31 @@ public interface Passport<T extends Serializable> {
     boolean isAuthenticated();
 
     /**
+     * 获取token
+     * @return
+     */
+    String getToken();
+
+    /**
      * 登录，返回token
      *
      * @param user
      * @return
      */
     String login(T user);
+
+    /**
+     * 登录失败
+     * @param user
+     */
+    void onLoginFailed(String user);
+
+    /**
+     * 用户是否已锁定
+     * @param user
+     * @return
+     */
+    boolean isLock(String user);
 
     /**
      * 更新登录用户缓存
