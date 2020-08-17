@@ -53,6 +53,7 @@ public class QRCodeUtils {
     BufferedImage combined = new BufferedImage(qrcode.getWidth(), qrcode.getHeight(), BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2 = (Graphics2D) combined.getGraphics();
     g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.drawImage(qrcode, 0, 0, null);
     g2.setColor(Color.white);
     g2.fillRoundRect((int) (centerX - radius * 1.5 / 2), (int) (centerY - radius * 1.5 / 2),
