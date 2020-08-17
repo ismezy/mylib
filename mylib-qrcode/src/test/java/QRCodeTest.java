@@ -14,14 +14,15 @@ public class QRCodeTest {
      */
     @Test
     public void testBuildQrCode() throws WriterException, IOException {
-        BufferedImage bufferedImage = QRCodeUtils.buildQrCode("hello world", 800, 800, null);
+        BufferedImage bufferedImage = QRCodeUtils.buildQrCode("hello world", 800, 800, "", null);
         ImageIO.write(bufferedImage, "PNG", new File("/qrcode.png"));
     }
 
     @Test
     public void testBuildQrCodeWithLogo() throws WriterException, IOException {
         BufferedImage logo = ImageIO.read(ClassLoader.getSystemResourceAsStream("logo.png"));
-        BufferedImage bufferedImage = QRCodeUtils.buildQrCode("hello world", 800, 800, logo);
+        BufferedImage bufferedImage = QRCodeUtils.buildQrCode("hello world",
+            800, 800, "测试标题", logo);
         ImageIO.write(bufferedImage, "PNG", new File("/qrcode-with-logo.png"));
     }
 }
