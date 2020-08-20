@@ -47,19 +47,19 @@ public class QRCodeUtils {
   private static BufferedImage getQRCodeWithOverlay(BufferedImage qrcode, BufferedImage logo, String title) {
     int centerX = qrcode.getWidth() / 2;
     int centerY = qrcode.getHeight() / 2;
-    float radius = qrcode.getWidth() * 0.2f;
+    float radius = qrcode.getWidth() * 0.3f;
     int round = (int) (qrcode.getWidth() * 0.05f);
 
     BufferedImage combined = new BufferedImage(qrcode.getWidth(), qrcode.getHeight(), BufferedImage.TYPE_INT_ARGB);
-    Graphics2D g2 = (Graphics2D) combined.getGraphics();
+    Graphics2D g2 =  combined.createGraphics();
     g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.drawImage(qrcode, 0, 0, null);
-    g2.setColor(Color.white);
-    g2.fillRoundRect((int) (centerX - radius * 1.5 / 2), (int) (centerY - radius * 1.5 / 2),
-        (int) (radius * 1.5), (int) (radius * 1.5), round, round);
+//    g2.setColor(Color.white);
+//    g2.fillRoundRect((int) (centerX - radius * 1.5 / 2), (int) (centerY - radius * 1.5 / 2),
+//        (int) (radius * 1.5), (int) (radius * 1.5), round, round);
     g2.drawImage(logo, (int) (centerX - radius / 2), (int) (centerY - radius / 2),
-        (int) radius, (int) radius, Color.white, null);
+        (int) radius, (int) radius,null);
     g2.setColor(Color.black);
     g2.setFont(new Font("simsum", Font.PLAIN, (int) (centerX * 0.05f)));
     FontMetrics fm = g2.getFontMetrics();
