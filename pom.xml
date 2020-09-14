@@ -15,7 +15,7 @@
         <spring-boot-version>2.2.1.RELEASE</spring-boot-version>
         <javax.persistence-api-version>2.2</javax.persistence-api-version>
         <commons-beanutils-version>1.9.3</commons-beanutils-version>
-        <guava-version>24.1-jre</guava-version>
+        <guava-version>24.1.1-jre</guava-version>
         <commons-lang-version>3.7</commons-lang-version>
         <inject-version>1</inject-version>
         <shiro-version>1.4.0</shiro-version>
