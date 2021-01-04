@@ -26,22 +26,22 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.13.3</revision>
+        <revision>1.13.4</revision>
         <java.version>1.8</java.version>
-        <spring-cloud-version>Hoxton.RELEASE</spring-cloud-version>
-        <spring-boot-version>2.2.1.RELEASE</spring-boot-version>
+        <spring-cloud-version>Hoxton.SR9</spring-cloud-version>
+        <spring-boot-version>2.3.7.RELEASE</spring-boot-version>
         <javax.persistence-api-version>2.2</javax.persistence-api-version>
         <commons-beanutils-version>1.9.4</commons-beanutils-version>
-        <guava-version>24.1.1-jre</guava-version>
+        <guava-version>30.1-jre</guava-version>
         <commons-lang-version>3.7</commons-lang-version>
         <inject-version>1</inject-version>
         <shiro-version>1.4.0</shiro-version>
         <commons-io-version>2.6</commons-io-version>
-        <casbin-version>1.3.0</casbin-version>
-        <java-jwt-version>3.7.0</java-jwt-version>
+        <casbin-version>1.6.1</casbin-version>
+        <java-jwt-version>3.12.0</java-jwt-version>
         <swagger-version>2.9.2</swagger-version>
-        <kotlin.version>1.3.50</kotlin.version>
-        <mybatis-plus-version>3.3.2</mybatis-plus-version>
+        <kotlin.version>1.3.72</kotlin.version>
+        <mybatis-plus-version>3.4.1</mybatis-plus-version>
     </properties>
 
     <modules>
