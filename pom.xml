@@ -40,7 +40,7 @@
         <casbin-version>1.6.1</casbin-version>
         <java-jwt-version>3.12.0</java-jwt-version>
         <swagger-version>2.9.2</swagger-version>
-        <kotlin.version>1.3.72</kotlin.version>
+        <kotlin.version>1.4.21-2</kotlin.version>
         <mybatis-plus-version>3.4.1</mybatis-plus-version>
     </properties>
 
