@@ -18,7 +18,6 @@ package com.zy.mylib.mybatis.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zy.mylib.base.model.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +25,12 @@ public class QueryWrapperUtils {
   /**
    * 构建查询条件
    *
-   * @param conditionGroup
    * @param sortRequests
    * @return
    */
-  public static <T> QueryWrapper<T> build(ConditionGroup conditionGroup, List<SortRequest> sortRequests) {
+  public static <T> QueryWrapper<T> build(List<Condition> condition, List<SortRequest> sortRequests) {
     QueryWrapper<T> query = Wrappers.query();
-    query = buildGroup(query, conditionGroup);
+    query = buildGroup(query, condition);
     query = buildSort(query, sortRequests);
     return query;
   }
@@ -55,21 +53,21 @@ public class QueryWrapperUtils {
     return query;
   }
 
-  private static <T> QueryWrapper<T> buildGroup(QueryWrapper<T> query, ConditionGroup group) {
-    if (group.getConditions() == null) return query;
-    for (BaseCondition condition : group.getConditions()) {
-      if (condition instanceof Condition) {
-        // 比较运算
+  private static <T> QueryWrapper<T> buildGroup(QueryWrapper<T> query, List<Condition> conditions) {
+    for (Condition condition : conditions) {
+      if(condition.getConditions() != null && condition.getConditions().size() > 0) {
+        // 条件集
+        if (condition.getLogicalOperator() == LogicalOperators.or) {
+          query.or(it -> buildGroup(it, condition.getConditions()));
+        } else {
+          query.and(it -> buildGroup(it, condition.getConditions()));
+        }
+      } else {
+        // 单条件
         if (condition.getLogicalOperator() == LogicalOperators.or) {
           query.or(it -> buildCondition(it, (Condition) condition));
         } else {
           query.and(it -> buildCondition(it, (Condition) condition));
-        }
-      } else {
-        if (condition.getLogicalOperator() == LogicalOperators.or) {
-          query.or(it -> buildGroup(it, (ConditionGroup) condition));
-        } else {
-          query.and(it -> buildGroup(it, (ConditionGroup) condition));
         }
       }
     }
@@ -94,9 +92,9 @@ public class QueryWrapperUtils {
       case like:
         return query.like(condition.getProperty(), condition.getValue());
       case startWith:
-        return query.likeLeft(condition.getProperty(), condition.getValue());
-      case endWith:
         return query.likeRight(condition.getProperty(), condition.getValue());
+      case endWith:
+        return query.likeLeft(condition.getProperty(), condition.getValue());
       case in:
         return query.in(condition.getProperty(), condition.getValues());
       case notIn:

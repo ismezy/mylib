@@ -15,7 +15,7 @@
  */
 package com.zy.mylib.base.service;
 
-import com.zy.mylib.base.model.ConditionGroup;
+import com.zy.mylib.base.model.Condition;
 import com.zy.mylib.base.model.PageRequest;
 import com.zy.mylib.base.model.PageResponse;
 import com.zy.mylib.base.model.SortRequest;
@@ -65,7 +65,7 @@ public interface Manager<T> {
    * @param conditionGroup
    * @return
    */
-  PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup);
+  PageResponse<T> pageQuery(PageRequest request, List<Condition> conditionGroup);
 
   /**
    * 根据id查找
@@ -85,10 +85,9 @@ public interface Manager<T> {
 
   /**
    * 根据条件查找唯一记录
-   * @param conditionGroup
    * @return
    */
-  T findOne(ConditionGroup conditionGroup);
+  T findOne(List<Condition> conditions);
 
   /**
    * 根据条件查找唯一记录
@@ -108,11 +107,10 @@ public interface Manager<T> {
 
   /**
    * 查找列表
-   * @param conditionGroup
    * @param sortRequest
    * @return
    */
-  List<T> findList(ConditionGroup conditionGroup, List<SortRequest> sortRequest);
+  List<T> findList(List<Condition> conditions, List<SortRequest> sortRequest);
 
   /**
    * 查找列表

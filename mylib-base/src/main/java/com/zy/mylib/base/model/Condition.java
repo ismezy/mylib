@@ -15,10 +15,10 @@
  */
 package com.zy.mylib.base.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -26,8 +26,11 @@ import java.util.List;
  * 查询条件
  */
 @Data
-@SuperBuilder
-public class Condition extends BaseCondition {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Condition {
+  LogicalOperators logicalOperator = LogicalOperators.and;
   /**
    * 比较运算符 默认等于
    */
@@ -44,4 +47,9 @@ public class Condition extends BaseCondition {
    * 多值条件
    */
   List<Object> values;
+
+  /**
+   * 条件集合，此字段不为空时忽略property、value、values、comparisonOperator字段
+   */
+  List<Condition> conditions;
 }

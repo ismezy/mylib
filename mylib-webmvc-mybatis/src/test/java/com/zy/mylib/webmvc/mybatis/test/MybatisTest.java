@@ -118,19 +118,20 @@ public class MybatisTest {
     @Test
     public void t05PageTest() throws JsonProcessingException {
         t01AddTest();
-        List<BaseCondition> conditions = new ArrayList<>();
+        List<Condition> conditions = new ArrayList<>();
         conditions.add(Condition.builder().property("code").value("test").comparisonOperator(ComparisonOperators.like).build());
-        List<BaseCondition> conditions1 = new ArrayList<>();
+        List<Condition> conditions1 = new ArrayList<>();
         conditions1.add(Condition.builder().property("system").value("t1").logicalOperator(LogicalOperators.or).build());
         conditions1.add(Condition.builder().property("system").value("t2").logicalOperator(LogicalOperators.or).build());
-        conditions.add(ConditionGroup.builder().conditions(conditions1).build());
-        ConditionGroup group = ConditionGroup.builder().conditions(conditions).build();
+        conditions.add(Condition.builder().conditions(conditions1).build());
+
+
         PageResponse<ApiUser> response = apiUserService.pageQuery(
             PageRequest.builder().page(0L).size(10L)
                 .sortRequests(Lists.newArrayList(
                     SortRequest.builder().property("code").direction(SortRequest.SortDirection.descend).build())
                 ).build(),
-            group);
+            conditions);
         System.out.println(objectMapper.writeValueAsString(response));
     }
 }

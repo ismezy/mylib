@@ -15,13 +15,12 @@
  */
 package com.zy.mylib.mybatis.manager;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zy.mylib.base.exception.BusException;
-import com.zy.mylib.base.model.ConditionGroup;
+import com.zy.mylib.base.model.Condition;
 import com.zy.mylib.base.model.PageRequest;
 import com.zy.mylib.base.model.PageResponse;
 import com.zy.mylib.base.model.SortRequest;
@@ -99,7 +98,7 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T> impleme
     }
 
     @Override
-    public PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup) {
+    public PageResponse<T> pageQuery(PageRequest request, List<Condition> conditionGroup) {
         Page<T> page = new Page<>(request.getPage() + 1, request.getSize());
         QueryWrapper queryWrapper =  QueryWrapperUtils.build(conditionGroup, request.getSortRequests());
         page = mapper.selectPage(page, queryWrapper);
@@ -117,8 +116,8 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T> impleme
     }
 
     @Override
-    public T findOne(ConditionGroup conditionGroup) {
-        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditionGroup, null);
+    public T findOne(List<Condition> conditions) {
+        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditions, null);
         return mapper.selectOne(queryWrapper);
     }
 
@@ -136,8 +135,8 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T> impleme
     }
 
     @Override
-    public List<T> findList(ConditionGroup conditionGroup, List<SortRequest> sortRequest) {
-        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditionGroup, sortRequest);
+    public List<T> findList(List<Condition> conditions, List<SortRequest> sortRequest) {
+        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditions, sortRequest);
         return mapper.selectList(queryWrapper);
     }
 

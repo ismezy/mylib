@@ -26,7 +26,7 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.14.1</revision>
+        <revision>1.14.4</revision>
         <java.version>1.8</java.version>
         <spring-cloud-version>Hoxton.SR9</spring-cloud-version>
         <spring-boot-version>2.3.7.RELEASE</spring-boot-version>
