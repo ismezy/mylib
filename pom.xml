@@ -26,7 +26,7 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.14.0</revision>
+        <revision>1.14.1</revision>
         <java.version>1.8</java.version>
         <spring-cloud-version>Hoxton.SR9</spring-cloud-version>
         <spring-boot-version>2.3.7.RELEASE</spring-boot-version>
@@ -69,24 +69,7 @@
       <module>mylib-graphql</module>
     </modules>
 
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>nexus</name>
-            <url>http://dev.ystfin.com/nexus/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshot</id>
-            <name>Popocloud Snapshot Repository</name>
-            <url>http://dev.ystfin.com/nexus/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     <repositories>
-        <repository>
-            <id>ys-nexus</id>
-            <name>nexus</name>
-            <url>http://dev.ystfin.com/nexus/repository/maven-public/</url>
-        </repository>
         <repository>
             <id>aliyun-central</id>
             <name>aliyun-central</name>
@@ -94,11 +77,6 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <pluginRepository>
-            <id>ys-nexus</id>
-            <name>nexus</name>
-            <url>http://dev.ystfin.com/nexus/repository/maven-public/</url>
-        </pluginRepository>
         <pluginRepository>
             <id>aliyun-central</id>
             <name>aliyun-central</name>
@@ -308,6 +286,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

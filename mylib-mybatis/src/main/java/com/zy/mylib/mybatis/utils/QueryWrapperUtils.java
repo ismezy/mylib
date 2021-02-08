@@ -17,34 +17,56 @@ package com.zy.mylib.mybatis.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zy.mylib.base.model.BaseCondition;
-import com.zy.mylib.base.model.Condition;
-import com.zy.mylib.base.model.ConditionGroup;
-import com.zy.mylib.base.model.LogicalOperators;
+import com.zy.mylib.base.model.*;
+
+import java.util.List;
+import java.util.Map;
 
 public class QueryWrapperUtils {
   /**
    * 构建查询条件
+   *
    * @param conditionGroup
+   * @param sortRequests
    * @return
    */
-  public static <T> QueryWrapper<T> build(ConditionGroup conditionGroup) {
+  public static <T> QueryWrapper<T> build(ConditionGroup conditionGroup, List<SortRequest> sortRequests) {
     QueryWrapper<T> query = Wrappers.query();
-    return buildGroup(query, conditionGroup);
+    query = buildGroup(query, conditionGroup);
+    query = buildSort(query, sortRequests);
+    return query;
+  }
+
+  private static <T> QueryWrapper<T> buildSort(QueryWrapper<T> query, List<SortRequest> sortRequests) {
+    if(sortRequests == null || sortRequests.size() == 0) return query;
+    for(SortRequest sort : sortRequests) {
+      query = query.orderBy(true,
+          sort.getDirection() == SortRequest.SortDirection.ascend, sort.getProperty());
+    }
+    return query;
+  }
+
+  public static <T> QueryWrapper<T> build(Map<String, Object> params, List<SortRequest> sortRequests) {
+    QueryWrapper<T> query = Wrappers.query();
+    for(Map.Entry<String, Object> entry : params.entrySet()) {
+      query = query.eq(entry.getKey(), entry.getValue());
+    }
+    query = buildSort(query, sortRequests);
+    return query;
   }
 
   private static <T> QueryWrapper<T> buildGroup(QueryWrapper<T> query, ConditionGroup group) {
-    if(group.getConditions() == null) return query;
-    for(BaseCondition condition : group.getConditions()) {
-      if(condition instanceof Condition) {
+    if (group.getConditions() == null) return query;
+    for (BaseCondition condition : group.getConditions()) {
+      if (condition instanceof Condition) {
         // 比较运算
-        if(condition.getLogicalOperator() == LogicalOperators.or) {
+        if (condition.getLogicalOperator() == LogicalOperators.or) {
           query.or(it -> buildCondition(it, (Condition) condition));
         } else {
           query.and(it -> buildCondition(it, (Condition) condition));
         }
       } else {
-        if(condition.getLogicalOperator() == LogicalOperators.or) {
+        if (condition.getLogicalOperator() == LogicalOperators.or) {
           query.or(it -> buildGroup(it, (ConditionGroup) condition));
         } else {
           query.and(it -> buildGroup(it, (ConditionGroup) condition));
@@ -55,7 +77,7 @@ public class QueryWrapperUtils {
   }
 
   private static <T> QueryWrapper<T> buildCondition(QueryWrapper<T> query, Condition condition) {
-    if(condition.getComparisonOperator() == null) {
+    if (condition.getComparisonOperator() == null) {
       return query.eq(condition.getProperty(), condition.getValue());
     }
     switch (condition.getComparisonOperator()) {

@@ -24,6 +24,7 @@ import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.model.ConditionGroup;
 import com.zy.mylib.base.model.PageRequest;
 import com.zy.mylib.base.model.PageResponse;
+import com.zy.mylib.base.model.SortRequest;
 import com.zy.mylib.mybatis.utils.QueryWrapperUtils;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
@@ -32,18 +33,18 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ASUS
  */
-public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>> implements MyBatisBaseManager<T> {
+public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T> implements MyBatisBaseManager<T> {
 
     protected M mapper;
 
     @Inject
-    public MyBatisBaseManagerImpl<T, M> setMapper(M mapper) {
+    public void setMapper(M mapper) {
         this.mapper = mapper;
-        return this;
     }
 
     /**
@@ -100,9 +101,50 @@ public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>> implements MyBat
     @Override
     public PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup) {
         Page<T> page = new Page<>(request.getPage() + 1, request.getSize());
-        QueryWrapper queryWrapper =  QueryWrapperUtils.build(conditionGroup);
+        QueryWrapper queryWrapper =  QueryWrapperUtils.build(conditionGroup, request.getSortRequests());
         page = mapper.selectPage(page, queryWrapper);
         return PageResponse.fromRequest(request, page.getTotal(), page.getRecords());
+    }
+
+    @Override
+    public T findById(Serializable id) {
+        return mapper.selectById(id);
+    }
+
+    @Override
+    public T findOne(String property, Object value) {
+        return mapper.selectOne(Wrappers.<T>query().eq(property, value));
+    }
+
+    @Override
+    public T findOne(ConditionGroup conditionGroup) {
+        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditionGroup, null);
+        return mapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public T findOne(Map<String, Object> params) {
+        List<T> list = mapper.selectByMap(params);
+        if(list.size() > 0) return list.get(0);
+        return null;
+    }
+
+    @Override
+    public List<T> findList(String property, Object value, List<SortRequest> sortRequest) {
+        QueryWrapper<T> queryWrapper = Wrappers.<T>query().eq(property, value);
+        return mapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<T> findList(ConditionGroup conditionGroup, List<SortRequest> sortRequest) {
+        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditionGroup, sortRequest);
+        return mapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<T> findList(Map<String, Object> params, List<SortRequest> sortRequests) {
+        QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(params, sortRequests);
+        return mapper.selectList(queryWrapper);
     }
 
     protected String getEntityDescription(T entity) {

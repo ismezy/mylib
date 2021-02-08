@@ -18,6 +18,7 @@ package com.zy.mylib.webmvc.mybatis.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.model.*;
 import com.zy.mylib.utils.RandomUtils;
@@ -124,7 +125,11 @@ public class MybatisTest {
         conditions1.add(Condition.builder().property("system").value("t2").logicalOperator(LogicalOperators.or).build());
         conditions.add(ConditionGroup.builder().conditions(conditions1).build());
         ConditionGroup group = ConditionGroup.builder().conditions(conditions).build();
-        PageResponse<ApiUser> response = apiUserService.pageQuery(PageRequest.builder().page(1L).size(2L).build(),
+        PageResponse<ApiUser> response = apiUserService.pageQuery(
+            PageRequest.builder().page(0L).size(10L)
+                .sortRequests(Lists.newArrayList(
+                    SortRequest.builder().property("code").direction(SortRequest.SortDirection.descend).build())
+                ).build(),
             group);
         System.out.println(objectMapper.writeValueAsString(response));
     }

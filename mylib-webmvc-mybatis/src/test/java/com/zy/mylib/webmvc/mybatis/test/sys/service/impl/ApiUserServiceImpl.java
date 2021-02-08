@@ -34,7 +34,7 @@ import java.util.Map;
  * @since 2020-07-25
  */
 @Named
-public class ApiUserServiceImpl extends MyBatisBaseManagerImpl<ApiUser, ApiUserMapper>
+public class ApiUserServiceImpl extends MyBatisBaseManagerImpl<ApiUserMapper, ApiUser>
         implements IApiUserService {
 
     @Override

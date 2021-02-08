@@ -18,45 +18,107 @@ package com.zy.mylib.base.service;
 import com.zy.mylib.base.model.ConditionGroup;
 import com.zy.mylib.base.model.PageRequest;
 import com.zy.mylib.base.model.PageResponse;
+import com.zy.mylib.base.model.SortRequest;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ASUS
  */
 public interface Manager<T> {
-    /**
-     * 新增
-     * @param entity
-     * @return
-     */
-    T add(T entity);
+  /**
+   * 新增
+   *
+   * @param entity
+   * @return
+   */
+  T add(T entity);
 
-    /**
-     * 更新
-     * @param entity
-     * @return
-     */
-    T update(T entity);
+  /**
+   * 更新
+   *
+   * @param entity
+   * @return
+   */
+  T update(T entity);
 
   /**
    * 删除
-     * @param id
-     */
-    void delete(Serializable id);
+   *
+   * @param id
+   */
+  void delete(Serializable id);
 
-    /**
-     * 查找所有
-     * @return
-     */
-    List<T> all();
+  /**
+   * 查找所有
+   *
+   * @return
+   */
+  List<T> all();
 
-    /**
-     * 分页查询
-     * @param request
-     * @param conditionGroup
-     * @return
-     */
-    PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup);
+  /**
+   * 分页查询
+   *
+   * @param request
+   * @param conditionGroup
+   * @return
+   */
+  PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup);
+
+  /**
+   * 根据id查找
+   *
+   * @param id
+   * @return
+   */
+  T findById(Serializable id);
+
+  /**
+   * 根据字段值查找唯一记录
+   * @param property 字段名
+   * @param value 字段值
+   * @return
+   */
+  T findOne(String property, Object value);
+
+  /**
+   * 根据条件查找唯一记录
+   * @param conditionGroup
+   * @return
+   */
+  T findOne(ConditionGroup conditionGroup);
+
+  /**
+   * 根据条件查找唯一记录
+   * @param params
+   * @return
+   */
+  T findOne(Map<String, Object> params);
+
+  /**
+   * 查找列表
+   * @param property
+   * @param value
+   * @param sortRequest
+   * @return
+   */
+  List<T> findList(String property, Object value, List<SortRequest> sortRequest);
+
+  /**
+   * 查找列表
+   * @param conditionGroup
+   * @param sortRequest
+   * @return
+   */
+  List<T> findList(ConditionGroup conditionGroup, List<SortRequest> sortRequest);
+
+  /**
+   * 查找列表
+   * @param params
+   * @param sortRequests
+   * @return
+   */
+  List<T> findList(Map<String, Object> params, List<SortRequest> sortRequests);
 }
