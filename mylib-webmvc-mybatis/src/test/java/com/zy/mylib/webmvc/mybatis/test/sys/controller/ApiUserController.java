@@ -37,9 +37,6 @@ public class ApiUserController {
     @Autowired
     IApiUserService apiUserService;
 
-    @GetMapping
-    public IPage<ApiUser> page(Page<ApiUser> page) {
-        return apiUserService.page(page);
-    }
+
 }
 

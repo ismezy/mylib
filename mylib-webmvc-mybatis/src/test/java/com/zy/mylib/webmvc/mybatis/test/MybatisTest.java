@@ -19,6 +19,7 @@ package com.zy.mylib.webmvc.mybatis.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zy.mylib.base.exception.BusException;
+import com.zy.mylib.base.model.*;
 import com.zy.mylib.utils.RandomUtils;
 import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser;
 import com.zy.mylib.webmvc.mybatis.test.sys.service.IApiUserService;
@@ -38,13 +39,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MybatisTest.class)
 @EnableAutoConfiguration
 @AutoConfigureMockMvc
 @ComponentScan("com.zy.mylib.webmvc.mybatis.test.**")
-@MapperScan("com.zy.mylib.webmvc.mybatis.test.sys.mapper")
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @EnableTransactionManagement
@@ -61,6 +63,7 @@ public class MybatisTest {
         ApiUser apiUser = new ApiUser();
         apiUser.setCode("11111");
         apiUser.setName("测试1");
+        apiUser.setSystem("t3");
         apiUser.setSecret(RandomUtils.randomFor6());
         apiUser = apiUserService.add(apiUser);
         System.out.println("-------------------------");
@@ -69,11 +72,12 @@ public class MybatisTest {
         apiUser.setId(null);
         apiUser.setCode("22222");
         apiUser.setName("测试2");
+        apiUser.setSystem("t3");
         apiUser = apiUserService.add(apiUser);
         System.out.println("-------------------------");
         System.out.println(objectMapper.writeValueAsString(apiUser));
         System.out.println("-------------------------");
-        System.out.println(objectMapper.writeValueAsString(apiUserService.list()));
+        System.out.println(objectMapper.writeValueAsString(apiUserService.all()));
         System.out.println("-------------------------");
     }
 
@@ -108,5 +112,20 @@ public class MybatisTest {
         apiUser.setCode("22222");
         apiUser.setSecret(RandomUtils.randomFor6());
         apiUserService.update(apiUser);
+    }
+
+    @Test
+    public void t05PageTest() throws JsonProcessingException {
+        t01AddTest();
+        List<BaseCondition> conditions = new ArrayList<>();
+        conditions.add(Condition.builder().property("code").value("test").comparisonOperator(ComparisonOperators.like).build());
+        List<BaseCondition> conditions1 = new ArrayList<>();
+        conditions1.add(Condition.builder().property("system").value("t1").logicalOperator(LogicalOperators.or).build());
+        conditions1.add(Condition.builder().property("system").value("t2").logicalOperator(LogicalOperators.or).build());
+        conditions.add(ConditionGroup.builder().conditions(conditions1).build());
+        ConditionGroup group = ConditionGroup.builder().conditions(conditions).build();
+        PageResponse<ApiUser> response = apiUserService.pageQuery(PageRequest.builder().page(1L).size(2L).build(),
+            group);
+        System.out.println(objectMapper.writeValueAsString(response));
     }
 }

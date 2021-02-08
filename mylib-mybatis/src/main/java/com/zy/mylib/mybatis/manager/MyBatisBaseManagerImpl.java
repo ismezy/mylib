@@ -16,19 +16,35 @@
 package com.zy.mylib.mybatis.manager;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zy.mylib.base.exception.BusException;
+import com.zy.mylib.base.model.ConditionGroup;
+import com.zy.mylib.base.model.PageRequest;
+import com.zy.mylib.base.model.PageResponse;
+import com.zy.mylib.mybatis.utils.QueryWrapperUtils;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
-import io.swagger.annotations.ApiModel;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author ASUS
  */
-public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>>
-        extends ServiceImpl<M, T> implements MyBatisBaseManager<T> {
+public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>> implements MyBatisBaseManager<T> {
+
+    protected M mapper;
+
+    @Inject
+    public MyBatisBaseManagerImpl<T, M> setMapper(M mapper) {
+        this.mapper = mapper;
+        return this;
+    }
 
     /**
      * {@inheritDoc}
@@ -41,7 +57,7 @@ public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>>
             throw BusException.builder().message(getEntityDescription(entity) + "已存在").build();
         }
         addProcess(entity);
-        save(entity);
+        mapper.insert(entity);
         return entity;
     }
 
@@ -67,19 +83,30 @@ public class MyBatisBaseManagerImpl<T, M extends BaseMapper<T>>
             }
         }
         updateProcess(entity);
-        updateById(entity);
+        mapper.updateById(entity);
         return entity;
     }
 
+    @Override
+    public void delete(Serializable id) {
+        mapper.deleteById(id);
+    }
+
+    @Override
+    public List<T> all() {
+        return mapper.selectList(Wrappers.emptyWrapper());
+    }
+
+    @Override
+    public PageResponse<T> pageQuery(PageRequest request, ConditionGroup conditionGroup) {
+        Page<T> page = new Page<>(request.getPage() + 1, request.getSize());
+        QueryWrapper queryWrapper =  QueryWrapperUtils.build(conditionGroup);
+        page = mapper.selectPage(page, queryWrapper);
+        return PageResponse.fromRequest(request, page.getTotal(), page.getRecords());
+    }
+
     protected String getEntityDescription(T entity) {
-        String ret = "";
-        ApiModel apiModel = entity.getClass().getAnnotation(ApiModel.class);
-        if(apiModel != null) {
-            ret = apiModel.description();
-        } else {
-            ret = entity.getClass().getName();
-        }
-        return ret;
+        return "数据";
     }
 
     /**

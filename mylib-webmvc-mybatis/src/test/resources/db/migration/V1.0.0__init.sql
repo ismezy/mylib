@@ -7,6 +7,6 @@ CREATE TABLE `api_user` (
                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `api_user` VALUES ('1', 'test', '测试用户', 'test1234$#@!', null);
-INSERT INTO `api_user` VALUES ('4028e3816bb74f92016bb764c9240001', 'test1', 'test1', 'sfasdf', null);
-INSERT INTO `api_user` VALUES ('4028e3816d38a907016d38e78b080001', 'aaa', 'aaa', 'aaa', null);
+INSERT INTO `api_user` VALUES ('1', 'test', '测试用户', 'test1234$#@!', 't1');
+INSERT INTO `api_user` VALUES ('4028e3816bb74f92016bb764c9240001', 'test1', 'test1', 'sfasdf', 't1');
+INSERT INTO `api_user` VALUES ('4028e3816d38a907016d38e78b080001', 'test2', 'aaa', 'aaa', 't2');

@@ -41,12 +41,12 @@ public class ApiUserServiceImpl extends MyBatisBaseManagerImpl<ApiUser, ApiUserM
     protected ApiUser findExist(ApiUser entity) {
         Map<String, Object> map = new HashMap<>(0);
         map.put("code", entity.getCode());
-        List<ApiUser> list = baseMapper.selectByMap(map);
+        List<ApiUser> list = mapper.selectByMap(map);
         return list.size() > 0 ? list.get(0) : null;
     }
 
     @Override
     public ApiUser findByCode(String code) {
-        return baseMapper.findByCode(code);
+        return mapper.findByCode(code);
     }
 }

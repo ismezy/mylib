@@ -17,7 +17,6 @@ package com.zy.mylib.webmvc.mybatis.test.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zy.mylib.mybatis.entity.UuidBaseEntity;
-import io.swagger.annotations.ApiModel;
 
 /**
  * <p>
@@ -27,7 +26,6 @@ import io.swagger.annotations.ApiModel;
  * @author zhouyang
  * @since 2020-07-25
  */
-@ApiModel(description = "Api用户")
 @TableName
 public class ApiUser extends UuidBaseEntity {
     private static final long serialVersionUID = 3237411302995330359L;
