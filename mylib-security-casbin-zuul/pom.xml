@@ -35,10 +35,7 @@
             <artifactId>mylib-security-casbin-jwt</artifactId>
             <version>${version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.netflix.zuul</groupId>
-            <artifactId>zuul-core</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
