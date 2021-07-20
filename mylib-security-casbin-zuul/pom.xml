@@ -47,6 +47,10 @@
             <version>${version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.netflix.zuul</groupId>
+            <artifactId>zuul-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
