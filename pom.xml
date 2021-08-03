@@ -36,7 +36,7 @@
         <commons-lang-version>3.7</commons-lang-version>
         <inject-version>1</inject-version>
         <shiro-version>1.4.0</shiro-version>
-        <commons-io-version>2.6</commons-io-version>
+        <commons-io-version>2.7</commons-io-version>
         <casbin-version>1.6.1</casbin-version>
         <java-jwt-version>3.12.0</java-jwt-version>
         <swagger-version>2.9.2</swagger-version>
