@@ -15,10 +15,7 @@
  */
 package com.zy.mylib.base.service;
 
-import com.zy.mylib.base.model.Condition;
-import com.zy.mylib.base.model.PageRequest;
-import com.zy.mylib.base.model.PageResponse;
-import com.zy.mylib.base.model.SortRequest;
+import com.zy.mylib.base.model.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,7 +24,7 @@ import java.util.Map;
 /**
  * @author ASUS
  */
-public interface Manager<T> {
+public interface Manager<T extends BaseModel, PK extends Serializable> {
   /**
    * 新增
    *
@@ -49,7 +46,7 @@ public interface Manager<T> {
    *
    * @param id
    */
-  void delete(Serializable id);
+  void delete(PK id);
 
   /**
    * 查找所有
@@ -73,7 +70,7 @@ public interface Manager<T> {
    * @param id
    * @return
    */
-  T findById(Serializable id);
+  T findById(PK id);
 
   /**
    * 根据字段值查找唯一记录

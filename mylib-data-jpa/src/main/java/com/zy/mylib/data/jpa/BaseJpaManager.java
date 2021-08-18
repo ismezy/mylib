@@ -17,325 +17,328 @@ package com.zy.mylib.data.jpa;
 
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.i18n.I18n;
+import com.zy.mylib.base.model.*;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.zy.mylib.base.model.SortRequest.SortDirection.descend;
+
 
 /**
  * @author ASUS
  */
 public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializable> extends I18n implements JpaManager<T, PK> {
-    @Inject
-    EntityManager entityManager;
+  private static final Logger logger = LoggerFactory.getLogger(BaseJpaManager.class);
+  @Inject
+  private EntityManager entityManager;
 
-    /**
-     * 获取entityManager
-     *
-     * @return
-     */
-    public EntityManager getEntityManager() {
-        return entityManager;
+  protected Class<T> getTClass() {
+    Class<T> tClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    return tClass;
+  }
+
+  /**
+   * 获取entityManager
+   *
+   * @return
+   */
+  public EntityManager getEntityManager() {
+    return entityManager;
+  }
+
+  /**
+   * 获取实体对应的Repository
+   *
+   * @return
+   */
+  protected abstract JpaRepository<T, PK> getRepository();
+
+  @Override
+  public T findById(PK id) {
+    return getRepository().findById(id).orElse(null);
+  }
+
+  @Override
+  public List<T> all() {
+    return (List<T>) getRepository().findAll();
+  }
+
+  protected T save(T entity) {
+    return getRepository().save(entity);
+  }
+
+  @Override
+  @Transactional(rollbackFor = RuntimeException.class)
+  public void delete(PK id) {
+    getRepository().deleteById(id);
+  }
+
+  @Override
+  @Transactional(rollbackFor = RuntimeException.class)
+  public T add(T entity) {
+    T exist = findExist(entity);
+    if (exist != null) {
+      throw BusException.builder().message(entity.description() + "已存在").build();
+    }
+    addProcess(entity);
+    return save(entity);
+  }
+
+  @Override
+  @Transactional(rollbackFor = RuntimeException.class)
+  public T update(T entity) {
+    T exist = findExist(entity);
+    if (exist != null) {
+      String existId = null;
+      String newId = null;
+      try {
+        existId = (String) BeanUtils.getProperty(exist, "id");
+        newId = (String) BeanUtils.getProperty(entity, "id");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      if (!StringUtils.equals(existId, newId) && exist != null && newId != null) {
+        throw BusException.builder().message(entity.description() + "已存在").build();
+      }
+    }
+    updateProcess(entity);
+    return save(entity);
+  }
+
+  /**
+   * 根据字段值查找唯一记录
+   *
+   * @param property 字段名
+   * @param value    字段值
+   * @return
+   */
+  @Override
+  public T findOne(String property, Object value) {
+    TypedQuery<T> query = buildPropertyQuery(property, value);
+    return query.getSingleResult();
+  }
+
+  class WhereAndParam {
+    String where;
+    Map<String, Object> params = new HashMap<>(30);
+  }
+
+  /**
+   * 根据条件查找唯一记录
+   *
+   * @RETURN
+   */
+  @Override
+  public T findOne(List<Condition> conditions) {
+    String entityName = getClass().getName();
+    WhereAndParam whereAndParam = genWhereAndParams(conditions);
+
+    String jpql = "select t from " + entityName + "  t " + whereAndParam.where;
+
+    TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
+    for (Map.Entry<String, Object> entry: whereAndParam.params.entrySet()) {
+      query.setParameter(entry.getKey(), entry.getValue());
     }
 
-    /**
-     * 获取实体对应的Repository
-     *
-     * @return
-     */
-    protected abstract JpaRepository<T, PK> getRepository();
+    return query.getSingleResult();
+  }
 
-    @Override
-    public Optional<T> findById(PK id) {
-        return getRepository().findById(id);
+  protected WhereAndParam genWhereAndParams(List<Condition> conditions) {
+    return null;
+  }
+
+  /**
+   * 修改保存前处理方法
+   *
+   * @param entity
+   */
+  protected void updateProcess(T entity) {
+  }
+
+  /**
+   * 查找已存在数据
+   *
+   * @param entity
+   * @return
+   */
+  protected T findExist(T entity) {
+    return null;
+  }
+
+  /**
+   * 新增保存前处理方法
+   *
+   * @param entity
+   */
+  protected void addProcess(T entity) {
+  }
+
+
+  public String getCondition(ComparisonOperators operate, String prop, int index) {
+    switch (operate) {
+      case like:
+        return prop + " like concat('%', ?" + index + " , '%')";
+      case endWith:
+        return prop + " like concat('%', ?" + index + ")";
+      case startWith:
+        return prop + " like concat(?" + index + ", '%')";
+      case neq:
+        return prop + " <> ?" + index;
+      case in:
+        return prop + " in ?" + index;
+      case notIn:
+        return prop + " not in ?" + index;
+      case notNull:
+        return prop + " is not null";
+      case isNull:
+        return prop + " is null";
+      case gt:
+        return prop + " > ?" + index;
+      case gte:
+        return prop + " >= ?" + index;
+      case lt:
+        return prop + " < ?" + index;
+      case lte:
+        return prop + " <= ?" + index;
+      case between:
+        return prop + " between ?" + index + " and ?" + (index + 1);
+      default:
+        return prop + " = ?" + index;
+    }
+  }
+
+  @Override
+  public List<T> findList(List<Condition> conditions, List<SortRequest> sortRequest) {
+    List<Object> whereParams = new ArrayList<>(20);
+    WhereAndParam whereAndParam = genWhereAndParams(conditions);
+    String orderByString = genOrderBy(sortRequest);
+
+    String entityName = getTClass().getName();
+    String jpql = "select t from " + entityName + "  t " + whereAndParam.where + " " + orderByString;
+    TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
+    for (int i = 0; i < whereParams.size(); i++) {
+      query.setParameter(i, whereParams.get(i));
+    }
+    return query.getResultList();
+  }
+
+  /**
+   * 根据条件查找唯一记录
+   * @param params
+   * @return
+   */
+  public T findOne(Map<String, Object> params) {
+    TypedQuery<T> query = buildQuery(params);
+    return query.getSingleResult();
+  }
+
+  private TypedQuery<T> buildQuery(Map<String, Object> params) {
+    Class<T> tClass = getTClass();
+    String entityName = tClass.getName();
+    String where = String.join(" and ",
+        params.keySet().stream().map(it -> String.format("t.%s=:%s", it, it)).collect(Collectors.toList()));
+    String jpql = String.format("select t from %s t where %s", entityName, where);
+    TypedQuery<T> query = entityManager.createQuery(jpql, tClass);
+    for (Map.Entry<String, Object> entry : params.entrySet()) {
+      query.setParameter(entry.getKey(), entry.getValue());
+    }
+    return query;
+  }
+
+  /**
+   * 查找列表
+   * @param params
+   * @param sortRequests
+   * @return
+   */
+  @Override
+  public List<T> findList(Map<String, Object> params, List<SortRequest> sortRequests) {
+    TypedQuery<T> query = buildQuery(params);
+    return query.getResultList();
+  }
+
+  /**
+   * 查找列表
+   * @param property
+   * @param value
+   * @param sortRequest
+   * @return
+   */
+  @Override
+  public List<T> findList(String property, Object value, List<SortRequest> sortRequest) {
+    TypedQuery<T> query = buildPropertyQuery(property, value);
+    return query.getResultList();
+  }
+
+  private TypedQuery<T> buildPropertyQuery(String property, Object value) {
+    Class<T> tClass = getTClass();
+    String entityName = tClass.getName();
+    String jpql = String.format("select t from %s t where %s = ?0", entityName, property);
+    TypedQuery<T> query = entityManager.createQuery(jpql, tClass);
+    query.setParameter(0, value);
+    return query;
+  }
+
+  @Override
+  public PageResponse<T> pageQuery(PageRequest request, List<Condition> conditionGroup) {
+    WhereAndParam whereAndParams = genWhereAndParams(conditionGroup);
+    String orderByString = genOrderBy(request.getSortRequests());
+
+    String entityName = getTClass().getName();
+    String jpql = "select t from " + entityName + "  t where t.id in ?1 " + orderByString;
+    String countJpql = "select count(t) from " + entityName + " t " + whereAndParams.where;
+    String queryIdJpql = "select t.id from " + entityName + " t " + whereAndParams.where + " " + orderByString;
+    logger.debug(queryIdJpql);
+    TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
+    TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
+    TypedQuery<String> idsQuery = entityManager.createQuery(queryIdJpql, String.class);
+    for (Map.Entry<String, Object> entry : whereAndParams.params.entrySet()) {
+      countQuery.setParameter(entry.getKey(), entry.getValue());
+      idsQuery.setParameter(entry.getKey(), entry.getValue());
     }
 
-    @Override
-    public List<T> findAll() {
-        return (List<T>) getRepository().findAll();
+    idsQuery.setFirstResult(request.getPage().intValue() * request.getSize().intValue())
+        .setMaxResults(request.getSize().intValue());
+    List<String> ids = idsQuery.getResultList();
+    Long count = countQuery.getSingleResult();
+    List<T> content = new ArrayList<T>();
+    if (ids.size() > 0) {
+      query.setParameter(1, ids);
+      content = query.getResultList();
     }
+    return PageResponse.fromRequest(request, count, content);
+  }
 
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public T save(T entity) {
-        return getRepository().save(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public Iterable<T> save(Iterable<T> entities) {
-        return getRepository().saveAll(entities);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void remove(T entity) {
-        getRepository().delete(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void remove(Iterable<T> entities) {
-        getRepository().deleteAll(entities);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void remove(PK id) {
-        getRepository().deleteById(id);
-    }
-
-    /**
-     * @param page
-     */
-    @Override
-    public Page<T> findPage(Pageable page, Specification<T> sepc) {
-        return getRepository().findAll(sepc, page);
-    }
-
-    @Override
-    public List<T> getList(Specification<T> sepc) {
-        return getRepository().findAll(sepc);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public T add(T entity) {
-        T exist = findExist(entity);
-        if (exist != null) {
-            throw BusException.builder().message(entity.description() + "已存在").build();
+  private String genOrderBy(List<SortRequest> sortRequest) {
+    StringBuilder odb = new StringBuilder();
+    if (sortRequest != null) {
+      for (SortRequest sort: sortRequest) {
+        if (odb.length() == 0) {
+          odb.append("order by ");
+        } else {
+          odb.append(",");
         }
-        addProcess(entity);
-        return save(entity);
+        odb.append(sort.getProperty()).append(" ").append(descend.equals(sort.getDirection()) ? "desc" : "asc");
+      }
     }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public T update(T entity) {
-        T exist = findExist(entity);
-        if (exist != null) {
-            String existId = null;
-            String newId = null;
-            try {
-                existId = (String) BeanUtils.getProperty(exist, "id");
-                newId = (String) BeanUtils.getProperty(entity, "id");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (!StringUtils.equals(existId, newId) && exist != null && newId != null) {
-                throw BusException.builder().message(entity.description() + "已存在").build();
-            }
-        }
-        updateProcess(entity);
-        return save(entity);
-    }
-
-    /**
-     * 修改保存前处理方法
-     *
-     * @param entity
-     */
-    protected void updateProcess(T entity) {
-    }
-
-    /**
-     * 查找已存在数据
-     *
-     * @param entity
-     * @return
-     */
-    protected T findExist(T entity) {
-        return null;
-    }
-
-    /**
-     * 新增保存前处理方法
-     *
-     * @param entity
-     */
-    protected void addProcess(T entity) {
-    }
-
-
-    /**
-     * 首字母大写
-     *
-     * @param word
-     * @return 首字母大写的字符串
-     */
-    public String firstLowerCase(String word) {
-        if (StringUtils.isBlank(word)) {
-            return word;
-        }
-        return word.substring(0, 1).toLowerCase() + (word.length() > 1 ? word.substring(1) : "");
-    }
-
-    class Condition {
-        String prop;
-        PageUtils.Operate operate;
-        Object value;
-
-        public Condition(String prop, PageUtils.Operate operate, Object value) {
-            this.prop = prop;
-            this.operate = operate;
-            this.value = value;
-        }
-
-        public List<Object> getParams() {
-            List<Object> ret = new ArrayList<>(10);
-            if(operate == PageUtils.Operate.isNull || operate == PageUtils.Operate.notNull) {
-                return ret;
-            }
-            if (value.getClass().isArray()) {
-                Object[] array = (Object[]) value;
-                for (Object o : array) {
-                    ret.add(o);
-                }
-            } else {
-                ret.add(value);
-            }
-            return ret;
-        }
-
-        public String getCondition(int index) {
-            switch (operate) {
-                case like:
-                    return prop + " like concat('%', ?" + index + " , '%')";
-                case endsWith:
-                    return prop + " like concat('%', ?" + index + ")";
-                case startsWith:
-                    return prop + " like concat(?" + index + ", '%')";
-                case noteq:
-                    return prop + " <> ?" + index;
-                case in:
-                    return prop + " in ?" + index;
-                case notin:
-                    return prop + " not in ?" + index;
-                case notNull:
-                    return prop + " is not null";
-                case isNull:
-                    return prop + " is null";
-                case gt:
-                    return prop + " > ?" + index;
-                case gte:
-                    return prop + " >= ?" + index;
-                case lt:
-                    return prop + " < ?" + index;
-                case lte:
-                    return prop + " <= ?" + index;
-                case between:
-                    return prop + " between ?" + index + " and ?" + (index + 1);
-                default:
-                    return prop + " = ?" + index;
-            }
-        }
-    }
-
-    @Override
-    public Page<T> pager(Pageable pageable, T filter, Map<String, PageUtils.Operate> operateMap, Map<String, Object> extParams) {
-        List<Condition> conditions = genWhere("", filter, operateMap, extParams);
-        StringBuilder where = new StringBuilder();
-        List<Object> params = new ArrayList<>(20);
-        for (Condition c : conditions) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            } else {
-                where.append("where ");
-            }
-            where.append(c.getCondition(params.size()));
-            params.addAll(c.getParams());
-        }
-        StringBuilder odb = new StringBuilder();
-        if (pageable.getSort() != null) {
-            for (Sort.Order order : pageable.getSort()) {
-                if (odb.length() == 0) {
-                    odb.append("order by ");
-                } else {
-                    odb.append(",");
-                }
-                odb.append(order.getProperty()).append(" ").append(order.isDescending() ? "desc" : "asc");
-            }
-        }
-        String entityName = filter.getClass().getName();
-        String jpql = "select t from " + entityName + "  t where t.id in ?1 " + odb.toString();
-        String countJpql = "select count(t) from " + entityName + " t " + where.toString();
-        String queryIdJpql = "select t.id from " + entityName + " t " + where.toString() + " " + odb.toString();
-        System.out.println(queryIdJpql);
-        TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
-        TypedQuery<T> query = entityManager.createQuery(jpql, (Class<T>) filter.getClass());
-        TypedQuery<String> idsQuery = entityManager.createQuery(queryIdJpql, String.class);
-        for (int i = 0; i < params.size(); i++) {
-            countQuery.setParameter(i, params.get(i));
-            idsQuery.setParameter(i, params.get(i));
-        }
-
-        idsQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
-                .setMaxResults(pageable.getPageSize());
-        List<String> ids = idsQuery.getResultList();
-        Long count = countQuery.getSingleResult();
-        List<T> content = new ArrayList<T>();
-        if (ids.size() > 0) {
-            query.setParameter(1, ids);
-            content = query.getResultList();
-        }
-        Page<T> page = new PageImpl<T>(content, pageable, count);
-        return page;
-    }
-
-    private List<Condition> genWhere(String path, JpaEntity filter, Map<String, PageUtils.Operate> operateMap, Map<String, Object> extParams) {
-        List<Condition> ret = new ArrayList<>(20);
-        Method[] methods = filter.getClass().getMethods();
-        for (Method m : methods) {
-            if (m.getName().startsWith("get") && m.getParameterCount() == 0 && m.getAnnotation(Transient.class) == null) {
-                String prop = firstLowerCase(m.getName().substring(3));
-                if ("class".equals(prop)) {
-                    continue;
-                }
-                Object value = null;
-                if (extParams.containsKey(path + prop)) {
-                    value = extParams.get(path + prop);
-                } else {
-                    try {
-                        value = m.invoke(filter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                if ((value instanceof  CharSequence && StringUtils.isBlank((CharSequence) value)) || value == null) {
-                    continue;
-                }
-                if (value instanceof JpaEntity) {
-                    ret.addAll(genWhere(path + prop + ".", (JpaEntity) value, operateMap, extParams));
-                } else {
-                    ret.add(genWhere(value, path + prop, operateMap));
-                }
-            }
-        }
-        return ret;
-    }
-
-    private Condition genWhere(Object value, String prop, Map<String, PageUtils.Operate> operateMap) {
-        PageUtils.Operate o = PageUtils.Operate.eq;
-        if (operateMap.containsKey(prop)) {
-            o = operateMap.get(prop);
-        }
-        return new Condition(prop, o, value);
-    }
+    return odb.toString();
+  }
 
 }

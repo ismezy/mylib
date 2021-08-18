@@ -38,6 +38,19 @@ public class StringUtils {
     }
 
     /**
+     * 首字母小写
+     *
+     * @param word
+     * @return 首字母小写的字符串
+     */
+    public static String firstLowerCase(String word) {
+        if (StringUtils.isBlank(word)) {
+            return word;
+        }
+        return word.substring(0, 1).toLowerCase() + (word.length() > 1 ? word.substring(1) : "");
+    }
+
+    /**
      * 连接字符串
      *
      * @param array     字符串数组

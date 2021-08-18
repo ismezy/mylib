@@ -20,10 +20,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zy.mylib.base.exception.BusException;
-import com.zy.mylib.base.model.Condition;
-import com.zy.mylib.base.model.PageRequest;
-import com.zy.mylib.base.model.PageResponse;
-import com.zy.mylib.base.model.SortRequest;
+import com.zy.mylib.base.model.*;
 import com.zy.mylib.mybatis.utils.QueryWrapperUtils;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
@@ -37,7 +34,7 @@ import java.util.Map;
 /**
  * @author ASUS
  */
-public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T> implements MyBatisBaseManager<T> {
+public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T extends BaseModel> implements MyBatisBaseManager<T> {
 
     protected M mapper;
 

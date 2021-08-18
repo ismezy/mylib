@@ -13,64 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.webmvc.data.jpa;
+package com.zy.mylib.webmvc.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.model.BaseModel;
-import com.zy.mylib.data.jpa.JpaEntity;
-import com.zy.mylib.data.jpa.JpaManager;
-import com.zy.mylib.data.jpa.PageUtils;
+import com.zy.mylib.base.model.Condition;
+import com.zy.mylib.base.model.PageResponse;
+import com.zy.mylib.base.service.Manager;
 import com.zy.mylib.webmvc.base.BaseRest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import com.zy.mylib.webmvc.model.QueryWrapper;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static com.zy.mylib.data.jpa.PageUtils.getSpecification;
 
 /**
  * Created by 扬 on 2017/3/10.
  */
-public abstract class JpaEntityRestController<T extends JpaEntity, PK extends Serializable> extends BaseRest {
+public abstract class EntityRestController<T extends BaseModel, PK extends Serializable> extends BaseRest {
     /**
      * 获取manager
      *
      * @return
      */
-    protected abstract JpaManager<T, PK> getManager();
-
-    /**
-     * 获取分页条件表达式
-     *
-     * @param operateMap
-     * @return
-     */
-    protected abstract Map<String, PageUtils.Operate> getPageOperate(T entity, Map<String, PageUtils.Operate> operateMap);
-
-    /**
-     * 获取分页额外的参数
-     *
-     * @return
-     */
-    protected abstract Map<String, Object> getPageExtendParam(T entity, HttpServletRequest request, Map<String, Object> extendParams);
+    protected abstract Manager<T, PK> getManager();
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @JsonView(BaseModel.DetailView.class)
     public T findOne(@PathVariable("id") PK id) {
-        Optional<T> ret = getManager().findById(id);
-        if (ret.isPresent()) {
-            return ret.get();
-        }
-        throw BusException.builder().message("数据不存在").httpStatus(404).build();
+       return getManager().findById(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -95,23 +71,18 @@ public abstract class JpaEntityRestController<T extends JpaEntity, PK extends Se
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void removeEntity(@PathVariable("id") PK id) {
-        getManager().remove(id);
+        getManager().delete(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @JsonView(BaseModel.ListView.class)
-    public List<T> queryList(T entity, HttpServletRequest req) {
-        Map<String, PageUtils.Operate> operateMap = new HashMap<>(0);
-        Map<String, Object> extendParams = new HashMap<>(0);
-        Specification<T> specification = getSpecification(entity, getPageOperate(entity, operateMap), getPageExtendParam(entity, req, extendParams));
-        return getManager().getList(specification);
+    public List<T> queryList(QueryWrapper queryWrapper) {
+        return getManager().findList(queryWrapper.getConditions(), queryWrapper.getSorts());
     }
 
     @RequestMapping(value = "/pager", method = RequestMethod.GET)
     @JsonView(BaseModel.ListView.class)
-    public Page<T> queryPager(Pageable page, T entity, HttpServletRequest req) {
-        Map<String, PageUtils.Operate> operateMap = new HashMap<>(0);
-        Map<String, Object> extendParams = new HashMap<>(0);
-        return getManager().pager(page, entity, getPageOperate(entity, operateMap), getPageExtendParam(entity, req, extendParams));
+    public PageResponse<T> queryPager(QueryWrapper queryWrapper) {
+        return getManager().pageQuery(queryWrapper.getPage(), queryWrapper.getConditions());
     }
 }

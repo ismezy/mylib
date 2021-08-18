@@ -17,6 +17,7 @@ package com.zy.mylib.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.zy.mylib.base.model.BaseModel;
 
 import java.io.Serializable;
 
@@ -24,7 +25,7 @@ import java.io.Serializable;
  * mybatis 包含uuid主键实体
  * @author ASUS
  */
-public class UuidBaseEntity implements Serializable {
+public class UuidBaseEntity implements BaseModel {
     /**
      * uuid 主键
      */

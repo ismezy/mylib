@@ -15,11 +15,14 @@
  */
 package com.zy.mylib.mybatis.manager;
 
+import com.zy.mylib.base.model.BaseModel;
 import com.zy.mylib.base.service.Manager;
+
+import java.io.Serializable;
 
 
 /**
  * @author ASUS
  */
-public interface MyBatisBaseManager<T> extends Manager<T> {
+public interface MyBatisBaseManager<T extends BaseModel> extends Manager<T, Serializable> {
 }

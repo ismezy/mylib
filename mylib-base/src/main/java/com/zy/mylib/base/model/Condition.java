@@ -52,4 +52,6 @@ public class Condition {
    * 条件集合，此字段不为空时忽略property、value、values、comparisonOperator字段
    */
   List<Condition> conditions;
+
+
 }

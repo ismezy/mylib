@@ -65,9 +65,9 @@ public class QueryWrapperUtils {
       } else {
         // 单条件
         if (condition.getLogicalOperator() == LogicalOperators.or) {
-          query.or(it -> buildCondition(it, (Condition) condition));
+          query.or(it -> buildCondition(it, condition));
         } else {
-          query.and(it -> buildCondition(it, (Condition) condition));
+          query.and(it -> buildCondition(it, condition));
         }
       }
     }

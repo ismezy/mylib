@@ -67,4 +67,6 @@ public enum ComparisonOperators {
    * 不包含
    */
   notIn,
+  isNull,
+  notNull
 }
