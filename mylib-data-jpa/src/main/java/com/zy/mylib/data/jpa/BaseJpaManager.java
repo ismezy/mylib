@@ -22,9 +22,6 @@ import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -48,6 +45,13 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
   private static final Logger logger = LoggerFactory.getLogger(BaseJpaManager.class);
   @Inject
   private EntityManager entityManager;
+
+
+  class WhereAndParam {
+    StringBuffer where;
+    Map<String, Object> params = new HashMap<>(30);
+  }
+
 
   protected Class<T> getTClass() {
     Class<T> tClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -135,11 +139,6 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
     return query.getSingleResult();
   }
 
-  class WhereAndParam {
-    String where;
-    Map<String, Object> params = new HashMap<>(30);
-  }
-
   /**
    * 根据条件查找唯一记录
    *
@@ -160,8 +159,44 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
     return query.getSingleResult();
   }
 
+  /**
+   * 生成查询条件语句和参数
+   * @param conditions
+   * @return
+   */
   protected WhereAndParam genWhereAndParams(List<Condition> conditions) {
-    return null;
+    WhereAndParam whereAndParam = new WhereAndParam();
+    buildGroup(conditions, whereAndParam);
+    return whereAndParam;
+  }
+
+  private void buildGroup(List<Condition> conditions, WhereAndParam whereAndParam) {
+    whereAndParam.where.append("(");
+    boolean first = true;
+    for (Condition condition : conditions) {
+      if(!first) {
+        whereAndParam.where.append(" ").append(condition.getLogicalOperator()).append(" ");
+      }
+      if(condition.getConditions() != null && condition.getConditions().size() > 0) {
+        buildGroup(condition.getConditions(), whereAndParam);
+      } else {
+        buildCondition(condition, whereAndParam);
+      }
+      first = false;
+    }
+    whereAndParam.where.append(")");
+  }
+
+  private void buildCondition(Condition condition, WhereAndParam whereAndParam) {
+      whereAndParam.where.append(getCondition(condition.getComparisonOperator(),
+          condition.getProperty()));
+      if(ComparisonOperators.in == condition.getComparisonOperator()
+          || ComparisonOperators.notIn == condition.getComparisonOperator()) {
+        // 数组值
+        whereAndParam.params.put(condition.getProperty(), condition.getValues());
+      } else {
+        whereAndParam.params.put(condition.getProperty(), condition.getValue());
+      }
   }
 
   /**
@@ -191,36 +226,39 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
   }
 
 
-  public String getCondition(ComparisonOperators operate, String prop, int index) {
+  public String getCondition(ComparisonOperators operate, String prop) {
     switch (operate) {
       case like:
-        return prop + " like concat('%', ?" + index + " , '%')";
+        return prop + " like concat('%', :" + prop + " , '%')";
       case endWith:
-        return prop + " like concat('%', ?" + index + ")";
+        return prop + " like concat('%', :" + prop + ")";
       case startWith:
-        return prop + " like concat(?" + index + ", '%')";
+        return prop + " like concat(:" + prop + ", '%')";
       case neq:
-        return prop + " <> ?" + index;
+        return prop + " <> :" + prop;
       case in:
-        return prop + " in ?" + index;
+        return prop + " in :" + prop;
       case notIn:
-        return prop + " not in ?" + index;
+        return prop + " not in :" + prop;
       case notNull:
         return prop + " is not null";
       case isNull:
         return prop + " is null";
       case gt:
-        return prop + " > ?" + index;
+        return prop + " > :" + prop;
       case gte:
-        return prop + " >= ?" + index;
+        return prop + " >= :" + prop;
       case lt:
-        return prop + " < ?" + index;
+        return prop + " < :" + prop;
       case lte:
-        return prop + " <= ?" + index;
+        return prop + " <= :" + prop;
+/*
+    TODO: 暂时不支持between
       case between:
-        return prop + " between ?" + index + " and ?" + (index + 1);
+        return prop + " between :" + prop + " and ?" + (index + 1);
+ */
       default:
-        return prop + " = ?" + index;
+        return prop + " = :" + prop;
     }
   }
 
