@@ -42,7 +42,7 @@
             </dependency>
             <dependency>
                 <groupId>com.zy.mylib</groupId>
-                <artifactId>mylib-mongo</artifactId>
+                <artifactId>mylib-data-mongo</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
@@ -127,7 +127,7 @@
             </dependency>
             <dependency>
                 <groupId>com.zy.mylib</groupId>
-                <artifactId>mylib-mybatis</artifactId>
+                <artifactId>mylib-data-mybatis</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

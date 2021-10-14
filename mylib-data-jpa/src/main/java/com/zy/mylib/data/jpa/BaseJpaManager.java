@@ -18,6 +18,7 @@ package com.zy.mylib.data.jpa;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.i18n.I18n;
 import com.zy.mylib.base.model.*;
+import com.zy.mylib.base.service.Manager;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ import static com.zy.mylib.base.model.SortRequest.SortDirection.descend;
 /**
  * @author ASUS
  */
-public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializable> extends I18n implements JpaManager<T, PK> {
+public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializable> extends I18n implements Manager<T, PK> {
   private static final Logger logger = LoggerFactory.getLogger(BaseJpaManager.class);
   @Inject
   private EntityManager entityManager;

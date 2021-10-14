@@ -26,7 +26,7 @@
   <version>${revision}</version>
 
   <properties>
-    <revision>1.15.0</revision>
+    <revision>1.16.0</revision>
     <java.version>1.8</java.version>
     <spring-cloud-version>2020.0.3</spring-cloud-version>
     <spring-boot-version>2.4.3</spring-boot-version>
@@ -40,14 +40,14 @@
     <casbin-version>1.6.1</casbin-version>
     <java-jwt-version>3.12.0</java-jwt-version>
     <swagger-version>2.9.2</swagger-version>
-    <kotlin.version>1.4.32</kotlin.version>
+    <kotlin.version>1.5.31</kotlin.version>
     <mybatis-plus-version>3.4.1</mybatis-plus-version>
   </properties>
 
   <modules>
     <module>mylib-dependencies</module>
     <module>mylib-utils</module>
-    <module>mylib-mongo</module>
+    <module>mylib-data-mongo</module>
     <module>mylib-base</module>
     <module>mylib-webmvc</module>
     <module>mylib-data-jpa</module>
@@ -64,7 +64,7 @@
     <module>mylib-kotlin-support</module>
     <module>mylib-qrcode</module>
     <module>mylib-excel</module>
-    <module>mylib-mybatis</module>
+    <module>mylib-data-mybatis</module>
     <module>mylib-webmvc-mybatis</module>
     <module>mylib-graphql</module>
   </modules>

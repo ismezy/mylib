@@ -16,9 +16,12 @@
 package com.zy.mylib.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zy.mylib.base.model.BaseModel;
+
+import java.io.Serializable;
 
 /**
  * @author ASUS
  */
-public interface MyBatisBaseMapper<T> extends BaseMapper<T> {
+public interface MyBatisBaseMapper<T extends BaseModel,PK extends Serializable> extends BaseMapper<T> {
 }

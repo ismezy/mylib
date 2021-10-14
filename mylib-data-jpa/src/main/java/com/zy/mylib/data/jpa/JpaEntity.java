@@ -18,6 +18,7 @@ package com.zy.mylib.data.jpa;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.zy.mylib.base.model.BaseModel;
+import com.zy.mylib.base.model.EntityDescription;
 import com.zy.mylib.utils.StringUtils;
 
 import javax.persistence.Column;
@@ -41,19 +42,6 @@ public abstract class JpaEntity implements BaseModel {
     @Column(length = 32, name = "system_code")
     @JsonView(BaseView.class)
     String system;
-
-    /**
-     * 实体描述
-     *
-     * @return
-     */
-    public String description() {
-        EntityDescription entity = this.getClass().getAnnotation(EntityDescription.class);
-        if (StringUtils.isNotBlank(entity.value())) {
-            return entity.value();
-        }
-        throw new RuntimeException(this.getClass().toGenericString() + "未添加@EntityDescription注解");
-    }
 
     /**
      * Gets 所属系统.

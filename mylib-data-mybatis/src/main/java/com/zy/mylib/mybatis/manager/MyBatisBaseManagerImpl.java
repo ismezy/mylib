@@ -21,12 +21,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.base.model.*;
+import com.zy.mylib.base.service.Manager;
 import com.zy.mylib.mybatis.utils.QueryWrapperUtils;
 import com.zy.mylib.utils.BeanUtils;
 import com.zy.mylib.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +34,11 @@ import java.util.Map;
 /**
  * @author ASUS
  */
-public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T extends BaseModel> implements MyBatisBaseManager<T> {
+public abstract class MyBatisBaseManagerImpl<T extends BaseModel, PK extends Serializable> implements Manager<T, Serializable> {
 
-    protected M mapper;
 
-    @Inject
-    public void setMapper(M mapper) {
-        this.mapper = mapper;
-    }
+
+    protected abstract BaseMapper<T> getMapper();
 
     /**
      * {@inheritDoc}
@@ -54,7 +51,7 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T extends 
             throw BusException.builder().message(getEntityDescription(entity) + "已存在").build();
         }
         addProcess(entity);
-        mapper.insert(entity);
+        getMapper().insert(entity);
         return entity;
     }
 
@@ -80,47 +77,47 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T extends 
             }
         }
         updateProcess(entity);
-        mapper.updateById(entity);
+        getMapper().updateById(entity);
         return entity;
     }
 
     @Override
     public void delete(Serializable id) {
-        mapper.deleteById(id);
+        getMapper().deleteById(id);
     }
 
     @Override
     public List<T> all() {
-        return mapper.selectList(Wrappers.emptyWrapper());
+        return getMapper().selectList(Wrappers.emptyWrapper());
     }
 
     @Override
     public PageResponse<T> pageQuery(PageRequest request, List<Condition> conditionGroup) {
         Page<T> page = new Page<>(request.getPage() + 1, request.getSize());
         QueryWrapper queryWrapper =  QueryWrapperUtils.build(conditionGroup, request.getSortRequests());
-        page = mapper.selectPage(page, queryWrapper);
+        page = getMapper().selectPage(page, queryWrapper);
         return PageResponse.fromRequest(request, page.getTotal(), page.getRecords());
     }
 
     @Override
     public T findById(Serializable id) {
-        return mapper.selectById(id);
+        return getMapper().selectById(id);
     }
 
     @Override
     public T findOne(String property, Object value) {
-        return mapper.selectOne(Wrappers.<T>query().eq(property, value));
+        return getMapper().selectOne(Wrappers.<T>query().eq(property, value));
     }
 
     @Override
     public T findOne(List<Condition> conditions) {
         QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditions, null);
-        return mapper.selectOne(queryWrapper);
+        return getMapper().selectOne(queryWrapper);
     }
 
     @Override
     public T findOne(Map<String, Object> params) {
-        List<T> list = mapper.selectByMap(params);
+        List<T> list = getMapper().selectByMap(params);
         if(list.size() > 0) return list.get(0);
         return null;
     }
@@ -128,19 +125,19 @@ public abstract class MyBatisBaseManagerImpl<M extends BaseMapper<T>, T extends 
     @Override
     public List<T> findList(String property, Object value, List<SortRequest> sortRequest) {
         QueryWrapper<T> queryWrapper = Wrappers.<T>query().eq(property, value);
-        return mapper.selectList(queryWrapper);
+        return getMapper().selectList(queryWrapper);
     }
 
     @Override
     public List<T> findList(List<Condition> conditions, List<SortRequest> sortRequest) {
         QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(conditions, sortRequest);
-        return mapper.selectList(queryWrapper);
+        return getMapper().selectList(queryWrapper);
     }
 
     @Override
     public List<T> findList(Map<String, Object> params, List<SortRequest> sortRequests) {
         QueryWrapper<T> queryWrapper =  QueryWrapperUtils.build(params, sortRequests);
-        return mapper.selectList(queryWrapper);
+        return getMapper().selectList(queryWrapper);
     }
 
     protected String getEntityDescription(T entity) {

@@ -15,6 +15,8 @@
  */
 package com.zy.mylib.base.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
@@ -53,5 +55,18 @@ public interface BaseModel extends Serializable {
      * 修改验证
      */
     interface UpdateCheck {
+    }
+
+    /**
+     * 实体描述
+     *
+     * @return
+     */
+    default String description() {
+        EntityDescription entity = this.getClass().getAnnotation(EntityDescription.class);
+        if (StringUtils.isNotBlank(entity.value())) {
+            return entity.value();
+        }
+        throw new RuntimeException(this.getClass().toGenericString() + "未添加@EntityDescription注解");
     }
 }

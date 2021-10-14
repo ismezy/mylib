@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.webmvc.mybatis.test.sys.mapper;
+package com.zy.mylib.mongo.manager;
 
-import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper;
-import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser;
-import org.apache.ibatis.annotations.Param;
+import com.zy.mylib.base.model.BaseModel;
+import com.zy.mylib.base.service.Manager;
+import java.io.Serializable;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
+ * mongodb基础管理接口
  *
- * @author zhouyang
- * @since 2020-07-25
+ * @param <T>
+ * @param <PK>
+ * @author 周扬
  */
-public interface ApiUserMapper extends MyBatisBaseMapper<ApiUser, String> {
-    ApiUser findByCode(@Param("code") String code);
+public interface BaseMongoManager<T extends BaseModel, PK extends Serializable> extends Manager<T, PK> {
+
 }

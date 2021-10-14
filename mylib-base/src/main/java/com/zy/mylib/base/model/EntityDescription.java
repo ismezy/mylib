@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.data.jpa;
+package com.zy.mylib.base.model;
 
 
-import org.springframework.core.annotation.AliasFor;
-
-import javax.persistence.Entity;
 import java.lang.annotation.*;
 
 /**
