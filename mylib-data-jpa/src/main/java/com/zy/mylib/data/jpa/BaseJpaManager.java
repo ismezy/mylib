@@ -48,8 +48,12 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
 
 
   class WhereAndParam {
-    StringBuffer where;
+    StringBuffer where = new StringBuffer(500);
     Map<String, Object> params = new HashMap<>(30);
+
+    public String whereSql() {
+      return where.length() > 0 ? "where " + where : "";
+    }
   }
 
 
@@ -149,7 +153,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
     String entityName = getClass().getName();
     WhereAndParam whereAndParam = genWhereAndParams(conditions);
 
-    String jpql = "select t from " + entityName + "  t " + whereAndParam.where;
+    String jpql = "select t from " + entityName + "  t " + whereAndParam.whereSql();
 
     TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
     for (Map.Entry<String, Object> entry: whereAndParam.params.entrySet()) {
@@ -171,6 +175,9 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
   }
 
   private void buildGroup(List<Condition> conditions, WhereAndParam whereAndParam) {
+    if(conditions.size() == 0) {
+      return;
+    }
     whereAndParam.where.append("(");
     boolean first = true;
     for (Condition condition : conditions) {
@@ -193,9 +200,9 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
       if(ComparisonOperators.in == condition.getComparisonOperator()
           || ComparisonOperators.notIn == condition.getComparisonOperator()) {
         // 数组值
-        whereAndParam.params.put(condition.getProperty(), condition.getValues());
+        whereAndParam.params.put(condition.getProperty().replaceAll("\\.", "_"), condition.getValues());
       } else {
-        whereAndParam.params.put(condition.getProperty(), condition.getValue());
+        whereAndParam.params.put(condition.getProperty().replaceAll("\\.", "_"), condition.getValue());
       }
   }
 
@@ -227,38 +234,39 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
 
 
   public String getCondition(ComparisonOperators operate, String prop) {
+    String paramName = prop.replaceAll("\\.", "_");
     switch (operate) {
       case like:
-        return prop + " like concat('%', :" + prop + " , '%')";
+        return "t." + prop + " like concat('%', :" + paramName + " , '%')";
       case endWith:
-        return prop + " like concat('%', :" + prop + ")";
+        return "t." + prop + " like concat('%', :" + paramName + ")";
       case startWith:
-        return prop + " like concat(:" + prop + ", '%')";
+        return "t." + prop + " like concat(:" + paramName + ", '%')";
       case neq:
-        return prop + " <> :" + prop;
+        return "t." + prop + " <> :" + paramName;
       case in:
-        return prop + " in :" + prop;
+        return "t." + prop + " in :" + paramName;
       case notIn:
-        return prop + " not in :" + prop;
+        return "t." + prop + " not in :" + paramName;
       case notNull:
-        return prop + " is not null";
+        return "t." + prop + " is not null";
       case isNull:
-        return prop + " is null";
+        return "t." + prop + " is null";
       case gt:
-        return prop + " > :" + prop;
+        return "t." + prop + " > :" + paramName;
       case gte:
-        return prop + " >= :" + prop;
+        return "t." + prop + " >= :" + paramName;
       case lt:
-        return prop + " < :" + prop;
+        return "t." + prop + " < :" + paramName;
       case lte:
-        return prop + " <= :" + prop;
+        return "t." + prop + " <= :" + paramName;
 /*
     TODO: 暂时不支持between
       case between:
         return prop + " between :" + prop + " and ?" + (index + 1);
  */
       default:
-        return prop + " = :" + prop;
+        return "t." + prop + " = :" + paramName;
     }
   }
 
@@ -269,7 +277,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
     String orderByString = genOrderBy(sortRequest);
 
     String entityName = getTClass().getName();
-    String jpql = "select t from " + entityName + "  t " + whereAndParam.where + " " + orderByString;
+    String jpql = "select t from " + entityName + "  t " + whereAndParam.whereSql() + " " + orderByString;
     TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
     for (int i = 0; i < whereParams.size(); i++) {
       query.setParameter(i, whereParams.get(i));
@@ -341,8 +349,8 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
 
     String entityName = getTClass().getName();
     String jpql = "select t from " + entityName + "  t where t.id in ?1 " + orderByString;
-    String countJpql = "select count(t) from " + entityName + " t " + whereAndParams.where;
-    String queryIdJpql = "select t.id from " + entityName + " t " + whereAndParams.where + " " + orderByString;
+    String countJpql = "select count(t) from " + entityName + " t " + whereAndParams.whereSql();
+    String queryIdJpql = "select t.id from " + entityName + " t " + whereAndParams.whereSql() + " " + orderByString;
     logger.debug(queryIdJpql);
     TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
     TypedQuery<T> query = entityManager.createQuery(jpql, getTClass());
