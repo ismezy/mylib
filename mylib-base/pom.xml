@@ -29,6 +29,10 @@
 
     <artifactId>mylib-base</artifactId>
 
+    <properties>
+        <kotlin.version>1.5.31</kotlin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -59,5 +63,4 @@
             <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
-
 </project>

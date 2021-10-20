@@ -48,6 +48,11 @@
             <artifactId>mylib-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-kotlin-support</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

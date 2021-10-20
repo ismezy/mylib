@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.zy.mylib.base.model.SortRequest.SortDirection.descend;
+import static com.zy.mylib.base.model.SortRequest.SortDirection.Descend;
 
 
 /**
@@ -382,7 +382,7 @@ public abstract class BaseJpaManager<T extends JpaEntity, PK extends Serializabl
         } else {
           odb.append(",");
         }
-        odb.append(sort.getProperty()).append(" ").append(descend.equals(sort.getDirection()) ? "desc" : "asc");
+        odb.append(sort.getProperty()).append(" ").append(Descend.equals(sort.getDirection()) ? "desc" : "asc");
       }
     }
     return odb.toString();

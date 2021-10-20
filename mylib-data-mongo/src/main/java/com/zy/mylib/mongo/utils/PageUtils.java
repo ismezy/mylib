@@ -31,7 +31,7 @@ public class PageUtils {
 
   public static Sort toSpringSort(List<SortRequest> sortRequests) {
     List<Sort.Order> orders = sortRequests.stream().map(it -> {
-      if(SortRequest.SortDirection.descend.equals(it.getDirection())) {
+      if(SortRequest.SortDirection.Descend.equals(it.getDirection())) {
         return Sort.Order.desc(it.getProperty());
       }
       return Sort.Order.asc(it.getProperty());
