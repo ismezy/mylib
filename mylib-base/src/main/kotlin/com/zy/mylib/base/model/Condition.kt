@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © ${project.inceptionYear} ismezy (ismezy@qq.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ package com.zy.mylib.base.model
  * 查询条件
  */
 class Condition(
-    var logicalOperator: LogicalOperators = LogicalOperators.and,
+    var logicalOperator: LogicalOperators = LogicalOperators.And,
 
     /**
      * 比较运算符 默认等于

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © ${project.inceptionYear} ismezy (ismezy@qq.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,14 +56,14 @@ object QueryWrapperUtils {
         for (condition in conditions) {
             if (!condition.conditions.isNullOrEmpty()) {
                 // 条件集
-                if (condition.logicalOperator == LogicalOperators.or) {
+                if (condition.logicalOperator == LogicalOperators.Or) {
                     query.or { buildGroup(it, condition.conditions!!) }
                 } else {
                     query.and { buildGroup(it, condition.conditions!!) }
                 }
             } else {
                 // 单条件
-                if (condition.logicalOperator == LogicalOperators.or) {
+                if (condition.logicalOperator == LogicalOperators.Or) {
                     query.or { buildCondition(it, condition) }
                 } else {
                     query.and { buildCondition(it, condition) }

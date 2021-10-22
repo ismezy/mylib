@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © ${project.inceptionYear} ismezy (ismezy@qq.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,20 +15,6 @@
  */
 package com.zy.mylib.base.model
 
-import org.springframework.beans.factory.annotation.Autowired
-import com.zy.mylib.base.i18n.LocalMessage
-import com.zy.mylib.base.exception.BusException
-import com.zy.mylib.base.model.BaseModel.BaseView
-import com.zy.mylib.base.model.EntityDescription
-import java.lang.RuntimeException
-import lombok.NoArgsConstructor
-import lombok.AllArgsConstructor
-import com.zy.mylib.base.model.LogicalOperators
-import com.zy.mylib.base.model.SortRequest
-import com.zy.mylib.base.model.SortRequest.SortDirection
-import com.zy.mylib.base.model.PageResponse
-import com.zy.mylib.base.model.BaseModel
-import com.zy.mylib.base.exception.BusException.BusExceptionBuilder
 import java.lang.annotation.Documented
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy

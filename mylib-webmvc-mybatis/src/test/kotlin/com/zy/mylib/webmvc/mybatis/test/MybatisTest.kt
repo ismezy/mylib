@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © ${project.inceptionYear} ismezy (ismezy@qq.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -115,8 +115,8 @@ class MybatisTest {
   @Throws(JsonProcessingException::class)
   fun t05PageTest() {
     val conditions1: MutableList<Condition> = mutableListOf(
-        Condition(property = "system", value = "t1", logicalOperator = LogicalOperators.or),
-        Condition(property = "system", value = "t2", logicalOperator = LogicalOperators.or))
+        Condition(property = "system", value = "t1", logicalOperator = LogicalOperators.Or),
+        Condition(property = "system", value = "t2", logicalOperator = LogicalOperators.Or))
     val conditions: MutableList<Condition> = mutableListOf(
         Condition(property = "code", value = "test", comparisonOperator = ComparisonOperators.like),
         Condition(conditions = conditions1))
