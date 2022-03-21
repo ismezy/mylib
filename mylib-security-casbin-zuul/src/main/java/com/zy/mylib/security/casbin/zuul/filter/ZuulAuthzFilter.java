@@ -23,6 +23,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.zy.mylib.base.exception.BusException;
+import com.zy.mylib.security.Passport;
 import com.zy.mylib.security.casbin.EnforcerManager;
 import com.zy.mylib.utils.StringUtils;
 import org.casbin.jcasbin.main.Enforcer;
@@ -43,7 +44,7 @@ public class ZuulAuthzFilter extends ZuulFilter {
      * 启用
      */
     private boolean enabled = true;
-    private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
+    private Algorithm algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET);
 
     @Override
     public String filterType() {

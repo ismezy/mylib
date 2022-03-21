@@ -31,33 +31,38 @@ import java.lang.Error
  *
  * @author ASUS
  */
-class StringAdapter(private val policy: String) : Adapter {
+class StringAdapter(private var policy: String) : Adapter {
+  private lateinit var model: Model;
   override fun loadPolicy(model: Model) {
+    this.model = model;
     loadPolicyFile(model) { line: String?, model: Model? -> Helper.loadPolicyLine(line, model) }
   }
 
   override fun savePolicy(model: Model) {
-    throw Error("not implemented")
+//    throw Error("not implemented")
   }
 
   override fun addPolicy(sec: String, ptype: String, rule: List<String>) {
-    throw Error("not implemented")
+//    throw Error("not implemented")
+    policy += "$ptype, ${rule.joinToString(", ")}"
+    model.addPolicy(sec, ptype, rule)
   }
 
   override fun removePolicy(sec: String, ptype: String, rule: List<String>) {
-    throw Error("not implemented")
+//    throw Error("not implemented")
   }
 
   override fun removeFilteredPolicy(sec: String, ptype: String, fieldIndex: Int, vararg fieldValues: String) {
-    throw Error("not implemented")
+//    throw Error("not implemented")
   }
 
   private fun loadPolicyFile(model: Model, handler: loadPolicyLineHandler<String, Model>) {
     val br = BufferedReader(StringReader(policy))
-    var line: String
+    var line = br.readLine()
     try {
-      while (br.readLine().also { line = it } != null) {
+      while (line != null) {
         handler.accept(line, model)
+        line = br.readLine()
       }
       br.close()
     } catch (e: IOException) {

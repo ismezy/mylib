@@ -34,25 +34,17 @@ import javax.inject.Named
  * @since 2020-07-25
  */
 @Named
-open class ApiUserServiceImpl : MyBatisBaseManagerImpl<ApiUser, String>(), IApiUserService {
-    private lateinit var apiUserMapper: ApiUserMapper
-    @Inject
-    fun setApiUserMapper(apiUserMapper: ApiUserMapper): ApiUserServiceImpl {
-        this.apiUserMapper = apiUserMapper
-        return this
-    }
+open class ApiUserServiceImpl : MyBatisBaseManagerImpl<ApiUserMapper, ApiUser>(), IApiUserService {
 
-    override val mapper: ApiUserMapper
-        protected get() = apiUserMapper
 
     override fun findExist(entity: ApiUser): ApiUser? {
         val map: MutableMap<String, Any?> = HashMap(0)
         map["code"] = entity.code
-        val list = apiUserMapper!!.selectByMap(map)
+        val list = mapper!!.selectByMap(map)
         return if (list.size > 0) list[0] else null
     }
 
     override fun findByCode(code: String): ApiUser? {
-        return apiUserMapper!!.findByCode(code)
+        return mapper!!.findByCode(code)
     }
 }

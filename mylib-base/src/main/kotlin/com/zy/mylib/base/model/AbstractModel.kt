@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.webmvc.mybatis.test.sys.mapper
+package com.zy.mylib.base.model
 
-import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper
-import com.zy.mylib.webmvc.mybatis.test.sys.entity.ApiUser
-import org.apache.ibatis.annotations.Param
+import javax.persistence.MappedSuperclass
 
 /**
- *
- *
- * Mapper 接口
- *
- *
  * @author zhouyang
- * @since 2020-07-25
  */
-interface ApiUserMapper : MyBatisBaseMapper<ApiUser> {
-    fun findByCode(@Param("code") code: String): ApiUser?
-}
+@MappedSuperclass
+open class AbstractModel : BaseModel

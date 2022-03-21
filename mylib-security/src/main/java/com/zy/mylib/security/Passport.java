@@ -15,12 +15,15 @@
  */
 package com.zy.mylib.security;
 
+
 import java.io.Serializable;
 
 /**
  * @author ASUS
  */
 public interface Passport<T extends Serializable> {
+    String HMAC_SECRET = "com.mylib";
+
     /**
      * 获取当前登录用户
      * @return

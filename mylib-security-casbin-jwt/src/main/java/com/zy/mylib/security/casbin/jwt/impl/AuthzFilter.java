@@ -16,7 +16,6 @@
 package com.zy.mylib.security.casbin.jwt.impl;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.zy.mylib.base.exception.BusException;
 import com.zy.mylib.security.LoginUser;
 import com.zy.mylib.security.Passport;
@@ -38,7 +37,7 @@ public class AuthzFilter implements Filter {
     /**
      * jwt token hash function
      */
-    private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
+    private Algorithm algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET);
     /**
      * passport
      */

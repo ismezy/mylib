@@ -57,7 +57,8 @@ interface BaseModel : Serializable {
    *
    * @return
    */
-  fun description(): String? {
+  @JvmDefault
+  fun description(): String {
     val entity = this.javaClass.kotlin.annotations.find { it is EntityDescription } as? EntityDescription
     if (entity != null && StringUtils.isNotBlank(entity.value)) {
       return entity.value

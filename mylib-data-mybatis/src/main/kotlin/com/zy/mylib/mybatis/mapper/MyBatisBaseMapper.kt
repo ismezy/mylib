@@ -15,15 +15,10 @@
  */
 package com.zy.mylib.mybatis.mapper
 
-import com.zy.mylib.base.model.SortRequest
-import com.baomidou.mybatisplus.core.toolkit.Wrappers
-import com.zy.mylib.mybatis.utils.QueryWrapperUtils
-import com.zy.mylib.base.model.LogicalOperators
 import com.zy.mylib.base.model.BaseModel
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import java.io.Serializable
 
 /**
  * @author ASUS
  */
-interface MyBatisBaseMapper<T : BaseModel?, PK : Serializable?> : BaseMapper<T>
+interface MyBatisBaseMapper<T : BaseModel?> : BaseMapper<T>

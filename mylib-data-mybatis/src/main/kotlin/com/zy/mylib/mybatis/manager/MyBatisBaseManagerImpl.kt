@@ -16,24 +16,26 @@
 package com.zy.mylib.mybatis.manager
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.zy.mylib.base.exception.BusException
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.zy.mylib.base.model.*
 import com.zy.mylib.mybatis.utils.QueryWrapperUtils
 import com.zy.mylib.base.service.Manager
+import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper
 import com.zy.mylib.utils.BeanUtils
 import com.zy.mylib.utils.StringUtils
 import org.springframework.transaction.annotation.Transactional
 import java.io.Serializable
 import java.lang.Exception
+import javax.inject.Inject
 
 /**
  * @author ASUS
  */
-abstract class MyBatisBaseManagerImpl<T : BaseModel, PK : Serializable> : Manager<T, PK> {
-    protected open abstract val mapper: BaseMapper<T>
+abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel> : Manager<T, Serializable> {
+    @Inject
+    protected lateinit var mapper: MAPPER
 
     /**
      * {@inheritDoc}
@@ -73,7 +75,7 @@ abstract class MyBatisBaseManagerImpl<T : BaseModel, PK : Serializable> : Manage
         return entity
     }
 
-    override fun delete(id: PK) {
+    override fun delete(id: Serializable) {
         mapper.deleteById(id)
     }
 
@@ -88,7 +90,7 @@ abstract class MyBatisBaseManagerImpl<T : BaseModel, PK : Serializable> : Manage
         return PageResponse.fromRequest(request, page.total, page.records)
     }
 
-    override fun findById(id: PK): T {
+    override fun findById(id: Serializable): T {
         return mapper.selectById(id)
     }
 

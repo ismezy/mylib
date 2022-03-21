@@ -18,6 +18,7 @@ package com.zy.mylib.cache.redis
 import org.springframework.cache.Cache
 import org.springframework.data.redis.core.RedisOperations
 import org.springframework.cache.support.SimpleValueWrapper
+import org.springframework.lang.Nullable
 import java.lang.Exception
 import java.lang.RuntimeException
 import java.util.concurrent.Callable
@@ -48,7 +49,7 @@ class RedisCache
     return SimpleValueWrapper(this.get(key, Any::class.java))
   }
 
-  override fun <T> get(key: Any, type: Class<T>): T {
+  override fun <T : Any?> get(key: Any, @Nullable type: Class<T>?): T? {
     redisOperations.expire(wrapperKey(key), expire, timeUnit)
     return redisOperations.opsForValue()[wrapperKey(key)] as T
   }

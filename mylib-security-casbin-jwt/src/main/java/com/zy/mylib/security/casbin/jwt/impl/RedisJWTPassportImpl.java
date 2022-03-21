@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author ASUS
  */
+@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Named
 public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBean {
     final static String HEADER_TOKEN_KEY = "token";
@@ -60,7 +61,7 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
     @Named("jwtTokenRedisOperations")
     private RedisOperations<String, Serializable> redisOperations;
 
-    private Algorithm algorithm = Algorithm.HMAC256("dduptop.com");
+    private Algorithm algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET);
 //
 //    public RedisJWTPassportImpl(RedisOperations<String, ? extends Serializable> redisOperations) {
 //        this.redisOperations = redisOperations;
@@ -88,7 +89,8 @@ public class RedisJWTPassportImpl implements Passport<LoginUser>, InitializingBe
 
     @Override
     public LoginUser getUser() {
-        return userCache.get(getToken(), "user");
+        String token = getToken();
+        return StringUtils.isBlank(token) ? null : userCache.get(token, "user");
     }
 
     @Override
