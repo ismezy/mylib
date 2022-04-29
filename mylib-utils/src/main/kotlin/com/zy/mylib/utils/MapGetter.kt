@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.utils;
+package com.zy.mylib.utils
 
-import java.util.Map;
-
-public class MapGetter {
-  private Map<?, ?> map;
-
-  public MapGetter(Map<?, ?> map) {
-    this.map = map;
-  }
-
-  public <T> T get(Object key) {
-    return (T) map.get(key);
+class MapGetter(private val map: Map<*, *>) {
+  operator fun <T> get(key: Any?): T? {
+    return map[key] as T?
   }
 }

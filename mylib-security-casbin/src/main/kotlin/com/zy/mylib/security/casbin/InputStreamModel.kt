@@ -30,7 +30,7 @@ import java.io.InputStreamReader
 class InputStreamModel(inputStream: InputStream?) : Model() {
   init {
     try {
-      loadModelFromText(FileUtils.readAllText(inputStream))
+      loadModelFromText(FileUtils.readAllText(inputStream!!))
     } catch (e: IOException) {
       e.printStackTrace()
     }

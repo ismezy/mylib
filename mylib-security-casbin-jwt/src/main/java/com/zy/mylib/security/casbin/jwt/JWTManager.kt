@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.casbin.jwt;
+package com.zy.mylib.security.casbin.jwt
 
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.DecodedJWT
 
 /**
  * jwt token管理
  */
-public interface JWTManager {
-    DecodedJWT decode(String tokenString);
-
-    String sign(String user, String phone, String name, String role);
+interface JWTManager {
+  fun decode(tokenString: String?): DecodedJWT?
+  fun sign(user: String?, phone: String?, name: String?, role: String?): String?
 }

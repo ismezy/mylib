@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.utils;
+package com.zy.mylib.security.utils
 
-import com.zy.mylib.security.service.UserService;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-
-import java.util.Optional;
+import com.zy.mylib.security.service.UserService
+import org.apache.shiro.SecurityUtils
+import org.springframework.beans.BeansException
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import org.springframework.stereotype.Component
+import java.util.*
 
 /**
  * 用户工具类
@@ -30,29 +29,30 @@ import java.util.Optional;
  * @author ASUS
  */
 @Component("securityUserUtils")
-public class UserUtils implements ApplicationContextAware {
-    protected static ApplicationContext context;
+class UserUtils : ApplicationContextAware {
+  @Throws(BeansException::class)
+  override fun setApplicationContext(applicationContext: ApplicationContext) {
+    context = applicationContext
+  }
+
+  companion object {
+    protected var context: ApplicationContext? = null
 
     /**
      * 获取当前用户
      *
      * @return
      */
-    public static <T> T getCurrentUser() {
-        if (SecurityUtils.getSubject().getPrincipal() instanceof String) {
-            UserService userManager = context.getBean(UserService.class);
-            Optional<T> user = userManager.findById((String) SecurityUtils.getSubject().getPrincipal());
-            return user.get();
-        }
-        return (T) SecurityUtils.getSubject().getPrincipal();
+    fun <T> getCurrentUser(): T? {
+      if (SecurityUtils.getSubject().principal is String) {
+        val userManager = context!!.getBean(UserService::class.java) as UserService<T>
+        val user: Optional<T>? = userManager.findById(SecurityUtils.getSubject().principal as String)
+        return user!!.get()
+      }
+      return SecurityUtils.getSubject().principal as T
     }
 
-    public static boolean isLogin() {
-        return SecurityUtils.getSubject().isAuthenticated();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        context = applicationContext;
-    }
+    val isLogin: Boolean
+      get() = SecurityUtils.getSubject().isAuthenticated
+  }
 }

@@ -40,6 +40,11 @@
             <artifactId>mylib-data-jpa</artifactId>
             <version>${version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-kotlin-support</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

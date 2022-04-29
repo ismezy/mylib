@@ -22,17 +22,17 @@ class PageRequest (
     /**
    * 排序规则
    */
-  val sortRequests: List<SortRequest>? = null,
+  var sortRequests: List<SortRequest>? = null,
 
     /**
    * 每页大小，默认20条每页
    */
-  val size: Long = 20L,
+  var size: Long = 20L,
 
     /**
    * 当前页码(从0开始)
    */
-  val page: Long = 0L
+  var page: Long = 0L
 
 ) {
   /**

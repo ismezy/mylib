@@ -15,11 +15,7 @@
  */
 package com.zy.mylib.security.casbin
 
-import org.casbin.jcasbin.persist.Helper.loadPolicyLineHandler
-import java.io.BufferedReader
-import java.io.IOException
 import org.casbin.jcasbin.main.Enforcer
-import java.io.InputStreamReader
 import java.io.Serializable
 
 /**
@@ -27,11 +23,11 @@ import java.io.Serializable
  *
  * @author ASUS
  */
-interface EnforcerManager<T : Serializable?> {
+interface EnforcerManager<T : Serializable> {
   /**
    * 获取enforcer
    *
    * @return
    */
-  fun getEnforcer(user: T): Enforcer?
+  fun getEnforcer(user: T): Enforcer
 }

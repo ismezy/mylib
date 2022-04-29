@@ -13,52 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.utils;
+package com.zy.mylib.utils
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import java.io.IOException
+import java.io.OutputStream
+import javax.imageio.ImageIO
 
 /**
  * 图形工具类
  *
  * @author ASUS
  */
-public class ImageUtils {
-    /**
-     * 往output流绘制一个透明背景的文本图片
-     *
-     * @param text
-     * @param width
-     * @param height
-     * @param font
-     * @param output
-     */
-    public static void drawTextPNG(String text, int width, int height, Font font, OutputStream output) throws IOException {
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
-        g2d.setColor(Color.black);
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+object ImageUtils {
+  /**
+   * 往output流绘制一个透明背景的文本图片
+   *
+   * @param text
+   * @param width
+   * @param height
+   * @param font
+   * @param output
+   */
+  @Throws(IOException::class)
+  fun drawTextPNG(text: String?, width: Int, height: Int, font: Font?, output: OutputStream?) {
+    val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR)
+    val g2d = bufferedImage.graphics as Graphics2D
+    g2d.color = Color.black
+    g2d.setRenderingHint(
+      RenderingHints.KEY_TEXT_ANTIALIASING,
+      RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+    )
+    g2d.font = font
+    val fontMetrics = g2d.fontMetrics
+    val rect = fontMetrics.getStringBounds(text, g2d)
+    g2d.drawString(
+      text,
+      (400 - rect.width.toInt()) / 2,
+      (200 - rect.height.toInt()) / 2
+    )
 
-        g2d.setFont(font);
+    //Free graphic resources
+    g2d.dispose()
 
-        FontMetrics fontMetrics = g2d.getFontMetrics();
-        Rectangle2D rect = fontMetrics.getStringBounds(text, g2d);
-
-        g2d.drawString(text,
-                (400 - (int) rect.getWidth()) / 2,
-                (200 - (int) rect.getHeight()) / 2);
-
-        //Free graphic resources
-        g2d.dispose();
-
-        //Write the image as a jpg
-        ImageIO.write(bufferedImage, "png", output);
-    }
+    //Write the image as a jpg
+    ImageIO.write(bufferedImage, "png", output)
+  }
 }

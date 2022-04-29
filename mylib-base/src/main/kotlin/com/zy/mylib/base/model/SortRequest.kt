@@ -24,12 +24,12 @@ class SortRequest (
   /**
    * 排序方向
    */
-  val direction: SortDirection? = null,
+  var direction: SortDirection? = null,
 
   /**
    * 排序属性
    */
-  val property: String? = null
+  var property: String? = null
 ) {
   /**
    * 排序方向

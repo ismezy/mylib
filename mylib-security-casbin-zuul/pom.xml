@@ -51,6 +51,11 @@
             <groupId>com.netflix.zuul</groupId>
             <artifactId>zuul-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-kotlin-support</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -38,6 +38,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-kotlin-support</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

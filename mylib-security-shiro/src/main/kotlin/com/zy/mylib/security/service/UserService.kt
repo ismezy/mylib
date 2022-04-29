@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.service;
+package com.zy.mylib.security.service
 
-import java.util.Optional;
+import java.util.*
 
 /**
  * @author 扬
  * @date 2017/5/12
  */
-public interface UserService<T> {
-    /**
-     * 根据登录名查找用户
-     *
-     * @param loginName
-     * @return
-     */
-    T findByLoginName(String loginName, String type, String cloudId);
+interface UserService<T> {
+  /**
+   * 根据登录名查找用户
+   *
+   * @param loginName
+   * @return
+   */
+  fun findByLoginName(loginName: String?, type: String?, cloudId: String?): T
 
-    /**
-     * 按ID查找
-     *
-     * @param id
-     * @return
-     */
-    Optional<T> findById(String id);
+  /**
+   * 按ID查找
+   *
+   * @param id
+   * @return
+   */
+  fun findById(id: String?): Optional<T>?
 }

@@ -71,7 +71,7 @@ abstract class BaseMongoManagerImpl<T : BaseModel?, PK : Serializable> : I18n(),
       var newId: String? = null
       try {
         existId = BeanUtils.getProperty(exist, "id") as String
-        newId = BeanUtils.getProperty(entity, "id") as String
+        newId = BeanUtils.getProperty(entity as Any, "id") as String
       } catch (e: Exception) {
         e.printStackTrace()
       }

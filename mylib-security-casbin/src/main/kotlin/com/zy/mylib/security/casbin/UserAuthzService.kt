@@ -32,5 +32,5 @@ interface UserAuthzService<T : Serializable?> {
    * @param user
    * @return
    */
-  fun getEnforcer(user: T): Enforcer?
+  fun getEnforcer(user: T): Enforcer
 }

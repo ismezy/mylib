@@ -13,89 +13,86 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.utils;
+package com.zy.mylib.utils
 
-
-import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.io.*
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.util.*
 
 /**
  * @author 许乐
  * @date 2017/3/2
  */
-public class HashUtils {
-
-    public static String getHash(File file) throws Exception {
-        byte[] b = new byte[0];
-        b = createChecksum(file);
-
-        String result = "";
-        for (int i = 0; i < b.length; i++) {
-            //加0x100是因为有的b[i]的十六进制只有1位
-            result += Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1);
-        }
-        return result;
+object HashUtils {
+  @Throws(Exception::class)
+  fun getHash(file: File?): String {
+    var b = ByteArray(0)
+    b = createChecksum(file)
+    var result = ""
+    for (i in b.indices) {
+      //加0x100是因为有的b[i]的十六进制只有1位
+      result += Integer.toString((b[i].toInt() and 0xff) + 0x100, 16).substring(1)
     }
+    return result
+  }
 
-    public static byte[] sha256(String content) throws IOException, NoSuchAlgorithmException {
-        byte[] buff = content.getBytes("utf-8");
-        ByteArrayInputStream byteInputStream = new ByteArrayInputStream(buff);
-        return createChecksum(byteInputStream, "SHA-256");
+  @Throws(IOException::class, NoSuchAlgorithmException::class)
+  fun sha256(content: String): ByteArray {
+    val buff = content.toByteArray(charset("utf-8"))
+    val byteInputStream = ByteArrayInputStream(buff)
+    return createChecksum(byteInputStream, "SHA-256")
+  }
+
+  fun toBase64String(buff: ByteArray?): String {
+    return Base64.getEncoder().encode(buff).toString()
+  }
+
+  @Throws(IOException::class, NoSuchAlgorithmException::class)
+  fun createChecksum(`is`: InputStream, algorithm: String?): ByteArray {
+    //如果想使用SHA-1或SHA-256，则传入SHA-1,SHA-256
+    val bis = BufferedInputStream(`is`)
+    val complete = MessageDigest.getInstance(algorithm)
+    var numRead: Int
+    val buff = ByteArray(1024)
+    do {
+      //从文件读到buffer，最多装满buffer
+      numRead = bis.read(buff)
+      if (numRead > 0) {
+        //用读到的字节进行MD5的计算，第二个参数是偏移量
+        complete.update(buff, 0, numRead)
+      }
+    } while (numRead != -1)
+    bis.close()
+    `is`.close()
+    return complete.digest()
+  }
+
+  @JvmOverloads
+  @Throws(IOException::class, NoSuchAlgorithmException::class)
+  fun createChecksum(file: File?, algorithm: String? = "MD5"): ByteArray {
+    val fis: InputStream = FileInputStream(file)
+    return createChecksum(fis, algorithm)
+  }
+
+  /**
+   * 用于获取一个String的md5值
+   *
+   * @param str
+   * @return
+   */
+  @Throws(Exception::class)
+  fun getMd5(str: String): String {
+    val md5 = MessageDigest.getInstance("MD5")
+    val bs = md5.digest(str.toByteArray())
+    val sb = StringBuilder(40)
+    for (x in bs) {
+      if (x.toInt() and 0xff shr 4 == 0) {
+        sb.append("0").append(Integer.toHexString(x.toInt() and 0xff))
+      } else {
+        sb.append(Integer.toHexString(x.toInt() and 0xff))
+      }
     }
-
-    public static String toBase64String(byte[] buff) {
-        return Base64.getEncoder().encode(buff).toString();
-    }
-
-    public static byte[] createChecksum(InputStream is, String algorithm) throws IOException, NoSuchAlgorithmException {
-        //如果想使用SHA-1或SHA-256，则传入SHA-1,SHA-256
-        BufferedInputStream bis = new BufferedInputStream(is);
-        MessageDigest complete = MessageDigest.getInstance(algorithm);
-        int numRead;
-        byte[] buff = new byte[1024];
-        do {
-            //从文件读到buffer，最多装满buffer
-            numRead = bis.read(buff);
-            if (numRead > 0) {
-                //用读到的字节进行MD5的计算，第二个参数是偏移量
-                complete.update(buff, 0, numRead);
-            }
-        } while (numRead != -1);
-        bis.close();
-        is.close();
-        return complete.digest();
-    }
-
-    public static byte[] createChecksum(File file) throws IOException, NoSuchAlgorithmException {
-        return createChecksum(file, "MD5");
-    }
-
-    public static byte[] createChecksum(File file, String algorithm) throws IOException, NoSuchAlgorithmException {
-        InputStream fis = new FileInputStream(file);
-        return createChecksum(fis, algorithm);
-    }
-
-    /**
-     * 用于获取一个String的md5值
-     *
-     * @param str
-     * @return
-     */
-    public static String getMd5(String str) throws Exception {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        byte[] bs = md5.digest(str.getBytes());
-
-        StringBuilder sb = new StringBuilder(40);
-        for (byte x : bs) {
-            if ((x & 0xff) >> 4 == 0) {
-                sb.append("0").append(Integer.toHexString(x & 0xff));
-            } else {
-                sb.append(Integer.toHexString(x & 0xff));
-            }
-        }
-        return sb.toString();
-    }
-
+    return sb.toString()
+  }
 }

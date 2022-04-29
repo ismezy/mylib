@@ -13,47 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.webmvc.security;
+package com.zy.mylib.webmvc.security
 
-import com.zy.mylib.security.LoginUser;
-import com.zy.mylib.security.Passport;
-import org.springframework.core.MethodParameter;
-import org.springframework.web.bind.support.WebDataBinderFactory;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.ModelAndViewContainer;
+import com.zy.mylib.security.LoginUser
+import com.zy.mylib.security.Passport
+import org.springframework.core.MethodParameter
+import org.springframework.web.bind.support.WebDataBinderFactory
+import org.springframework.web.context.request.NativeWebRequest
+import org.springframework.web.method.support.HandlerMethodArgumentResolver
+import org.springframework.web.method.support.ModelAndViewContainer
 
 /**
  * @author ASUS
  */
-public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
-    Passport<LoginUser> passport;
+class LoginUserArgumentResolver : HandlerMethodArgumentResolver {
+  /**
+   * Gets passport.
+   *
+   * @return Value of passport.
+   */
+  /**
+   * Sets new passport.
+   *
+   * @param passport New value of passport.
+   */
+  var passport: Passport<LoginUser>? = null
+  override fun supportsParameter(parameter: MethodParameter): Boolean {
+    return parameter.parameterType == LoginUser::class.java
+  }
 
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(LoginUser.class);
-    }
-
-    @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return passport.getUser();
-    }
-
-    /**
-     * Sets new passport.
-     *
-     * @param passport New value of passport.
-     */
-    public void setPassport(Passport<LoginUser> passport) {
-        this.passport = passport;
-    }
-
-    /**
-     * Gets passport.
-     *
-     * @return Value of passport.
-     */
-    public Passport<LoginUser> getPassport() {
-        return passport;
-    }
+  @Throws(Exception::class)
+  override fun resolveArgument(
+    parameter: MethodParameter,
+    mavContainer: ModelAndViewContainer,
+    webRequest: NativeWebRequest,
+    binderFactory: WebDataBinderFactory
+  ): Any {
+    return passport!!.user as Any
+  }
 }

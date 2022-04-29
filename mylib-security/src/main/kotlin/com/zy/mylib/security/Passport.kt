@@ -13,71 +13,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security;
+package com.zy.mylib.security
 
-
-import java.io.Serializable;
+import java.io.Serializable
 
 /**
  * @author ASUS
  */
-public interface Passport<T extends Serializable> {
-    String HMAC_SECRET = "com.mylib";
+interface Passport<T : Serializable?> {
+  /**
+   * 获取当前登录用户
+   * @return
+   */
+  val user: T
 
-    /**
-     * 获取当前登录用户
-     * @return
-     */
-    T getUser();
+  /**
+   * 是否已登录
+   * @return
+   */
+  val isAuthenticated: Boolean
 
-    /**
-     * 是否已登录
-     * @return
-     */
-    boolean isAuthenticated();
+  /**
+   * 获取token
+   * @return
+   */
+  val token: String?
 
-    /**
-     * 获取token
-     * @return
-     */
-    String getToken();
+  /**
+   * 登录，返回token
+   *
+   * @param user
+   * @return
+   */
+  fun login(user: T): String?
 
-    /**
-     * 登录，返回token
-     *
-     * @param user
-     * @return
-     */
-    String login(T user);
+  /**
+   * 登录失败
+   * @param user
+   */
+  fun onLoginFailed(user: String?)
 
-    /**
-     * 登录失败
-     * @param user
-     */
-    void onLoginFailed(String user);
+  /**
+   * 用户是否已锁定
+   * @param user
+   * @return
+   */
+  fun isLock(user: String?): Boolean
 
-    /**
-     * 用户是否已锁定
-     * @param user
-     * @return
-     */
-    boolean isLock(String user);
+  /**
+   * 更新登录用户缓存
+   * @param user
+   */
+  fun update(user: T)
 
-    /**
-     * 更新登录用户缓存
-     * @param user
-     */
-    void update(T user);
+  /**
+   * 登出
+   */
+  fun logout()
 
-    /**
-     * 登出
-     */
-    void logout();
+  /**
+   * passport 类型
+   *
+   * @return
+   */
+  val privoder: String?
 
-    /**
-     * passport 类型
-     *
-     * @return
-     */
-    String getPrivoder();
+  companion object {
+    const val HMAC_SECRET = "com.mylib"
+  }
 }

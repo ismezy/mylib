@@ -265,7 +265,7 @@ class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
       }
     }
     if (loggerDef.db && loggerService != null) {
-      var ip = ""
+      var ip: String? = null;
       var user: UT? = null
       if (passport!!.isAuthenticated) {
         user = passport.user

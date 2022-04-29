@@ -13,28 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.qrcode;
+package com.zy.mylib.qrcode
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
+import com.google.zxing.client.j2se.MatrixToImageWriter
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import java.awt.Color
+import java.awt.Font
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
 
 /**
  * 二维码工具类
  */
-public class QRCodeUtils {
+object QRCodeUtils {
   /**
    * 生成二维码
    *
@@ -45,45 +41,51 @@ public class QRCodeUtils {
    * @return
    * @throws WriterException
    */
-  public static BufferedImage buildQrCode(String content, int width, int height, String title, BufferedImage logo) throws WriterException {
-    Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>(2);
-    hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-    hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-    hints.put(EncodeHintType.MARGIN, 0);
-    BitMatrix bitMatrix = null;
-    bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-    BufferedImage qrcode = MatrixToImageWriter.toBufferedImage(bitMatrix);
+  @JvmStatic
+  @Throws(WriterException::class)
+  fun buildQrCode(content: String?, width: Int, height: Int, title: String, logo: BufferedImage?): BufferedImage {
+    val hints: MutableMap<EncodeHintType, Any?> = HashMap(2)
+    hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+    hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
+    hints[EncodeHintType.MARGIN] = 0
+    var bitMatrix: BitMatrix? = null
+    bitMatrix = MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints)
+    var qrcode = MatrixToImageWriter.toBufferedImage(bitMatrix)
     if (logo != null) {
-      qrcode = getQRCodeWithOverlay(qrcode, logo, title);
+      qrcode = getQRCodeWithOverlay(qrcode, logo, title)
     }
-    return qrcode;
+    return qrcode
   }
 
-  private static BufferedImage getQRCodeWithOverlay(BufferedImage qrcode, BufferedImage logo, String title) {
-    int centerX = qrcode.getWidth() / 2;
-    int centerY = qrcode.getHeight() / 2;
-    float radius = qrcode.getWidth() * 0.3f;
-    int round = (int) (qrcode.getWidth() * 0.05f);
-
-    BufferedImage combined = new BufferedImage(qrcode.getWidth(), qrcode.getHeight(), BufferedImage.TYPE_INT_ARGB);
-    Graphics2D g2 =  combined.createGraphics();
-    g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    g2.drawImage(qrcode, 0, 0, null);
-//    g2.setColor(Color.white);
+  private fun getQRCodeWithOverlay(qrcode: BufferedImage, logo: BufferedImage, title: String): BufferedImage {
+    val centerX = qrcode.width / 2
+    val centerY = qrcode.height / 2
+    val radius = qrcode.width * 0.3f
+    val round = (qrcode.width * 0.05f).toInt()
+    val combined = BufferedImage(qrcode.width, qrcode.height, BufferedImage.TYPE_INT_ARGB)
+    val g2 = combined.createGraphics()
+    g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+    g2.drawImage(qrcode, 0, 0, null)
+    //    g2.setColor(Color.white);
 //    g2.fillRoundRect((int) (centerX - radius * 1.5 / 2), (int) (centerY - radius * 1.5 / 2),
 //        (int) (radius * 1.5), (int) (radius * 1.5), round, round);
-    g2.drawImage(logo, (int) (centerX - radius / 2), (int) (centerY - radius / 2),
-        (int) radius, (int) radius,null);
-    g2.setColor(Color.black);
-    g2.setFont(new Font("simsum", Font.PLAIN, (int) (centerX * 0.05f)));
-    FontMetrics fm = g2.getFontMetrics();
-    Rectangle2D r = fm.getStringBounds(title, g2);
-    int stringX = (int) r.getCenterX();
-    int stringY = (int) r.getCenterY();
-    g2.drawString(title, centerX - stringX, centerY + radius / 2 - stringY);
-    g2.dispose();
-    return combined;
+    g2.drawImage(
+      logo,
+      (centerX - radius / 2).toInt(),
+      (centerY - radius / 2).toInt(),
+      radius.toInt(),
+      radius.toInt(),
+      null
+    )
+    g2.color = Color.black
+    g2.font = Font("simsum", Font.PLAIN, (centerX * 0.05f).toInt())
+    val fm = g2.fontMetrics
+    val r = fm.getStringBounds(title, g2)
+    val stringX = r.centerX.toInt()
+    val stringY = r.centerY.toInt()
+    g2.drawString(title, (centerX - stringX).toFloat(), centerY + radius / 2 - stringY)
+    g2.dispose()
+    return combined
   }
-
 }

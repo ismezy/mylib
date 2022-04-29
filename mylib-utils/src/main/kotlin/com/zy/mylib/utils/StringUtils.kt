@@ -13,114 +13,114 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.utils;
+package com.zy.mylib.utils
 
-import com.google.common.base.Strings;
-
-import java.util.Arrays;
+import com.google.common.base.Strings
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * @author 扬
  * @date 2017/5/15
  */
-public class StringUtils {
-    /**
-     * 首字母大写
-     *
-     * @param word
-     * @return 首字母大写的字符串
-     */
-    public static String firstUpperCase(String word) {
-        if (Strings.isNullOrEmpty(word)) {
-            return word;
-        }
-        return word.substring(0, 1).toUpperCase() + (word.length() > 1 ? word.substring(1) : "");
-    }
+object StringUtils {
+  /**
+   * 首字母大写
+   *
+   * @param word
+   * @return 首字母大写的字符串
+   */
+  fun firstUpperCase(word: String): String {
+    return if (Strings.isNullOrEmpty(word)) {
+      word
+    } else word.substring(0, 1)
+      .uppercase(Locale.getDefault()) + if (word.length > 1) word.substring(1) else ""
+  }
 
-    /**
-     * 首字母小写
-     *
-     * @param word
-     * @return 首字母小写的字符串
-     */
-    public static String firstLowerCase(String word) {
-        if (StringUtils.isBlank(word)) {
-            return word;
-        }
-        return word.substring(0, 1).toLowerCase() + (word.length() > 1 ? word.substring(1) : "");
-    }
+  /**
+   * 首字母小写
+   *
+   * @param word
+   * @return 首字母小写的字符串
+   */
+  fun firstLowerCase(word: String): String {
+    return if (isBlank(word)) {
+      word
+    } else word.substring(0, 1)
+      .lowercase(Locale.getDefault()) + if (word.length > 1) word.substring(1) else ""
+  }
 
-    /**
-     * 连接字符串
-     *
-     * @param array     字符串数组
-     * @param delimiter 分隔符
-     * @param start     数组起始位置
-     * @param end       数组结束位置
-     * @return
-     */
-    public static String join(String[] array, CharSequence delimiter, int start, int end) {
-        return String.join(delimiter, Arrays.copyOfRange(array, start, end));
-    }
+  /**
+   * 连接字符串
+   *
+   * @param array     字符串数组
+   * @param delimiter 分隔符
+   * @param start     数组起始位置
+   * @param end       数组结束位置
+   * @return
+   */
+  fun join(array: Array<String>?, delimiter: CharSequence?, start: Int, end: Int): String {
+    return java.lang.String.join(delimiter, *Arrays.copyOfRange(array, start, end))
+  }
 
-    /**
-     * 连接字符串
-     *
-     * @param array     字符串数组
-     * @param delimiter 分隔符
-     * @param start     数组起始位置
-     * @return
-     */
-    public static String join(String[] array, CharSequence delimiter, int start) {
-        return String.join(delimiter, Arrays.copyOfRange(array, start, array.length));
-    }
+  /**
+   * 连接字符串
+   *
+   * @param array     字符串数组
+   * @param delimiter 分隔符
+   * @param start     数组起始位置
+   * @return
+   */
+  fun join(array: Array<String>, delimiter: CharSequence?, start: Int): String {
+    return java.lang.String.join(delimiter, *Arrays.copyOfRange(array, start, array.size))
+  }
 
-    /**
-     * 连接字符串
-     *
-     * @param delimiter 分隔符
-     * @param strings   字符串
-     * @return
-     */
-    public static String join(CharSequence delimiter, String... strings) {
-        return String.join(delimiter, strings);
-    }
+  /**
+   * 连接字符串
+   *
+   * @param delimiter 分隔符
+   * @param strings   字符串
+   * @return
+   */
+  fun join(delimiter: CharSequence?, vararg strings: String?): String {
+    return java.lang.String.join(delimiter, *strings)
+  }
 
-    /**
-     * 判断字符串是否为空
-     *
-     * @param cs
-     * @return
-     */
-    public static boolean isBlank(CharSequence cs) {
-        return org.apache.commons.lang3.StringUtils.isBlank(cs);
-    }
+  /**
+   * 判断字符串是否为空
+   *
+   * @param cs
+   * @return
+   */
+  fun isBlank(cs: CharSequence?): Boolean {
+    return StringUtils.isBlank(cs)
+  }
 
-    /**
-     * 判断字符串是否为非空
-     *
-     * @param cs
-     * @return
-     */
-    public static boolean isNotBlank(CharSequence cs) {
-        return !isBlank(cs);
-    }
+  /**
+   * 判断字符串是否为非空
+   *
+   * @param cs
+   * @return
+   */
+  fun isNotBlank(cs: CharSequence?): Boolean {
+    return !isBlank(cs)
+  }
 
-    /**
-     * 比较字符串
-     * <pre>
-     * StringUtils.equals(null, null)   = true
-     * StringUtils.equals(null, "abc")  = false
-     * StringUtils.equals("abc", null)  = false
-     * StringUtils.equals("abc", "abc") = true
-     * StringUtils.equals("abc", "ABC") = false
-     * </pre>
-     *
-     * @param s1
-     * @param s2
-     * @return
-     */
-    public static boolean equals(CharSequence s1, CharSequence s2) {
-        return org.apache.commons.lang3.StringUtils.equals(s1, s2);
-    }
+  /**
+   * 比较字符串
+   * <pre>
+   * StringUtils.equals(null, null)   = true
+   * StringUtils.equals(null, "abc")  = false
+   * StringUtils.equals("abc", null)  = false
+   * StringUtils.equals("abc", "abc") = true
+   * StringUtils.equals("abc", "ABC") = false
+  </pre> *
+   *
+   * @param s1
+   * @param s2
+   * @return
+   */
+  fun equals(s1: CharSequence?, s2: CharSequence?): Boolean {
+    return StringUtils.equals(s1, s2)
+  }
 }

@@ -13,115 +13,112 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.utils;
+package com.zy.mylib.utils
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import org.aspectj.lang.JoinPoint
+import org.aspectj.lang.reflect.MethodSignature
+import org.springframework.beans.BeanUtils
+import java.lang.reflect.InvocationTargetException
 
 /**
  * @author 扬
  * @date 2017/5/15
  */
-public class BeanUtils {
-    /**
-     * 复制合并实体
-     *
-     * @param target
-     * @param source
-     * @param source
-     */
-    public static void extend(Object target, Object... source) {
-        for (Object s : source) {
-            org.springframework.beans.BeanUtils.copyProperties(source, target);
-        }
+object BeanUtils {
+  /**
+   * 复制合并实体
+   *
+   * @param target
+   * @param source
+   * @param source
+   */
+  fun extend(target: Any?, vararg source: Any?) {
+    for (s in source) {
+      BeanUtils.copyProperties(source, target)
     }
+  }
 
-    /**
-     * 复制合并实体
-     */
-    public static void extend(Object target, Object source, Class classes) {
-        org.springframework.beans.BeanUtils.copyProperties(source, target, classes);
-    }
+  /**
+   * 复制合并实体
+   */
+  fun extend(target: Any?, source: Any?, classes: Class<*>?) {
+    BeanUtils.copyProperties(source, target, classes)
+  }
 
-    static public Map<String, Object> getJoinPointParams(JoinPoint jp) {
-        Map<String, Object> params = new HashMap<>();
-        MethodSignature ms = (MethodSignature) jp.getSignature();
-        String[] paramNames = ms.getParameterNames();
-        for (int i = 0; i < paramNames.length; i++) {
-            params.put(paramNames[i], jp.getArgs()[i]);
-        }
-        return params;
+  fun getJoinPointParams(jp: JoinPoint): Map<String, Any> {
+    val params: MutableMap<String, Any> = HashMap()
+    val ms = jp.signature as MethodSignature
+    val paramNames = ms.parameterNames
+    for (i in paramNames.indices) {
+      params[paramNames[i]] = jp.args[i]
     }
+    return params
+  }
 
-    /**
-     * 获取AOP方法注解
-     *
-     * @param jp   AOP切面参数, @See {@link JoinPoint}
-     * @param type 注解类型
-     * @param <T>  继承于Annotation @See {@link Annotation}
-     * @return
-     * @throws NoSuchMethodException
-     * @throws SecurityException
-     */
-    static public <T extends Annotation> T getJoinPointAnnotation(JoinPoint jp, Class<T> type) throws NoSuchMethodException, SecurityException {
-        MethodSignature ms = (MethodSignature) jp.getSignature();
-        Class<?> classes = jp.getSignature().getDeclaringType();
-        Class<?>[] argsType = ms.getParameterTypes();
-        Method method = classes.getMethod(jp.getSignature().getName(), argsType);
-        T logger = method.getAnnotation(type);
-        return logger;
-    }
+  /**
+   * 获取AOP方法注解
+   *
+   * @param jp   AOP切面参数, @See [JoinPoint]
+   * @param type 注解类型
+   * @param <T>  继承于Annotation @See [Annotation]
+   * @return
+   * @throws NoSuchMethodException
+   * @throws SecurityException
+  </T> */
+  @Throws(NoSuchMethodException::class, SecurityException::class)
+  fun <T : Annotation?> getJoinPointAnnotation(jp: JoinPoint, type: Class<T>?): T {
+    val ms = jp.signature as MethodSignature
+    val classes = jp.signature.declaringType
+    val argsType = ms.parameterTypes
+    val method = classes.getMethod(jp.signature.name, *argsType)
+    return method.getAnnotation(type)
+  }
 
-    /**
-     * 从AOP方法中获取HistroyEntity对象
-     *
-     * @param path 参数及属性,请参考
-     * @param jp   AOP参数,请参考{@link JoinPoint}
-     * @return
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     */
-    public static <T> T getEntityByMethodParamPath(String path, JoinPoint jp) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        MethodSignature ms = (MethodSignature) jp.getSignature();
-        int firstDotIndex = path.indexOf('.');
-        String paramName = path;
-        String property = null;
-        if (firstDotIndex >= 0) {
-            paramName = path.substring(0, firstDotIndex);
-            property = path.substring(firstDotIndex + 1);
-        }
-        int index = ArrayUtils.indexOf(ms.getParameterNames(), paramName);
-        Object o = jp.getArgs()[index];
-        T he = null;
-        if (property == null) {
-            he = (T) o;
-        } else {
-            he = (T) com.zy.mylib.utils.BeanUtils.getProperty(o, property);
-        }
-        return he;
+  /**
+   * 从AOP方法中获取HistroyEntity对象
+   *
+   * @param path 参数及属性,请参考
+   * @param jp   AOP参数,请参考[JoinPoint]
+   * @return
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   * @throws InvocationTargetException
+   */
+  @Throws(NoSuchMethodException::class, IllegalAccessException::class, InvocationTargetException::class)
+  fun <T> getEntityByMethodParamPath(path: String, jp: JoinPoint): T? {
+    val ms = jp.signature as MethodSignature
+    val firstDotIndex = path.indexOf('.')
+    var paramName = path
+    var property: String? = null
+    if (firstDotIndex >= 0) {
+      paramName = path.substring(0, firstDotIndex)
+      property = path.substring(firstDotIndex + 1)
     }
+    val index = ArrayUtils.indexOf(ms.parameterNames, paramName)
+    val o = jp.args[index]
+    var he: T? = null
+    he = if (property == null) {
+      o as T
+    } else {
+      getProperty(o, property) as T?
+    }
+    return he
+  }
 
-    /**
-     * 获取对象属性
-     *
-     * @param o        对象
-     * @param property 属性
-     * @return
-     */
-    static public Object getProperty(Object o, String property) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        String[] properties = property.split("\\.");
-        Method m = o.getClass().getMethod("get" + StringUtils.firstUpperCase(properties[0]));
-        Object val = m.invoke(o);
-        if (val != null && properties.length > 1) {
-            return getProperty(val, StringUtils.join(properties, ".", 1));
-        }
-        return val;
-    }
+  /**
+   * 获取对象属性
+   *
+   * @param o        对象
+   * @param property 属性
+   * @return
+   */
+  @Throws(NoSuchMethodException::class, InvocationTargetException::class, IllegalAccessException::class)
+  fun getProperty(o: Any, property: String?): Any? {
+    val properties = property!!.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+    val m = o.javaClass.getMethod("get" + StringUtils.firstUpperCase(properties[0]))
+    val `val` = m.invoke(o)
+    return if (`val` != null && properties.size > 1) {
+      getProperty(`val`, StringUtils.join(properties, ".", 1))
+    } else `val`
+  }
 }

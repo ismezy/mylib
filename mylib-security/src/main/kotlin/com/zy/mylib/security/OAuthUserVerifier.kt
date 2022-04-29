@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security;
+package com.zy.mylib.security
 
-import java.io.Serializable;
+import java.io.Serializable
 
 /**
  * oauth 用户验证器
  *
  * @author ASUS
  */
-public interface OAuthUserVerifier<IN extends OAuthUser, OUT extends Serializable> {
-    /**
-     * 如果可校验通过返回用户，否则抛出BusException
-     *
-     * @param oauthUser
-     * @return
-     */
-    OUT verify(IN oauthUser);
+interface OAuthUserVerifier<IN : OAuthUser?, OUT : Serializable?> {
+  /**
+   * 如果可校验通过返回用户，否则抛出BusException
+   *
+   * @param oauthUser
+   * @return
+   */
+  fun verify(oauthUser: IN): OUT
 }
