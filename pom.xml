@@ -69,6 +69,8 @@
     <module>mylib-data-mybatis</module>
     <module>mylib-webmvc-mybatis</module>
     <module>mylib-graphql</module>
+    <module>mylib-swagger</module>
+    <module>mylib-swagger-web</module>
   </modules>
 
   <repositories>
