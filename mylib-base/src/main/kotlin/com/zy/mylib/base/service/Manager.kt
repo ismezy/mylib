@@ -16,12 +16,11 @@
 package com.zy.mylib.base.service
 
 import com.zy.mylib.base.model.*
-import java.io.Serializable
 
 /**
  * @author ASUS
  */
-interface Manager<T : BaseModel?, PK : Serializable> {
+interface Manager<T : BaseModel, PK> {
   /**
    * 新增
    *

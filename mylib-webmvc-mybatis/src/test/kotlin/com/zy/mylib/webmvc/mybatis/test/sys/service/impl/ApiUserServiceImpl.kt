@@ -34,8 +34,7 @@ import javax.inject.Named
  * @since 2020-07-25
  */
 @Named
-open class ApiUserServiceImpl : MyBatisBaseManagerImpl<ApiUserMapper, ApiUser>(), IApiUserService {
-
+open class ApiUserServiceImpl : MyBatisBaseManagerImpl<ApiUserMapper, ApiUser, String>(), IApiUserService {
 
     override fun findExist(entity: ApiUser): ApiUser? {
         val map: MutableMap<String, Any?> = HashMap(0)

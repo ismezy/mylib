@@ -27,7 +27,7 @@ import com.zy.mylib.base.service.Manager
  * @author zhouyang
  * @since 2020-07-25
  */
-interface IApiUserService : Manager<ApiUser, java.io.Serializable> {
+interface IApiUserService : Manager<ApiUser, String> {
     /**
      * 按code查找
      * @param code

@@ -33,7 +33,7 @@ import javax.inject.Inject
 /**
  * @author ASUS
  */
-abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel> : Manager<T, Serializable> {
+abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel, PK> : Manager<T, PK> {
     @Inject
     protected lateinit var mapper: MAPPER
 
@@ -75,8 +75,8 @@ abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel
         return entity
     }
 
-    override fun delete(id: Serializable) {
-        mapper.deleteById(id)
+    override fun delete(id: PK) {
+        mapper.deleteById(if(id is String) id else id as Serializable)
     }
 
     override fun all(): List<T> {
@@ -90,8 +90,8 @@ abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel
         return PageResponse.fromRequest(request, page.total, page.records)
     }
 
-    override fun findById(id: Serializable): T {
-        return mapper.selectById(id)
+    override fun findById(id: PK): T {
+        return mapper.selectById(if(id is String) id else id as Serializable)
     }
 
     override fun findOne(property: String, value: Any): T? {

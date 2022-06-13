@@ -17,7 +17,6 @@ package com.zy.mylib.mongo.manager
 
 import com.zy.mylib.base.model.BaseModel
 import com.zy.mylib.base.service.Manager
-import java.io.Serializable
 
 /**
  * mongodb基础管理接口
@@ -26,4 +25,4 @@ import java.io.Serializable
  * @param <PK>
  * @author 周扬
 </PK></T> */
-interface BaseMongoManager<T : BaseModel?, PK : Serializable> : Manager<T, PK>
+interface BaseMongoManager<T : BaseModel, PK> : Manager<T, PK>

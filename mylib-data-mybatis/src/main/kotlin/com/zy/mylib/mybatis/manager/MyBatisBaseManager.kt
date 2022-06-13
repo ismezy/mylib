@@ -16,16 +16,9 @@
 package com.zy.mylib.mybatis.manager
 
 import com.zy.mylib.base.model.BaseModel
-import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import com.zy.mylib.base.exception.BusException
-import com.baomidou.mybatisplus.core.toolkit.Wrappers
-import com.zy.mylib.base.model.PageResponse
-import com.zy.mylib.mybatis.utils.QueryWrapperUtils
-import com.zy.mylib.base.model.SortRequest
 import com.zy.mylib.base.service.Manager
-import java.io.Serializable
 
 /**
  * @author ASUS
  */
-interface MyBatisBaseManager<T : BaseModel?> : Manager<T, Serializable>
+interface MyBatisBaseManager<T : BaseModel> : Manager<T, Any>

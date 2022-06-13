@@ -30,7 +30,6 @@ import com.zy.mylib.utils.BeanUtils
 import com.zy.mylib.utils.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.transaction.annotation.Transactional
-import java.io.Serializable
 import java.lang.Exception
 import java.lang.StringBuilder
 import java.lang.reflect.ParameterizedType
@@ -41,7 +40,7 @@ import javax.persistence.TypedQuery
 /**
  * @author ASUS
  */
-abstract class BaseJpaManager<T : JpaEntity, PK : Serializable> : I18n(), Manager<T, PK> {
+abstract class BaseJpaManager<DAO : JpaRepository<T, PK>, T : JpaEntity, PK> : I18n(), Manager<T, PK> {
   /**
    * 获取entityManager
    *
@@ -66,7 +65,9 @@ abstract class BaseJpaManager<T : JpaEntity, PK : Serializable> : I18n(), Manage
    *
    * @return
    */
-  protected abstract val repository: JpaRepository<T?, PK?>
+  @Inject
+  protected lateinit var repository: DAO
+
   override fun findById(id: PK): T? {
     return repository.findById(id).orElse(null)
   }

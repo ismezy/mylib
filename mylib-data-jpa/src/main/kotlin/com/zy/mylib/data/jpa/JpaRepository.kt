@@ -25,4 +25,4 @@ import java.io.Serializable
  * @author 扬
  */
 @NoRepositoryBean
-interface JpaRepository<T, PK : Serializable?> : PagingAndSortingRepository<T, PK>, JpaSpecificationExecutor<T>
+interface JpaRepository<T, PK> : PagingAndSortingRepository<T, PK>, JpaSpecificationExecutor<T>

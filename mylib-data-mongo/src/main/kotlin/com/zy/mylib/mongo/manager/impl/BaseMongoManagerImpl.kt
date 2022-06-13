@@ -21,7 +21,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import javax.inject.Inject
 import com.zy.mylib.base.i18n.I18n
 import com.zy.mylib.base.model.*
-import com.zy.mylib.base.service.Manager
+import com.zy.mylib.mongo.manager.BaseMongoManager
 import com.zy.mylib.mongo.repos.BaseMongoRepository
 import com.zy.mylib.mongo.utils.PageUtils
 import com.zy.mylib.utils.BeanUtils
@@ -39,13 +39,9 @@ import java.lang.reflect.ParameterizedType
  * @param <PK>
  * @author 周扬
 </PK></T> */
-abstract class BaseMongoManagerImpl<T : BaseModel?, PK : Serializable> : I18n(), Manager<T, PK> {
-  protected var mongoTemplate: MongoTemplate? = null
+abstract class BaseMongoManagerImpl<T : BaseModel, PK : Serializable> : I18n(), BaseMongoManager<T, PK> {
   @Inject
-  fun setMongoTemplate(mongoTemplate: MongoTemplate?): BaseMongoManagerImpl<T, PK> {
-    this.mongoTemplate = mongoTemplate
-    return this
-  }
+  protected lateinit var mongoTemplate: MongoTemplate
 
   override fun findById(id: PK): T? {
     return repository.findById(id).orElse(null)
