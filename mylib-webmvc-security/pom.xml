@@ -23,7 +23,7 @@
         <artifactId>mylib</artifactId>
         <groupId>com.zy.mylib</groupId>
         <!--suppress MavenPropertyInParent-->
-        <version>${revision}</version>
+        <version>1.17.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,12 +33,12 @@
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-webmvc</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-security</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>

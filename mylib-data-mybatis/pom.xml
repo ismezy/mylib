@@ -22,7 +22,7 @@
     <parent>
         <artifactId>mylib</artifactId>
         <groupId>com.zy.mylib</groupId>
-        <version>${revision}</version>
+        <version>1.17.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -41,12 +41,12 @@
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-utils</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-base</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
