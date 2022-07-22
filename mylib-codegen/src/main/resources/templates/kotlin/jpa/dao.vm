@@ -1,0 +1,11 @@
+package ${config.pkg}.dao
+
+import ${config.pkg}.entity.${entity.name}
+import com.zy.mylib.data.jpa.JpaRepository
+
+/**
+ * ${entity.caption} jpa dao
+ * @author 代码生成器
+ */
+interface ${entity.name}Dao : JpaRepository<$entity.name, String> {
+}

@@ -1,0 +1,17 @@
+package ${config.pkg}.entity
+
+import ${entity.superClass}
+import javax.persistence.*
+
+/**
+* ${entity.caption}
+* @author 代码生成器
+*/
+@Entity
+@Table(name = "${entity.tableName}")
+class ${entity.name}: ${entity.superClassName} {
+#foreach($field in ${entity.fields})
+  @Column(length = ${field.len})
+  var ${field.name}: ${field.type}? = null
+#end
+}

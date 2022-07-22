@@ -1,0 +1,4 @@
+lang: kotlin
+pkg: com.mylib.sys.codemap
+genRest: true
+srcPath: D:\temp\src

@@ -1,0 +1,21 @@
+package ${config.pkg}.entity
+
+import ${entity.superClass}
+import javax.persistence.*
+import org.springframework.data.mongodb.core.mapping.*
+
+/**
+* ${entity.caption}
+* @author 代码生成器
+*/
+@Document("${entity.tableName}")
+class ${entity.name}: ${entity.superClassName}() {
+#foreach($field in ${entity.fields})
+  #if(${field.len})
+  @Column(length = ${field.len})
+  #else
+  @Column
+  #end
+  var ${field.name}: ${field.type}? = null
+#end
+}

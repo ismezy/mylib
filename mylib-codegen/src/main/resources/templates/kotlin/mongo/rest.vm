@@ -1,0 +1,55 @@
+package ${config.pkg}.rest
+
+import ${config.pkg}.manager.${entity.name}Manager
+import ${config.pkg}.entity.${entity.name}
+import org.springframework.web.bind.annotation.*
+import com.fasterxml.jackson.annotation.JsonView
+import com.zy.mylib.base.model.BaseModel
+import com.zy.mylib.webmvc.base.BaseRest
+import javax.inject.Inject
+import com.zy.mylib.base.model.*
+import com.zy.mylib.base.exception.BusException
+import org.springframework.validation.annotation.Validated
+
+/**
+ * ${entity.caption} rest接口
+ * @author 代码生成器
+ */
+//@RestController
+//@RequestMapping("/填写rest地址")
+class ${entity.name}Rest: BaseRest() {
+  @Inject
+  private lateinit var manager: ${entity.name}Manager
+
+  @GetMapping("{id}")
+  @JsonView(BaseModel.DetailView::class)
+  fun findOne(@PathVariable("id") id: String): ${entity.name} {
+    var ret = manager.findById(id)
+    if(ret != null) {
+      return ret
+    }
+    throw BusException.builder().message("数据不存在").httpStatus(404).build()
+  }
+
+  @PostMapping
+  @JsonView(BaseModel.DetailView::class)
+  fun addEntity(@Validated(BaseModel.AddCheck::class) @RequestBody entity: ${entity.name}): ${entity.name} {
+    return manager!!.add(entity)
+  }
+
+  @PutMapping
+  @JsonView(BaseModel.DetailView::class)
+  fun updateEntity(@Validated(BaseModel.UpdateCheck::class) @RequestBody entity: ${entity.name}): ${entity.name} {
+    return manager.update(entity)
+  }
+
+  @DeleteMapping("{id}")
+  fun remove(@PathVariable("id") id: String) {
+    return manager.delete(id)
+  }
+
+  @GetMapping("/pager")
+  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<CasbinModel> {
+    return manager.pageQuery(pageRequest, conditions)
+  }
+}

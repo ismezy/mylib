@@ -1,0 +1,11 @@
+package ${basePackage}.manager;
+
+import ${entityPackage}.${className};
+import com.zy.mylib.data.jpa.JpaManager;
+
+/**
+ * TODO: 注释
+ * @author 代码生成器
+ */
+public interface ${className}Manager extends JpaManager<${className}, String> {
+}

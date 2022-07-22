@@ -1,0 +1,13 @@
+superClass: com.zy.mylib.data.jpa.UUIDBaseEntity
+type: jpa
+name: CodeMap
+caption: 代码集
+fields:
+  - name: code
+    caption: 编号
+    type: string
+    len: 32
+  - name: caption
+    caption: 名称
+    type: string
+    len: 32
