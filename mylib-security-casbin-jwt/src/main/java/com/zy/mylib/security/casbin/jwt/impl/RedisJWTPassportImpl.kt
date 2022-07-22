@@ -38,75 +38,46 @@ import javax.servlet.http.HttpServletRequest
  * @author ASUS
  */
 @Named
-class RedisJWTPassportImpl : Passport<LoginUser>, InitializingBean {
-  /**
-   * Gets cache.
-   *
-   * @return Value of cache.
-   */
-  /**
-   * Sets new cache.
-   *
-   * @param userCache New value of cache.
-   */
-  var userCache: RedisUserCache? = null
+class RedisJWTPassportImpl : Passport, InitializingBean {
+
+  lateinit var userCache: RedisUserCache
 
   /**
    * 登录重试次数,默认5次
    */
   @Value("\${mylib.auth.retry:5}")
-  private val retry: Int? = null
+  var retry: Int = 5
 
   /**
    * 拒绝登录时间，分钟(默认10分钟)
    */
   @Value("\${mylib.auth.rejectMin:10}")
-  private val rejectMin: Int? = null
+  var rejectMin = 10
 
   @Inject
   @Named("jwtTokenRedisOperations")
-  private var redisOperations: RedisOperations<String, Serializable>? = null
-  /**
-   * Gets algorithm.
-   *
-   * @return Value of algorithm.
-   */
-  /**
-   * Sets new algorithm.
-   *
-   * @param algorithm New value of algorithm.
-   */
-  var algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET)
+  lateinit var redisOperations: RedisOperations<String, Serializable>
 
-  //
-  //    public RedisJWTPassportImpl(RedisOperations<String, ? extends Serializable> redisOperations) {
-  //        this.redisOperations = redisOperations;
-  //    }
-  val request: HttpServletRequest
+  var algorithm: Algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET)
+
+  private val request: HttpServletRequest
     get() {
       val attrs = RequestContextHolder.getRequestAttributes() as ServletRequestAttributes
-        ?: throw builder().message("当前线程中不存在 Request 上下文").build()
       return attrs.request
     }
-  override val token: String
+  override val token: String?
     get() {
       val request = request
       val headerToken = request.getHeader(HEADER_TOKEN_KEY)
       return headerToken ?: request.getParameter(QUERY_TOKEN_KEY)
     }
-  override val user: LoginUser
+  override val user: LoginUser?
     get() {
-      val token = token
-      return if (StringUtils.isBlank(token)) LoginUser() else userCache!!.get<LoginUser>(token, "user")
+      return if (token.isNullOrBlank()) LoginUser() else userCache[token!!, "user"]
     }
   override val isAuthenticated: Boolean
     get() {
-      val token = token
-      if (StringUtils.isBlank(token)) {
-        return false
-      }
-      val b = userCache!!.get<Boolean>(token, "isAuthenticated")
-      return b ?: false
+      return if(token.isNullOrBlank()) false else userCache[token!!, "isAuthenticated"]
     }
 
   override fun login(user: LoginUser): String? {
@@ -120,7 +91,7 @@ class RedisJWTPassportImpl : Passport<LoginUser>, InitializingBean {
       .withClaim("orgPath", user.orgPath)
       .withClaim("system", user.system)
       .withClaim("loginUser", user.userId)
-      .withArrayClaim("roles", user.roles!!.toTypedArray())
+      .withArrayClaim("roles", user.roles?.toTypedArray())
       .withIssuedAt(now) // 1天有效
       .withExpiresAt(Date(now.time + 1000 * 60 * 60 * 24))
       .sign(algorithm)
@@ -130,26 +101,20 @@ class RedisJWTPassportImpl : Passport<LoginUser>, InitializingBean {
       remoteAddr = request.remoteAddr
     }
     user.ip = remoteAddr
-    userCache!!.put(token, "user", user)
-    userCache!!.put(token, "isAuthenticated", true)
+    userCache.put(token, "user", user)
+    userCache.put(token, "isAuthenticated", true)
     return token
   }
 
   override fun onLoginFailed(user: String?) {
-    val request = request
     var remoteAddr = request.getHeader("X-FORWARDED-FOR")
     if (StringUtils.isBlank(remoteAddr)) {
       remoteAddr = request.remoteAddr
     }
     val key = "login:failed:$remoteAddr:$user"
-    var count = redisOperations!!.opsForValue()[key] as Int
-    if (count == null) {
-      count = 1
-      redisOperations!!.opsForValue()[key, count, rejectMin!!.toLong()] = TimeUnit.MINUTES
-    } else {
-      redisOperations!!.opsForValue()[key] = count + 1
-      redisOperations!!.expire(key, rejectMin!!.toLong(), TimeUnit.MINUTES)
-    }
+    val count = redisOperations.opsForValue()[key] as Int
+    redisOperations.opsForValue()[key] = count + 1
+    redisOperations.expire(key, rejectMin.toLong(), TimeUnit.MINUTES)
   }
 
   override fun isLock(user: String?): Boolean {
@@ -159,47 +124,27 @@ class RedisJWTPassportImpl : Passport<LoginUser>, InitializingBean {
       remoteAddr = request.remoteAddr
     }
     val key = "login:failed:$remoteAddr:$user"
-    val count = redisOperations!!.opsForValue()[key] as Int
-    return if (count != null && count >= retry!!) {
-      true
-    } else false
+    val count = redisOperations.opsForValue()[key] as Int
+    return count >= retry
   }
 
   /**
    * {@inheritDoc}
    */
   override fun update(user: LoginUser) {
-    userCache!!.put(token, "user", user)
+    token?.let { userCache.put(it, "user", user) }
   }
 
   override fun logout() {
-    userCache!!.removeToken(token)
+    token?.let { userCache.removeToken(it) }
   }
 
-  override val privoder: String
+  override val provider: String
     get() = "local"
 
   @Throws(Exception::class)
   override fun afterPropertiesSet() {
-    userCache = RedisUserCache(redisOperations!!, 1, TimeUnit.DAYS)
-  }
-
-  /**
-   * Gets redisOperations.
-   *
-   * @return Value of redisOperations.
-   */
-  fun getRedisOperations(): RedisOperations<String, out Serializable>? {
-    return redisOperations
-  }
-
-  /**
-   * Sets new redisOperations.
-   *
-   * @param redisOperations New value of redisOperations.
-   */
-  fun setRedisOperations(redisOperations: RedisOperations<String, Serializable>?) {
-    this.redisOperations = redisOperations
+    userCache = RedisUserCache(redisOperations, 1, TimeUnit.DAYS)
   }
 
   companion object {

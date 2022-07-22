@@ -23,8 +23,8 @@ import com.netflix.zuul.context.RequestContext
 import com.netflix.zuul.exception.ZuulException
 import com.zy.mylib.base.exception.BusException.Companion.builder
 import com.zy.mylib.security.Passport
-import com.zy.mylib.security.casbin.EnforcerManager
 import com.zy.mylib.utils.StringUtils
+import org.casbin.jcasbin.main.Enforcer
 
 /**
  * zuul 授权控制filter
@@ -33,29 +33,9 @@ import com.zy.mylib.utils.StringUtils
  */
 class ZuulAuthzFilter : ZuulFilter() {
   /**
-   * Gets enforcer manager.
-   *
-   * @return Value of enforcer manager.
-   */
-  /**
-   * Sets new enforcer manager.
-   *
-   * @param enforcerManager New value of enforcer manager.
-   */
-  /**
    * enforcer manager
    */
-  var enforcerManager: EnforcerManager<String>? = null
-  /**
-   * Gets 启用.
-   *
-   * @return Value of 启用.
-   */
-  /**
-   * Sets new 启用.
-   *
-   * @param enabled New value of 启用.
-   */
+  lateinit var enforcer: Enforcer
   /**
    * 启用
    */
@@ -75,13 +55,6 @@ class ZuulAuthzFilter : ZuulFilter() {
 
   @Throws(ZuulException::class)
   override fun run(): Any? {
-//        Model model = new Model();
-//        try {
-//            model.loadModelFromText(FileUtils.readAllText(modelStream));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new ZuulException(e, "读取model失败", 500, e.getCause().toString());
-//        }
     val ctx = RequestContext.getCurrentContext()
     val request = ctx.request
     val token = request.getHeader("token")
@@ -96,8 +69,6 @@ class ZuulAuthzFilter : ZuulFilter() {
         e.printStackTrace()
       }
     }
-    val enforcer = enforcerManager!!.getEnforcer(user)
-    enforcer!!.enableLog(true)
     val pass = enforcer.enforce(user, request.requestURI, request.method)
     if (!pass) {
       throw builder().message(if (isLogin) "未授权" else "未登录").httpStatus(if (isLogin) 403 else 401).build()

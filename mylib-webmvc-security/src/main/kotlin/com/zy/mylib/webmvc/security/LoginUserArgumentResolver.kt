@@ -18,6 +18,7 @@ package com.zy.mylib.webmvc.security
 import com.zy.mylib.security.LoginUser
 import com.zy.mylib.security.Passport
 import org.springframework.core.MethodParameter
+import org.springframework.lang.Nullable
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -28,16 +29,9 @@ import org.springframework.web.method.support.ModelAndViewContainer
  */
 class LoginUserArgumentResolver : HandlerMethodArgumentResolver {
   /**
-   * Gets passport.
-   *
-   * @return Value of passport.
-   */
-  /**
    * Sets new passport.
-   *
-   * @param passport New value of passport.
    */
-  var passport: Passport<LoginUser>? = null
+  var passport: Passport? = null
   override fun supportsParameter(parameter: MethodParameter): Boolean {
     return parameter.parameterType == LoginUser::class.java
   }
@@ -45,10 +39,10 @@ class LoginUserArgumentResolver : HandlerMethodArgumentResolver {
   @Throws(Exception::class)
   override fun resolveArgument(
     parameter: MethodParameter,
-    mavContainer: ModelAndViewContainer,
+    @Nullable mavContainer: ModelAndViewContainer?,
     webRequest: NativeWebRequest,
-    binderFactory: WebDataBinderFactory
-  ): Any {
-    return passport!!.user as Any
+    @Nullable binderFactory: WebDataBinderFactory?
+  ): Any? {
+    return passport!!.user
   }
 }

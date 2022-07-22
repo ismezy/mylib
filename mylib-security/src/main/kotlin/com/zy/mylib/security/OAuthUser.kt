@@ -22,29 +22,9 @@ package com.zy.mylib.security
  */
 open class OAuthUser {
   /**
-   * Gets 用户服务提供方唯一用户id.
-   *
-   * @return Value of 用户服务提供方唯一用户id.
-   */
-  /**
-   * Sets new 用户服务提供方唯一用户id.
-   *
-   * @param id New value of 用户服务提供方唯一用户id.
-   */
-  /**
    * 用户服务提供方唯一用户id
    */
   var id: String? = null
-  /**
-   * Gets 用户提供方.
-   *
-   * @return Value of 用户提供方.
-   */
-  /**
-   * Sets new 用户提供方.
-   *
-   * @param provider New value of 用户提供方.
-   */
   /**
    * 用户提供方
    */

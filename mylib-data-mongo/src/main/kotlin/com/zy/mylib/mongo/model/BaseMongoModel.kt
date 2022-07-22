@@ -29,16 +29,6 @@ import javax.persistence.MappedSuperclass
  */
 @MappedSuperclass
 open class BaseMongoModel : BaseModel {
-  /**
-   * Gets id.
-   *
-   * @return Value of id.
-   */
-  /**
-   * Sets new id.
-   *
-   * @param id New value of id.
-   */
   @Id
   @Column(name = "_id")
   @JsonView(BaseView::class)

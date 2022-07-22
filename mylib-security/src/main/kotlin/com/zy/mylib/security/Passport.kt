@@ -15,17 +15,15 @@
  */
 package com.zy.mylib.security
 
-import java.io.Serializable
-
 /**
  * @author ASUS
  */
-interface Passport<T : Serializable?> {
+interface Passport {
   /**
    * 获取当前登录用户
    * @return
    */
-  val user: T
+  val user: LoginUser?
 
   /**
    * 是否已登录
@@ -45,7 +43,7 @@ interface Passport<T : Serializable?> {
    * @param user
    * @return
    */
-  fun login(user: T): String?
+  fun login(user: LoginUser): String?
 
   /**
    * 登录失败
@@ -64,7 +62,7 @@ interface Passport<T : Serializable?> {
    * 更新登录用户缓存
    * @param user
    */
-  fun update(user: T)
+  fun update(user: LoginUser)
 
   /**
    * 登出
@@ -76,7 +74,7 @@ interface Passport<T : Serializable?> {
    *
    * @return
    */
-  val privoder: String?
+  val provider: String?
 
   companion object {
     const val HMAC_SECRET = "com.mylib"

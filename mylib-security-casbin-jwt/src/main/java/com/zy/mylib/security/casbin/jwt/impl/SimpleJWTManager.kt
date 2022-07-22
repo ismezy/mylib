@@ -27,16 +27,6 @@ import com.zy.mylib.security.casbin.jwt.JWTManager
  */
 class SimpleJWTManager : JWTManager {
   /**
-   * Gets jwt 加密算法.
-   *
-   * @return Value of jwt 加密算法.
-   */
-  /**
-   * Sets new jwt 加密算法.
-   *
-   * @param algorithm New value of jwt 加密算法.
-   */
-  /**
    * jwt 加密算法
    */
   var algorithm: Algorithm? = null

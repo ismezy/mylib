@@ -20,43 +20,13 @@ package com.zy.mylib.security
  */
 class LocalPhoneOAuthUser : OAuthUser() {
   /**
-   * Gets 手机验证码.
-   *
-   * @return Value of 手机验证码.
-   */
-  /**
-   * Sets new 手机验证码.
-   *
-   * @param code New value of 手机验证码.
-   */
-  /**
    * 手机验证码
    */
   var code: String? = null
   /**
-   * Gets 手机号.
-   *
-   * @return Value of 手机号.
-   */
-  /**
-   * Sets new 手机号.
-   *
-   * @param phone New value of 手机号.
-   */
-  /**
    * 手机号
    */
   var phone: String? = null
-  /**
-   * Gets 要登录的系统编号.
-   *
-   * @return Value of 要登录的系统编号.
-   */
-  /**
-   * Sets new 要登录的系统编号.
-   *
-   * @param system New value of 要登录的系统编号.
-   */
   /**
    * 要登录的系统编号
    */

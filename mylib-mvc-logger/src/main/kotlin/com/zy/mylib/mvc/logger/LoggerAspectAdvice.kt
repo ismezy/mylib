@@ -51,18 +51,18 @@ import java.util.*
  * @author 扬
  */
 @Aspect
-class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
+class LoggerAspectAdvice: I18n() {
   @Inject
-  private val loggerService: LoggerService<UT>? = null
+  private val loggerService: LoggerService<LoginUser>? = null
 
   @Inject
-  private val operateHistory: OperateHistoryService<UT>? = null
+  private val operateHistory: OperateHistoryService<LoginUser>? = null
 
   @Inject
   private val objectMapper: ObjectMapper? = null
 
   @Inject
-  private val passport: Passport<UT>? = null
+  private val passport: Passport? = null
   @Pointcut("@annotation(com.zy.mylib.mvc.logger.ApiLogger)")
   fun serviceAspect() {
   }
@@ -76,12 +76,12 @@ class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
   fun historyAspectAround(jp: ProceedingJoinPoint): Any {
     return try {
       val history = BeanUtils.getJoinPointAnnotation(jp, HistoryLogger::class.java)
-      var user: UT? = null
+      var user: LoginUser? = null
       try {
         if (!StringUtils.isBlank(history.user)) {
           user = BeanUtils.getEntityByMethodParamPath(history.user, jp)
         } else if (passport!!.isAuthenticated) {
-          user = passport.user
+          user = passport!!.user
         }
         if (operateHistory != null) {
           for (entityName in history.historyEntities) {
@@ -111,7 +111,7 @@ class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
    * @param jp         AOP参数,请参考[JoinPoint]
    * @param step       1 - 设置用户和时间字段 2 - 保存日志
    */
-  private fun addHistory(history: HistoryLogger, entityName: String, user: UT?, jp: JoinPoint, step: Int) {
+  private fun addHistory(history: HistoryLogger, entityName: String, user: LoginUser?, jp: JoinPoint, step: Int) {
     try {
       val `object` = BeanUtils.getEntityByMethodParamPath<Any>(entityName, jp)
       if (`object` is Collection<*>) {
@@ -140,7 +140,7 @@ class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
    * @param step    1 - 设置用户和时间字段 2 - 保存日志
    */
   @Throws(NoSuchMethodException::class, IllegalAccessException::class, InvocationTargetException::class)
-  private fun addHistory(history: HistoryLogger, he: HistoryEntity, user: UT?, jp: JoinPoint, step: Int) {
+  private fun addHistory(history: HistoryLogger, he: HistoryEntity, user: LoginUser?, jp: JoinPoint, step: Int) {
     if (user != null && step == 1) {
       val id = getIsCreate(he)
       if (id == null) {
@@ -266,7 +266,7 @@ class LoggerAspectAdvice<UT : LoginUser?> : I18n() {
     }
     if (loggerDef.db && loggerService != null) {
       var ip: String? = null;
-      var user: UT? = null
+      var user: LoginUser? = null
       if (passport!!.isAuthenticated) {
         user = passport.user
         ip = user!!.ip

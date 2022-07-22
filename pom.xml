@@ -27,19 +27,18 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <spring-cloud-version>2021.0.1</spring-cloud-version>
-    <spring-boot-version>2.6.4</spring-boot-version>
+    <spring-cloud-version>2021.0.3</spring-cloud-version>
+    <spring-boot-version>2.6.9</spring-boot-version>
     <javax.persistence-api-version>2.2</javax.persistence-api-version>
     <commons-beanutils-version>1.9.4</commons-beanutils-version>
     <guava-version>30.1-jre</guava-version>
     <commons-lang-version>3.7</commons-lang-version>
     <inject-version>1</inject-version>
-    <shiro-version>1.7.1</shiro-version>
     <commons-io-version>2.7</commons-io-version>
     <casbin-version>1.6.1</casbin-version>
     <java-jwt-version>3.12.0</java-jwt-version>
     <swagger-version>3.0.0</swagger-version>
-    <kotlin.version>1.5.31</kotlin.version>
+    <kotlin.version>1.7.0</kotlin.version>
     <mybatis-plus-version>3.5.1</mybatis-plus-version>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
@@ -53,7 +52,6 @@
     <module>mylib-webmvc</module>
     <module>mylib-data-jpa</module>
     <module>mylib-webmvc-data-jpa</module>
-    <module>mylib-security-shiro</module>
     <module>mylib-mvc-logger</module>
     <module>mylib-security-casbin</module>
     <module>mylib-security-casbin-zuul</module>
@@ -70,6 +68,9 @@
     <module>mylib-graphql</module>
     <module>mylib-swagger</module>
     <module>mylib-swagger-web</module>
+    <module>mylib-codegen</module>
+    <module>mylib-webmvc-swagger</module>
+    <module>mylib-oauth-server</module>
   </modules>
 
   <repositories>
@@ -138,11 +139,7 @@
         <artifactId>javax.inject</artifactId>
         <version>${inject-version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.apache.shiro</groupId>
-        <artifactId>shiro-web</artifactId>
-        <version>${shiro-version}</version>
-      </dependency>
+
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
@@ -224,6 +221,11 @@
       </dependency>
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-reflect</artifactId>
+        <version>${kotlin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-test</artifactId>
         <version>${kotlin.version}</version>
         <scope>test</scope>
@@ -260,6 +262,12 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
 

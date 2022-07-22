@@ -39,9 +39,16 @@ import java.lang.reflect.ParameterizedType
  * @param <PK>
  * @author 周扬
 </PK></T> */
-abstract class BaseMongoManagerImpl<T : BaseModel, PK : Serializable> : I18n(), BaseMongoManager<T, PK> {
+abstract class BaseMongoManagerImpl<DAO: BaseMongoRepository<T, PK>, T : BaseModel, PK : Serializable> : I18n(), BaseMongoManager<T, PK> {
   @Inject
   protected lateinit var mongoTemplate: MongoTemplate
+  /**
+   * 获取实体对应的Repository
+   *
+   * @return
+   */
+  @Inject
+  protected lateinit var repository: DAO
 
   override fun findById(id: PK): T? {
     return repository.findById(id).orElse(null)
@@ -140,19 +147,19 @@ abstract class BaseMongoManagerImpl<T : BaseModel, PK : Serializable> : I18n(), 
 
   private fun createCriteria(condition: Condition): Criteria {
     return when (condition.comparisonOperator) {
-      ComparisonOperators.like -> Criteria(condition.property).regex("^.*" + condition.value + ".*$")
-      ComparisonOperators.endWith -> Criteria(condition.property).regex("^" + condition.value + ".*$")
-      ComparisonOperators.startWith -> Criteria(condition.property).regex("^.*" + condition.value + "$")
-      ComparisonOperators.neq -> Criteria(condition.property).ne(condition.value)
-      ComparisonOperators.`in` -> Criteria(condition.property).`in`(condition.values)
-      ComparisonOperators.notIn -> Criteria(condition.property).`in`(condition.values).not()
-      ComparisonOperators.notNull -> Criteria(condition.property).ne(null)
-      ComparisonOperators.isNull -> Criteria(condition.property).`is`(null)
-      ComparisonOperators.gt -> Criteria(condition.property).gt(condition.value)
-      ComparisonOperators.gte -> Criteria(condition.property).gte(condition.value)
-      ComparisonOperators.lt -> Criteria(condition.property).lt(condition.value)
-      ComparisonOperators.lte -> Criteria(condition.property).lte(condition.value)
-      else -> Criteria(condition.property).`is`(condition.value)
+      ComparisonOperators.like -> Criteria(condition.property!!).regex("^.*" + condition.value + ".*$")
+      ComparisonOperators.endWith -> Criteria(condition.property!!).regex("^" + condition.value + ".*$")
+      ComparisonOperators.startWith -> Criteria(condition.property!!).regex("^.*" + condition.value + "$")
+      ComparisonOperators.neq -> Criteria(condition.property!!).ne(condition.value)
+      ComparisonOperators.`in` -> Criteria(condition.property!!).`in`(condition.values)
+      ComparisonOperators.notIn -> Criteria(condition.property!!).`in`(condition.values).not()
+      ComparisonOperators.notNull -> Criteria(condition.property!!).ne(null)
+      ComparisonOperators.isNull -> Criteria(condition.property!!).`is`(null)
+      ComparisonOperators.gt -> Criteria(condition.property!!).gt(condition.value!!)
+      ComparisonOperators.gte -> Criteria(condition.property!!).gte(condition.value!!)
+      ComparisonOperators.lt -> Criteria(condition.property!!).lt(condition.value!!)
+      ComparisonOperators.lte -> Criteria(condition.property!!).lte(condition.value!!)
+      else -> Criteria(condition.property!!).`is`(condition.value)
     }
   }
 
@@ -207,18 +214,11 @@ abstract class BaseMongoManagerImpl<T : BaseModel, PK : Serializable> : I18n(), 
   }
 
   /**
-   * 获取实体对应的Repository
-   *
-   * @return
-   */
-  protected open abstract val repository: BaseMongoRepository<T, PK>
-
-  /**
    * 修改保存前处理方法
    *
    * @param entity
    */
   protected open fun updateProcess(entity: T) {}
   protected open val tClass: Class<T>
-    protected get() = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<T>
+    protected get() = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<T>
 }

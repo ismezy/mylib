@@ -18,6 +18,7 @@ package com.zy.mylib.utils
 import com.google.common.base.Strings
 import org.apache.commons.lang3.StringUtils
 import java.util.*
+import java.util.regex.Pattern
 
 /**
  * @author 扬
@@ -122,5 +123,36 @@ object StringUtils {
    */
   fun equals(s1: CharSequence?, s2: CharSequence?): Boolean {
     return StringUtils.equals(s1, s2)
+  }
+
+  private val linePattern = Pattern.compile("_(\\w)")
+  private val humpPattern = Pattern.compile("[A-Z]")
+  /**
+   * 下划线转驼峰
+   * @param str
+   * @return
+   */
+  fun lineToHump(str: String) : String {
+    val matcher = linePattern.matcher (str)
+    val sb = StringBuffer(40)
+    while (matcher.find()) {
+      matcher.appendReplacement(sb, matcher.group(1).uppercase(Locale.getDefault()))
+    }
+    matcher.appendTail(sb)
+    return sb.toString()
+  }
+  /**
+   * 驼峰转下划线
+   * @param str
+   * @return
+   */
+  fun humpToLine(str: String): String {
+    val matcher = humpPattern.matcher(str)
+    val sb = StringBuffer(40)
+    while (matcher.find()) {
+      matcher.appendReplacement(sb, "_" + matcher.group(0))
+    }
+    matcher.appendTail(sb)
+    return sb.toString().lowercase(Locale.getDefault()).trim('_')
   }
 }

@@ -15,19 +15,17 @@
  */
 package com.zy.mylib.security
 
-import java.io.Serializable
-
 /**
  * oauth 用户验证器
  *
  * @author ASUS
  */
-interface OAuthUserVerifier<IN : OAuthUser?, OUT : Serializable?> {
+interface OAuthUserVerifier<T: OAuthUser> {
   /**
    * 如果可校验通过返回用户，否则抛出BusException
    *
    * @param oauthUser
    * @return
    */
-  fun verify(oauthUser: IN): OUT
+  fun verify(oauthUser: T): LoginUser
 }

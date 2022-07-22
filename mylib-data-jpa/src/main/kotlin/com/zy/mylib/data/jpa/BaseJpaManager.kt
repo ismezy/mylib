@@ -58,7 +58,7 @@ abstract class BaseJpaManager<DAO : JpaRepository<T, PK>, T : JpaEntity, PK> : I
   }
 
   protected open val tClass: Class<T>
-    protected get() = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<T>
+    protected get() = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<T>
 
   /**
    * 获取实体对应的Repository
