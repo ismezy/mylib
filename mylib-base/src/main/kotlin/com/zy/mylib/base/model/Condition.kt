@@ -45,4 +45,40 @@ class Condition(
      * 条件集合，此字段不为空时忽略property、value、values、comparisonOperator字段
      */
     var conditions: List<Condition>? = null) {
+  /**
+   * 构造相等表达式
+   */
+  constructor(property: String, value: Any) : this(property, value, ComparisonOperators.eq) {
+  }
+
+  constructor(property: String, value: Any, operate: ComparisonOperators) : this() {
+    this.property = property
+    this.value = value
+    comparisonOperator = operate;
+  }
+
+  constructor(property: String, values: List<Any>, operate: ComparisonOperators) : this() {
+    this.property = property
+    this.values = values
+    comparisonOperator = operate;
+  }
+
+  constructor(conditions: List<Condition>): this(conditions, LogicalOperators.And) {
+  }
+
+  constructor(conditions: List<Condition>, operate: LogicalOperators): this() {
+    this.conditions = conditions;
+    this.logicalOperator = operate
+  }
+
+  companion object {
+    @JvmStatic
+    inline fun and(vararg conditions: Condition): Condition {
+      return Condition(listOf(*conditions));
+    }
+    @JvmStatic
+    inline fun or(vararg conditions: Condition): Condition {
+      return Condition(listOf(*conditions), LogicalOperators.Or);
+    }
+  }
 }
