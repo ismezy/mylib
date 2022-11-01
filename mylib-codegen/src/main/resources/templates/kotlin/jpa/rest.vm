@@ -4,7 +4,7 @@ import ${config.pkg}.manager.${entity.name}Manager
 import ${entityPackage}.${entity.name}
 import org.springframework.web.bind.annotation.*
 import com.fasterxml.jackson.annotation.JsonView
-import com.zy.mylib.base.model.BaseModel
+import com.zy.mylib.base.model.*
 import com.zy.mylib.data.jpa.PageUtils
 import com.zy.mylib.security.LoginUser
 import com.zy.mylib.webmvc.base.BaseRest
@@ -52,10 +52,7 @@ class ${entity.name}Rest: BaseRest() {
   }
 
   @GetMapping("/pager")
-  fun findPage(pageable: Pageable, filter: ${entity.name}): Page<${entity.name}>? {
-    var operateMap = HashMap<String, PageUtils.Operate>()
-    var extParams = HashMap<String, Any>()
-
-    return manager!!.pager(pageable, filter, operateMap, extParams)
+  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<${entity.name}> {
+    return manager.pageQuery(pageRequest, conditions)
   }
 }

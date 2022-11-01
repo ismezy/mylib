@@ -1,5 +1,5 @@
 superClass: com.zy.mylib.data.jpa.UUIDBaseEntity
-type: jpa
+type: mongo
 name: CodeMap
 caption: 代码集
 fields:
@@ -10,4 +10,4 @@ fields:
   - name: caption
     caption: 名称
     type: string
-    len: 32
+    len: 64

@@ -49,7 +49,7 @@ class ${entity.name}Rest: BaseRest() {
   }
 
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<CasbinModel> {
+  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<${entity.name}> {
     return manager.pageQuery(pageRequest, conditions)
   }
 }

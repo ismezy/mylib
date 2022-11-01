@@ -19,7 +19,7 @@ import com.zy.mylib.utils.StringUtils.humpToLine
 
 val fileExtMap = mapOf<String, String>("kotlin" to "kt", "java" to "java")
 
-object CodeGenConfig {
+class CodeGenConfig {
   var lang: String = "kotlin"
   var genRest = false
   lateinit var pkg: String
@@ -29,7 +29,7 @@ object CodeGenConfig {
     get() = fileExtMap[lang]?:"java"
 }
 
-object EntityConfig {
+class EntityConfig {
   var superClass: String = "com.zy.mylib.data.jpa.UUIDBaseEntity"
 
   /**
@@ -46,7 +46,7 @@ object EntityConfig {
     get() = humpToLine(name)
 }
 
-object FieldConfig {
+class FieldConfig {
   lateinit var name: String
   lateinit var caption: String
 

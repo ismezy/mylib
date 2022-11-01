@@ -1,0 +1,26 @@
+package ${config.pkg}.entity;
+
+import ${entity.superClass};
+import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${entity.caption}
+ * @author 代码生成器
+ */
+@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Document("${entity.tableName}")
+public class ${entity.name} extends ${entity.superClassName} {
+#foreach($field in ${entity.fields})
+    #if(${field.len})
+    @Column(length = ${field.len})
+    #else
+    @Column
+    #end
+  private ${field.type} ${field.name};
+#end
+}

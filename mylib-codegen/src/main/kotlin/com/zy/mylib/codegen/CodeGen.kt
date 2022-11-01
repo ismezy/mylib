@@ -74,11 +74,12 @@ class GenImpl(
     // 创建目录
     val targetPath = File(config.srcPath, config.pkg.replace('.', '/') + "/rest")
     targetPath.mkdirs()
-    write(File(targetPath, "${entity.name}Rest.kt"), template, context)
+    write(File(targetPath, "${entity.name}Rest.${config.fileExtName}"), template, context)
   }
+
   private fun write(target: File, template: Template, context: VelocityContext) {
     // 如果文件存在跳过
-    if(target.exists()) {
+    if (target.exists()) {
       return
     }
     FileWriter(target).use {
@@ -95,9 +96,9 @@ class GenImpl(
     val implTargetPath = File(config.srcPath, config.pkg.replace('.', '/') + "/manager/impl")
     implTargetPath.mkdirs()
     // 生成manager
-    write(File(targetPath, "${entity.name}Manager.kt"), template, context)
+    write(File(targetPath, "${entity.name}Manager.${config.fileExtName}"), template, context)
     // 生成managerImpl
-    write(File(implTargetPath, "${entity.name}ManagerImpl.kt"), implTemplate, context)
+    write(File(implTargetPath, "${entity.name}ManagerImpl.${config.fileExtName}"), implTemplate, context)
   }
 
   private fun genDao(context: VelocityContext, entity: EntityConfig) {
@@ -105,7 +106,7 @@ class GenImpl(
     // 创建目录
     val targetPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dao")
     targetPath.mkdirs()
-    write(File(targetPath, "${entity.name}Dao.kt"), template, context)
+    write(File(targetPath, "${entity.name}Dao.${config.fileExtName}"), template, context)
   }
 
   private fun genEntity(context: VelocityContext, entity: EntityConfig) {
@@ -113,6 +114,7 @@ class GenImpl(
     // 创建目录
     val targetPath = File(config.srcPath, config.pkg.replace('.', '/') + "/entity")
     targetPath.mkdirs()
-    write(File(targetPath, "${entity.name}.kt"), template, context)
+    write(File(targetPath, "${entity.name}.${config.fileExtName}"), template, context)
   }
+
 }

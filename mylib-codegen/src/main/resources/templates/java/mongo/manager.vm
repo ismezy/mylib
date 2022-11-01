@@ -1,0 +1,11 @@
+package ${config.pkg}.manager;
+
+import ${config.pkg}.entity.${entity.name};
+import com.zy.mylib.base.service.Manager;
+
+/**
+ * ${entity.caption} 管理类接口
+ * @author 代码生成器
+ */
+public interface ${entity.name}Manager extends Manager<${entity.name}, String> {
+}
