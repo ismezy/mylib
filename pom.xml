@@ -67,7 +67,6 @@
     <module>mylib-webmvc-mybatis</module>
     <module>mylib-graphql</module>
     <module>mylib-swagger</module>
-    <module>mylib-swagger-web</module>
     <module>mylib-codegen</module>
     <module>mylib-webmvc-swagger</module>
     <module>mylib-oauth-server</module>
