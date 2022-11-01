@@ -78,5 +78,7 @@ interface Passport {
 
   companion object {
     const val HMAC_SECRET = "com.mylib"
+    const val HEADER_TOKEN_KEY = "token"
+    const val QUERY_TOKEN_KEY = "__token"
   }
 }
