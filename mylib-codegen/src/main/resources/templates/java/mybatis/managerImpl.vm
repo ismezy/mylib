@@ -7,9 +7,9 @@ import com.zy.mylib.mybatis.manager.MyBatisBaseManagerImpl;
 import javax.inject.Named;
 
 /**
-* ${entity.caption} 管理类
-* @author 代码生成器
-*/
+ * ${entity.caption} 管理类
+ * @author 代码生成器
+ */
 @Named
 public class ${entity.name}ManagerImpl extends MyBatisBaseManagerImpl<${entity.name}Dao, ${entity.name}, String> implements ${entity.name}Manager {
 }

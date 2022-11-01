@@ -1,0 +1,11 @@
+package ${config.pkg}.dao
+
+import ${config.pkg}.entity.${entity.name}
+import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper
+
+/**
+ * ${entity.caption} mongo dao
+ * @author 代码生成器
+ */
+interface ${entity.name}Dao : MyBatisBaseMapper<$entity.name> {
+}

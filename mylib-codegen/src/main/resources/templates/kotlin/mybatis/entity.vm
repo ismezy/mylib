@@ -1,0 +1,17 @@
+package ${config.pkg}.entity
+
+import ${entity.superClass}
+import org.springframework.data.mongodb.core.mapping.*
+import com.baomidou.mybatisplus.annotation.*
+
+/**
+ * ${entity.caption}
+ * @author 代码生成器
+ */
+@TableName("${entity.tableName}")
+class ${entity.name}: ${entity.superClassName}() {
+#foreach($field in ${entity.fields})
+  @TableField("${field.fieldName}")
+  var ${field.name}: ${field.type}? = null
+#end
+}
