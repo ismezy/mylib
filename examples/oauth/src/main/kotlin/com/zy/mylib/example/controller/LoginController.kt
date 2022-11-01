@@ -18,6 +18,8 @@ package com.zy.mylib.example.controller
 import com.zy.mylib.security.OAuthUserVerifier
 import com.zy.mylib.security.Passport
 import com.zy.mylib.security.provider.UserPasswordOAuthUser
+import org.springframework.context.annotation.Bean
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,11 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam
 import java.net.URLEncoder
 import javax.inject.Inject
 
-@Controller
+@Component
 @RequestMapping
 class LoginController {
   @Inject
   lateinit var passport: Passport
+
   @Inject
   lateinit var userVerifier: OAuthUserVerifier<UserPasswordOAuthUser>
 
@@ -48,8 +51,8 @@ class LoginController {
       })
       val token = passport.login(loginUser)
       println(token)
-      "redirect:/";
-    } catch(e: Exception) {
+      "redirect:/index?${Passport.QUERY_TOKEN_KEY}=${token}";
+    } catch (e: Exception) {
       "redirect:/login?error=${URLEncoder.encode(e.message, "utf-8")}"
     }
   }

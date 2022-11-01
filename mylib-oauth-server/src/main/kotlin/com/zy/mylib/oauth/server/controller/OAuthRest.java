@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.example.controller
+package com.zy.mylib.oauth.server.controller;
 
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import com.zy.mylib.webmvc.base.BaseRest;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * oauth2 服务接口
+ * @author zhouyang
  */
-@Controller
+@RestController
 @RequestMapping("/oauth")
-class AuthServerController {
-  @GetMapping("/oauth")
-  fun authorize(@RequestParam(name = "clientId") clientId: String, @RequestParam(name = "secret") secret: String) {
+public class OAuthRest extends BaseRest {
 
-  }
 }

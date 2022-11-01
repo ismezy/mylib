@@ -15,10 +15,10 @@
  */
 package com.zy.mylib.example
 
-import com.zy.mylib.security.casbin.jwt.CasbinSecurityJwtModule
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
+import com.zy.mylib.security.casbin.jwt.CasbinSecurityJwtModule;
 
 @SpringBootApplication(scanBasePackages = ["com.zy.mylib.example"])
 @Import(CasbinSecurityJwtModule::class)
