@@ -41,6 +41,11 @@
     </dependency>
     <dependency>
       <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-webmvc</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
       <artifactId>mylib-codegen</artifactId>
       <version>${project.version}</version>
     </dependency>
