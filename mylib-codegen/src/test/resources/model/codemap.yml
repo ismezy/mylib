@@ -1,5 +1,5 @@
-superClass: com.zy.mylib.data.jpa.UUIDBaseEntity
-type: mongo
+superClass: com.zy.mylib.mybatis.entity.UuidBaseEntity
+type: mybatis
 name: CodeMap
 caption: 代码集
 fields:

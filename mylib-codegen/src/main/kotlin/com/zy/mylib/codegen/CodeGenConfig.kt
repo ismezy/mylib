@@ -55,4 +55,6 @@ class FieldConfig {
    */
   var type = "string"
   var len = 255
+  val fieldName: String
+    get() = humpToLine(name)
 }
