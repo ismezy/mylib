@@ -17,42 +17,28 @@ package com.zy.mylib.security.casbin.jwt.impl
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.zy.mylib.base.exception.BusException.Companion.builder
 import com.zy.mylib.cache.redis.RedisUserCache
+import com.zy.mylib.security.AbstractPassport
 import com.zy.mylib.security.LoginUser
 import com.zy.mylib.security.Passport
 import com.zy.mylib.utils.StringUtils
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisOperations
-import org.springframework.web.context.request.RequestContextHolder
-import org.springframework.web.context.request.ServletRequestAttributes
 import java.io.Serializable
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
-import javax.servlet.http.HttpServletRequest
 
 /**
  * @author ASUS
  */
 @Named
-class RedisJWTPassportImpl : Passport, InitializingBean {
+class RedisJWTPassportImpl : AbstractPassport(), InitializingBean {
 
   lateinit var userCache: RedisUserCache
 
-  /**
-   * 登录重试次数,默认5次
-   */
-  @Value("\${mylib.auth.retry:5}")
-  var retry: Int = 5
 
-  /**
-   * 拒绝登录时间，分钟(默认10分钟)
-   */
-  @Value("\${mylib.auth.rejectMin:10}")
-  var rejectMin = 10
 
   @Inject
   @Named("jwtTokenRedisOperations")
@@ -60,17 +46,8 @@ class RedisJWTPassportImpl : Passport, InitializingBean {
 
   var algorithm: Algorithm = Algorithm.HMAC256(Passport.HMAC_SECRET)
 
-  private val request: HttpServletRequest
-    get() {
-      val attrs = RequestContextHolder.getRequestAttributes() as ServletRequestAttributes
-      return attrs.request
-    }
-  override val token: String?
-    get() {
-      val request = request
-      val headerToken = request.getHeader(HEADER_TOKEN_KEY)
-      return headerToken ?: request.getParameter(QUERY_TOKEN_KEY)
-    }
+
+
   override val user: LoginUser?
     get() {
       return if (token.isNullOrBlank()) LoginUser() else userCache[token!!, "user"]
@@ -147,8 +124,4 @@ class RedisJWTPassportImpl : Passport, InitializingBean {
     userCache = RedisUserCache(redisOperations, 1, TimeUnit.DAYS)
   }
 
-  companion object {
-    const val HEADER_TOKEN_KEY = "token"
-    const val QUERY_TOKEN_KEY = "__token"
-  }
 }
