@@ -26,7 +26,7 @@ import javax.persistence.MappedSuperclass
  * @date 2017/5/15
  */
 @MappedSuperclass
-abstract class HistoryEntity : UUIDBaseEntity() {
+abstract class HistoryEntity : UuidBaseEntity() {
   interface HistoryView : DetailView
   /**
    * Gets 创建人.

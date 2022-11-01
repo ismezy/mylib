@@ -25,7 +25,7 @@ import javax.persistence.MappedSuperclass
  * @date 2017/3/23
  */
 @MappedSuperclass
-abstract class NameCodeEntity : UUIDBaseEntity() {
+abstract class NameCodeEntity : UuidBaseEntity() {
   @JsonView(BaseView::class)
   @Column(length = 64)
   var name: String? = null

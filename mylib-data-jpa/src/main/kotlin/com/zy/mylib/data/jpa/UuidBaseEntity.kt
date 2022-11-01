@@ -28,7 +28,7 @@ import javax.persistence.MappedSuperclass
  * @date 2017/3/23
  */
 @MappedSuperclass
-abstract class UUIDBaseEntity : JpaEntity() {
+abstract class UuidBaseEntity : JpaEntity() {
   /**
    * Gets id.
    *
