@@ -18,46 +18,46 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mylib</artifactId>
+        <artifactId>mylib-webmvc</artifactId>
         <groupId>com.zy.mylib</groupId>
-        <!--suppress MavenPropertyInParent-->
         <version>1.18.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mylib-mvc-logger</artifactId>
+    <artifactId>mylib-webmvc-mybatis</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-webmvc</artifactId>
+            <artifactId>mylib-data-mybatis</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-security</artifactId>
+            <artifactId>mylib-webmvc-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-utils</artifactId>
+            <artifactId>mylib-kotlin-support</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-data-jpa</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <scope>compile</scope>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.210</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>

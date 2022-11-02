@@ -20,44 +20,44 @@
     <parent>
         <artifactId>mylib</artifactId>
         <groupId>com.zy.mylib</groupId>
+        <!--suppress MavenPropertyInParent-->
         <version>1.18.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mylib-webmvc-mybatis</artifactId>
+    <artifactId>mylib-mvc-logger</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-data-mybatis</artifactId>
+            <artifactId>mylib-webmvc-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-webmvc</artifactId>
+            <artifactId>mylib-security-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-kotlin-support</artifactId>
+            <artifactId>mylib-utils</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.mylib</groupId>
+            <artifactId>mylib-data-jpa</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.1.210</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-
 </project>
