@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.manager.impl
+package com.zy.mylib.security.entity
 
-import com.zy.mylib.mongo.manager.impl.BaseMongoManagerImpl
-import com.zy.mylib.security.entity.User
-import com.zy.mylib.security.dao.UserDao
-import com.zy.mylib.security.manager.UserManager
-import org.springframework.stereotype.Service
+import com.zy.mylib.mongo.model.BaseMongoModel
+import org.springframework.data.mongodb.core.mapping.Document
+import java.util.Date
 
-@Service
-class UserManagerImpl : BaseMongoManagerImpl<UserDao, User, String>(), UserManager {
-  override val salt: String
-    get() = super.salt
-
+@Document("sys_user")
+class User : BaseMongoModel() {
+  var password: String? = null
+  var loginId: String? = null
+  var enabled: Boolean? = null
+  var username: String? = null
+  var lastLogin: Date? = null
 }

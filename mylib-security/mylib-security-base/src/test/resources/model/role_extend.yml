@@ -1,0 +1,14 @@
+superClass: com.zy.mylib.mongo.model.BaseMongoModel
+type: mongo
+name: RoleExtend
+caption: 角色
+fields:
+  - name: roleId
+    caption: 角色id
+    type: String
+  - name: type
+    caption: 继承者类型
+    type: String
+  - name: extendId
+    caption: 继承者id
+    type: String

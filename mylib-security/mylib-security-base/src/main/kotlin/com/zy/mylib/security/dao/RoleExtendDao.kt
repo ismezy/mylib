@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.entity
+package com.zy.mylib.security.dao
 
-import com.zy.mylib.mongo.model.BaseMongoModel
-import org.springframework.data.mongodb.core.mapping.Document
-import java.util.Date
+import com.zy.mylib.security.entity.RoleExtend
+import com.zy.mylib.mongo.repos.BaseMongoRepository
 
-@Document("sys_user")
-class User : BaseMongoModel() {
-  var password: String? = null
-  var loginId: String? = null
-  var enabled: Boolean? = null
-  var username: String? = null
-  var lastLogin: Date? = null
+/**
+ * 角色 mongo dao
+ * @author 代码生成器
+ */
+interface RoleExtendDao : BaseMongoRepository<RoleExtend, String> {
 }
