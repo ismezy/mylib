@@ -45,29 +45,20 @@
   <modules>
     <module>mylib-dependencies</module>
     <module>mylib-utils</module>
-    <module>mylib-data-mongo</module>
     <module>mylib-base</module>
-    <module>mylib-webmvc</module>
-    <module>mylib-data-jpa</module>
-    <module>mylib-webmvc-data-jpa</module>
-    <module>mylib-mvc-logger</module>
-    <module>mylib-security-casbin</module>
-    <module>mylib-security-casbin-zuul</module>
     <module>mylib-cache-guava</module>
-    <module>mylib-security-casbin-jwt</module>
-    <module>mylib-security</module>
     <module>mylib-cache-redis</module>
-    <module>mylib-webmvc-security</module>
     <module>mylib-kotlin-support</module>
     <module>mylib-qrcode</module>
     <module>mylib-excel</module>
-    <module>mylib-data-mybatis</module>
-    <module>mylib-webmvc-mybatis</module>
     <module>mylib-graphql</module>
     <module>mylib-swagger</module>
     <module>mylib-codegen</module>
-    <module>mylib-webmvc-swagger</module>
     <module>mylib-oauth-server</module>
+    <module>mylib-data</module>
+    <module>mylib-security</module>
+    <module>mylib-webmvc</module>
+    <module>mylib-mapstruct</module>
   </modules>
 
   <repositories>
@@ -234,6 +225,11 @@
         <artifactId>lombok</artifactId>
         <version>1.18.18</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>1.5.3.Final</version>
       </dependency>
       <!-- zuul -->
       <dependency>
