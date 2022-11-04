@@ -50,7 +50,7 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-webmvc</artifactId>
+        <artifactId>mylib-webmvc-baes</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -90,7 +90,7 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-security</artifactId>
+        <artifactId>mylib-security-base</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -152,6 +152,11 @@
       <dependency>
         <groupId>com.zy.mylib</groupId>
         <artifactId>mylib-oauth-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zy.mylib</groupId>
+        <artifactId>mylib-mapstruct</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
