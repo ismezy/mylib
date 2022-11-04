@@ -1,0 +1,13 @@
+package ${package}.dto
+
+import ${entity.superClass}
+
+/**
+ * ${entity.caption} DTO
+ * @author 代码生成器
+ */
+class ${entity.name}${dtoSuffix}: ${entity.superClassName}() {
+#foreach($field in ${entity.fields})
+  var ${field.name}: ${field.type}? = null
+#end
+}

@@ -1,4 +1,4 @@
-package ${config.pkg}.entity
+package ${package}.entity
 
 import ${entity.superClass}
 import javax.persistence.*
@@ -11,7 +11,10 @@ import org.springframework.data.mongodb.core.mapping.*
 @Document("${entity.tableName}")
 class ${entity.name}: ${entity.superClassName}() {
 #foreach($field in ${entity.fields})
-  #if(${field.len})
+  /**
+   * ${entity.caption}
+   */
+  #if(${field.len} > 0)
   @Column(length = ${field.len})
   #else
   @Column

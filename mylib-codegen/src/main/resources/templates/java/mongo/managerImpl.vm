@@ -1,8 +1,8 @@
-package ${config.pkg}.manager.impl;
+package ${package}.manager.impl;
 
-import ${config.pkg}.dao.${entity.name}Dao;
-import ${config.pkg}.entity.${entity.name};
-import ${config.pkg}.manager.${entity.name}Manager;
+import ${package}.dao.${entity.name}Dao;
+import ${package}.entity.${entity.name};
+import ${package}.manager.${entity.name}Manager;
 import com.zy.mylib.mongo.manager.impl.BaseMongoManagerImpl;
 import javax.inject.Named;
 

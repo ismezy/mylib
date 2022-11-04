@@ -1,6 +1,6 @@
-package ${config.pkg}.dao
+package ${package}.dao
 
-import ${config.pkg}.entity.${entity.name}
+import ${package}.entity.${entity.name}
 import com.zy.mylib.mybatis.mapper.MyBatisBaseMapper
 
 /**

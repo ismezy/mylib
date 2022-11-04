@@ -1,6 +1,6 @@
-package ${config.pkg}.rest
+package ${package}.rest
 
-import ${config.pkg}.manager.${entity.name}Manager
+import ${package}.manager.${entity.name}Manager
 import ${entityPackage}.${entity.name}
 import org.springframework.web.bind.annotation.*
 import com.fasterxml.jackson.annotation.JsonView

@@ -1,4 +1,4 @@
-package ${config.pkg}.entity
+package ${package}.entity
 
 import ${entity.superClass}
 import javax.persistence.*
@@ -11,7 +11,11 @@ import javax.persistence.*
 @Table(name = "${entity.tableName}")
 class ${entity.name}: ${entity.superClassName} {
 #foreach($field in ${entity.fields})
+  #if(${field.len} > 0)
   @Column(length = ${field.len})
+  #else
+  @Column
+  #end
   var ${field.name}: ${field.type}? = null
 #end
 }

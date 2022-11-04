@@ -1,6 +1,6 @@
-package ${config.pkg}.manager;
+package ${package}.manager;
 
-import ${config.pkg}.entity.${entity.name};
+import ${package}.entity.${entity.name};
 import com.zy.mylib.base.service.Manager;
 
 /**

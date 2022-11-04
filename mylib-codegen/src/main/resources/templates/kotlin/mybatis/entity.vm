@@ -1,4 +1,4 @@
-package ${config.pkg}.entity
+package ${package}.entity
 
 import ${entity.superClass}
 import org.springframework.data.mongodb.core.mapping.*

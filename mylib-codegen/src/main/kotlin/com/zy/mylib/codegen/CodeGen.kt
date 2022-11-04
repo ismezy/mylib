@@ -29,7 +29,7 @@ class CodeGen {
     /**
      * 开始构建
      */
-    fun run(vararg model: String) {
+    fun run(vararg model: String, srcPath: String? = null) {
       // 初始化模板引擎
       val properties = Properties()
       ClassLoader.getSystemResourceAsStream("velocity.properties").use { properties.load(it) }
@@ -39,6 +39,10 @@ class CodeGen {
       val mapper = ObjectMapper(YAMLFactory())
       ClassLoader.getSystemResourceAsStream("global.yml").use {
         val globalConfig = mapper.readValue(it, CodeGenConfig::class.java)
+        // srcPath参数为主
+        if(srcPath != null) {
+          globalConfig.srcPath = srcPath
+        }
         val entities = model.map { entity ->
           ClassLoader.getSystemResourceAsStream("model/$entity.yml").use { stream ->
             mapper.readValue(stream, EntityConfig::class.java)
@@ -58,15 +62,35 @@ class GenImpl(
 
   fun gen() {
     entities.forEach {
-      val context = VelocityContext(mapOf("entity" to it, "config" to config))
+      val context = VelocityContext(mapOf(
+          "entity" to it,
+          "config" to config,
+          "package" to if(it.pkg != null) it.pkg else config.pkg
+      ))
       // 生成实体
       genEntity(context, it)
       genDao(context, it)
       genManager(context, it)
+      genDto(context, it);
       if (config.genRest) {
         genRest(context, it)
       }
     }
+  }
+
+  private fun genDto(context: VelocityContext, entity: EntityConfig) {
+    val dtoTmpl = engine.getTemplate("templates/${config.lang}/${entity.type}/dto.vm")
+    val mapperTmpl = engine.getTemplate("templates/${config.lang}/${entity.type}/dtoMapper.vm")
+    // 创建目录
+    val dtoPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dto")
+    val mapperPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dto/mapper")
+    mapperPath.mkdirs()
+    context.put("dtoSuffix", "Request")
+    write(File(dtoPath, "${entity.name}Request.${config.fileExtName}"), dtoTmpl, context)
+    write(File(mapperPath, "${entity.name}RequestMapper.${config.fileExtName}"), mapperTmpl, context)
+    context.put("dtoSuffix", "Response")
+    write(File(dtoPath, "${entity.name}Response.${config.fileExtName}"), dtoTmpl, context)
+    write(File(mapperPath, "${entity.name}ResponseMapper.${config.fileExtName}"), mapperTmpl, context)
   }
 
   private fun genRest(context: VelocityContext, entity: EntityConfig) {

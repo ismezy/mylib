@@ -22,8 +22,8 @@ val fileExtMap = mapOf<String, String>("kotlin" to "kt", "java" to "java")
 class CodeGenConfig {
   var lang: String = "kotlin"
   var genRest = false
+  var srcPath: String? = ""
   lateinit var pkg: String
-  lateinit var srcPath: String
 
   val fileExtName: String
     get() = fileExtMap[lang]?:"java"
@@ -36,6 +36,7 @@ class EntityConfig {
    * jpa | mongo | mybatis
    */
   var type: String = "jpa"
+  var pkg: String? = null
   lateinit var fields: List<FieldConfig>
   lateinit var name: String
   lateinit var caption: String
@@ -54,7 +55,7 @@ class FieldConfig {
    * string | int | long | Datetime
    */
   var type = "string"
-  var len = 255
+  var len = 0
   val fieldName: String
     get() = humpToLine(name)
 }

@@ -1,21 +1,18 @@
-package ${package}.entity;
+package ${package}.dto;
 
 import ${entity.superClass};
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.*;
 
 /**
- * ${entity.caption}
+ * ${entity.caption} DTO
  * @author 代码生成器
  */
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-@TableName("${entity.tableName}")
-public class ${entity.name} extends ${entity.superClassName} {
+public class ${entity.name}${dtoSuffix} extends ${entity.superClassName} {
 #foreach($field in ${entity.fields})
-  @TableField("${field.fieldName}")
   private ${field.type} ${field.name};
 #end
 }

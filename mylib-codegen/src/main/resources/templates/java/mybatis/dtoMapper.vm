@@ -1,0 +1,15 @@
+package ${package}.dto.mapper;
+
+import com.zy.mylib.mapstruct.BaseMapper;
+import ${package}.entity.${entity.name};
+import ${package}.dto.${entity.name}${dtoSuffix};
+import org.mapstruct.Mapper;
+
+/**
+ * ${entity.caption} DTO ${dtoSuffix}  mapper
+ * @author 代码生成器
+ */
+@Mapper
+public interface ${entity.name}${dtoSuffix}Mapper extends BaseMapper<${entity.name}, ${entity.name}${dtoSuffix}> {
+
+}
