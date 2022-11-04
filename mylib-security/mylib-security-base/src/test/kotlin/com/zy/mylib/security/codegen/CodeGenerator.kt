@@ -17,7 +17,6 @@ package com.zy.mylib.security.codegen
 
 import com.zy.mylib.codegen.CodeGen
 import org.junit.jupiter.api.Test
-import java.io.File
 
 object CodeGenerator {
   @Test

@@ -30,7 +30,7 @@
   <dependencies>
     <dependency>
       <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-webmvc</artifactId>
+      <artifactId>mylib-webmvc-base</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -48,6 +48,15 @@
       <artifactId>mylib-codegen</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-mapstruct</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
   </dependencies>
 </project>
