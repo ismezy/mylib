@@ -15,6 +15,5 @@
 #
 
 lang: kotlin
-pkg: com.zy.mylib.security.casbin
+pkg: com.zy.mylib.security
 genRest: true
-srcPath: D:\workspace\java\mylib\examples\oauth\src\main\kotlin
