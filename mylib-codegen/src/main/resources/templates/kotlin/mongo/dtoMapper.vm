@@ -1,8 +1,7 @@
 package ${package}.dto.mapper
 
-import com.zy.mylib.mapstruct.BaseMapper
 import ${package}.entity.${entity.name}
-import ${package}.dto.${entity.name}${dtoSuffix}
+import ${package}.dto.*
 import org.mapstruct.Mapper
 
 /**
@@ -10,6 +9,9 @@ import org.mapstruct.Mapper
  * @author 代码生成器
  */
 @Mapper
-interface ${entity.name}${dtoSuffix}Mapper: BaseMapper<${entity.name}, ${entity.name}${dtoSuffix}> {
-
+interface ${entity.name}Convert {
+  fun toRequest(entity: ${entity.name}): ${entity.name}Request
+  fun toResponse(entity: ${entity.name}): ${entity.name}Response
+  fun fromRequest(request: ${entity.name}Request): ${entity.name}
+  fun fromResponse(response: ${entity.name}Response): ${entity.name}
 }

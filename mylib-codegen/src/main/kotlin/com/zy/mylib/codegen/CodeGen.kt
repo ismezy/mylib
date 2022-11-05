@@ -87,10 +87,9 @@ class GenImpl(
     mapperPath.mkdirs()
     context.put("dtoSuffix", "Request")
     write(File(dtoPath, "${entity.name}Request.${config.fileExtName}"), dtoTmpl, context)
-    write(File(mapperPath, "${entity.name}RequestMapper.${config.fileExtName}"), mapperTmpl, context)
     context.put("dtoSuffix", "Response")
     write(File(dtoPath, "${entity.name}Response.${config.fileExtName}"), dtoTmpl, context)
-    write(File(mapperPath, "${entity.name}ResponseMapper.${config.fileExtName}"), mapperTmpl, context)
+    write(File(mapperPath, "${entity.name}Convert.${config.fileExtName}"), mapperTmpl, context)
   }
 
   private fun genRest(context: VelocityContext, entity: EntityConfig) {
@@ -131,6 +130,13 @@ class GenImpl(
     val targetPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dao")
     targetPath.mkdirs()
     write(File(targetPath, "${entity.name}Dao.${config.fileExtName}"), template, context)
+    if(entity.type == "mybatis") {
+      // 创建mapper.xml
+      val mapperXmlRoot = File(config.srcPath, "../resources/mapper");
+      val mapperTemplate = engine.getTemplate("templates/${config.lang}/${entity.type}/mybatisMapper.vm")
+      mapperXmlRoot.mkdirs()
+      write(File(mapperXmlRoot, "${entity.name}Mapper.xml"), mapperTemplate, context);
+    }
   }
 
   private fun genEntity(context: VelocityContext, entity: EntityConfig) {
