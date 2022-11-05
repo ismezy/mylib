@@ -21,6 +21,6 @@ import org.junit.jupiter.api.Test
 object CodeGenerator {
   @Test
   fun gen() {
-    CodeGen.run("casbin_model")
+    CodeGen.run("casbin_model", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
   }
 }
