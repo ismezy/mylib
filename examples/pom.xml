@@ -32,7 +32,7 @@
   </properties>
 
   <modules>
-    <module>oauth</module>
+    <module>admin-console</module>
   </modules>
 
   <repositories>
