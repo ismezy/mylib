@@ -16,10 +16,12 @@
 package com.zy.mylib.security.codegen
 
 import com.zy.mylib.codegen.CodeGen
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 object CodeGenerator {
   @Test
+  @Disabled
   fun gen() {
     CodeGen.run("role", "role_extend", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
   }
