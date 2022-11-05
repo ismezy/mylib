@@ -40,5 +40,6 @@
     <module>mylib-security-casbin</module>
     <module>mylib-security-casbin-jwt</module>
     <module>mylib-security-casbin-zuul</module>
+    <module>mylib-security-oauth-server</module>
   </modules>
 </project>

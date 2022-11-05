@@ -151,7 +151,7 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-oauth-server</artifactId>
+        <artifactId>mylib-security-oauth-server</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

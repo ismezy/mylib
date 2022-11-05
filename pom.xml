@@ -54,7 +54,6 @@
     <module>mylib-graphql</module>
     <module>mylib-swagger</module>
     <module>mylib-codegen</module>
-    <module>mylib-oauth-server</module>
     <module>mylib-data</module>
     <module>mylib-security</module>
     <module>mylib-webmvc</module>
