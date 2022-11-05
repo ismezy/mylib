@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
-            <artifactId>mylib-security</artifactId>
+            <artifactId>mylib-security-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
