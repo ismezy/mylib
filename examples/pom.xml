@@ -20,14 +20,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <groupId>com.zy.mylib</groupId>
-  <version>1.17.0</version>
+  <version>1.18.0</version>
   <artifactId>examples</artifactId>
   <packaging>pom</packaging>
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
     <java.version>1.8</java.version>
-    <mylib.version>1.17.0</mylib.version>
     <kotlin.version>1.7.0</kotlin.version>
     <spring-boot-version>2.6.4</spring-boot-version>
   </properties>
@@ -54,7 +53,7 @@
       <dependency>
         <groupId>com.zy.mylib</groupId>
         <artifactId>mylib-dependencies</artifactId>
-        <version>${project.version}</version>
+        <version>1.18.0</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
