@@ -39,7 +39,7 @@
     </dependency>
     <dependency>
       <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-webmvc</artifactId>
+      <artifactId>mylib-webmvc-base</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
