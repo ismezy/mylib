@@ -15,11 +15,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "${entity.tableName}")
 public class ${entity.name} extends ${entity.superClassName} {
 #foreach($field in ${entity.fields})
-    #if(${field.len} > 0)
-    @Column(length = ${field.len})
-    #else
-    @Column
-    #end
+  /**
+   * ${field.caption}
+   */
+  #if(${field.len} > 0)
+  @Column(length = ${field.len})
+  #else
+  @Column
+  #end
   private ${field.type} ${field.name};
 #end
 }

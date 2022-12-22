@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.*
 class ${entity.name}: ${entity.superClassName}() {
 #foreach($field in ${entity.fields})
   /**
-   * ${entity.caption}
+   * ${field.caption}
    */
   #if(${field.len} > 0)
   @Column(length = ${field.len})

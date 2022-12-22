@@ -11,6 +11,9 @@ import javax.persistence.*
 @Table(name = "${entity.tableName}")
 class ${entity.name}: ${entity.superClassName} {
 #foreach($field in ${entity.fields})
+  /**
+   * ${field.caption}
+   */
   #if(${field.len} > 0)
   @Column(length = ${field.len})
   #else

@@ -1,13 +1,20 @@
 package ${package}.dto
 
 import ${entity.superClass}
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * ${entity.caption} DTO
  * @author 代码生成器
  */
+@ApiModel("${entity.caption}")
 class ${entity.name}${dtoSuffix}: ${entity.superClassName}() {
 #foreach($field in ${entity.fields})
+  /**
+   * ${field.caption}
+   */
+  @ApiModelProperty("${field.caption}")
   var ${field.name}: ${field.type}? = null
 #end
 }

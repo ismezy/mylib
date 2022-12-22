@@ -11,6 +11,9 @@ import com.baomidou.mybatisplus.annotation.*
 @TableName("${entity.tableName}")
 class ${entity.name}: ${entity.superClassName}() {
 #foreach($field in ${entity.fields})
+  /**
+   * ${field.caption}
+   */
   @TableField("${field.fieldName}")
   var ${field.name}: ${field.type}? = null
 #end
