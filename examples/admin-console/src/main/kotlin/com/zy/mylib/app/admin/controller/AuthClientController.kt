@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.example.controller
+package com.zy.mylib.app.admin.controller
 
 import me.zhyd.oauth.config.AuthConfig
 import me.zhyd.oauth.model.AuthCallback

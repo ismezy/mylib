@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.example.controller
+package com.zy.mylib.app.admin
 
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Import
+import com.zy.mylib.security.casbin.jwt.CasbinSecurityJwtModule;
 
-/**
- * 首页
- */
-@Controller
-@RequestMapping("/")
-class IndexController {
-  @GetMapping(*["", "index", "index.html"])
-  fun index(): String {
-    return "index";
-  }
+@SpringBootApplication(scanBasePackages = ["com.zy.mylib.app.admin"])
+@Import(CasbinSecurityJwtModule::class)
+class Application
+
+fun main(args: Array<String>) {
+  runApplication<Application>(*args)
 }
+

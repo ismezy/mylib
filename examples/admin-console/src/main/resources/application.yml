@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 spring:
   data:
     mongodb:
@@ -25,3 +24,6 @@ shiro:
 logging:
   level:
     org.springframework.data.mongodb: trace
+server:
+  servlet:
+    context-path: /api

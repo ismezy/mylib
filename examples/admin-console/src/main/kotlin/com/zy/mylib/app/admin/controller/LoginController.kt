@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.example.controller
+package com.zy.mylib.app.admin.controller
 
 import com.zy.mylib.security.OAuthUserVerifier
 import com.zy.mylib.security.Passport
+import com.zy.mylib.security.dto.LoginResponse
+import com.zy.mylib.security.dto.PwdLoginRequest
 import com.zy.mylib.security.provider.UserPasswordOAuthUser
-import org.springframework.context.annotation.Bean
-import org.springframework.stereotype.Component
-import org.springframework.stereotype.Controller
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import java.net.URLEncoder
+import org.springframework.web.bind.annotation.RestController
 import javax.inject.Inject
 
-@Component
+@RestController
 @RequestMapping
 class LoginController {
   @Inject
@@ -43,17 +43,15 @@ class LoginController {
   }
 
   @PostMapping("/login")
-  fun login(@RequestParam(name = "username") username: String, @RequestParam(name = "password") password: String): String {
-    return try {
-      val loginUser = userVerifier.verify(UserPasswordOAuthUser().apply {
-        this.id = username
-        this.password = password
-      })
-      val token = passport.login(loginUser)
-      println(token)
-      "redirect:/index?${Passport.QUERY_TOKEN_KEY}=${token}";
-    } catch (e: Exception) {
-      "redirect:/login?error=${URLEncoder.encode(e.message, "utf-8")}"
+  fun login(@Validated @RequestBody req: PwdLoginRequest): LoginResponse {
+    val loginUser = userVerifier.verify(UserPasswordOAuthUser().apply {
+      this.id = req.loginId
+      this.password = req.password
+    })
+    val token = passport.login(loginUser)
+    return LoginResponse().apply {
+      this.token = token!!
+      this.loginUser = loginUser
     }
   }
 }

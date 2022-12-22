@@ -84,13 +84,17 @@
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-data-jpa</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.zy.mylib</groupId>
-      <artifactId>mylib-data-mybatis</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.zy.mylib</groupId>-->
+<!--      <artifactId>mylib-data-jpa</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>com.zy.mylib</groupId>-->
+<!--      <artifactId>mylib-data-mybatis</artifactId>-->
+<!--    </dependency>-->
 
   </dependencies>
 
