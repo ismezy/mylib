@@ -25,7 +25,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mylib-mvc-logger</artifactId>
+    <artifactId>mylib-webmvc-logger</artifactId>
 
     <dependencies>
         <dependency>

@@ -31,12 +31,12 @@
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-webmvc-base</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-data-jpa</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zy.mylib</groupId>

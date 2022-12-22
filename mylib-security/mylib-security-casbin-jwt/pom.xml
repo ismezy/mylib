@@ -45,7 +45,7 @@
     <dependency>
       <groupId>com.zy.mylib</groupId>
       <artifactId>mylib-cache-guava</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.zy.mylib</groupId>

@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-security-casbin-jwt</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.zy.mylib</groupId>
             <artifactId>mylib-utils</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
