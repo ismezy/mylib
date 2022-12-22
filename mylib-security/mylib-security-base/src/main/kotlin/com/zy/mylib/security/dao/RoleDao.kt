@@ -23,4 +23,5 @@ import com.zy.mylib.mongo.repos.BaseMongoRepository
  * @author 代码生成器
  */
 interface RoleDao : BaseMongoRepository<Role, String> {
+  fun findOneByCode(code: String): Role
 }

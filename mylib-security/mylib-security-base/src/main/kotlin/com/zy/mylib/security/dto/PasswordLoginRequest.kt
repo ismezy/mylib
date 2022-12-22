@@ -15,14 +15,10 @@
  */
 package com.zy.mylib.security.dto
 
-import com.zy.mylib.mongo.model.BaseMongoModel
-
 /**
- * 角色 DTO
- * @author 代码生成器
+ * 用户密码登录请求
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+class PasswordLoginRequest {
+  lateinit var loginId: String
+  lateinit var password: String
 }

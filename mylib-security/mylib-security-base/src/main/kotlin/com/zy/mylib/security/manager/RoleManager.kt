@@ -23,4 +23,5 @@ import com.zy.mylib.base.service.Manager
  * @author 代码生成器
  */
 interface RoleManager : Manager<Role, String> {
+  fun findByCode(code: String): Role
 }

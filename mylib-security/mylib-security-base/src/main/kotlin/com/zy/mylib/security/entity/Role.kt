@@ -35,4 +35,5 @@ class Role: BaseMongoModel() {
    */
   @Column
   var caption: String? = null
+  var menus = mutableListOf<String>()
 }

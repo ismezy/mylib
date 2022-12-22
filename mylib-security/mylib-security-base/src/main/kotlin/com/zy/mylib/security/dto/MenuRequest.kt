@@ -18,11 +18,11 @@ package com.zy.mylib.security.dto
 import com.zy.mylib.mongo.model.BaseMongoModel
 
 /**
- * 角色 DTO
+ * 菜单 DTO
  * @author 代码生成器
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+class MenuRequest: BaseMongoModel() {
+  var code: String? = null
+  var caption: String? = null
+  var parentId: String? = null
 }

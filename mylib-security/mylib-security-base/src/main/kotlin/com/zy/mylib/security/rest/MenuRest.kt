@@ -15,8 +15,8 @@
  */
 package com.zy.mylib.security.rest
 
-import com.zy.mylib.security.manager.RoleManager
-import com.zy.mylib.security.entity.Role
+import com.zy.mylib.security.manager.MenuManager
+import com.zy.mylib.security.entity.Menu
 import org.springframework.web.bind.annotation.*
 import com.fasterxml.jackson.annotation.JsonView
 import com.zy.mylib.base.model.BaseModel
@@ -27,18 +27,18 @@ import com.zy.mylib.base.exception.BusException
 import org.springframework.validation.annotation.Validated
 
 /**
- * 角色 rest接口
+ * 菜单 rest接口
  * @author 代码生成器
  */
-@RestController
-@RequestMapping("/sys/role-manager")
-class RoleRest: BaseRest() {
+//@RestController
+//@RequestMapping("/填写rest地址")
+class MenuRest: BaseRest() {
   @Inject
-  private lateinit var manager: RoleManager
+  private lateinit var manager: MenuManager
 
   @GetMapping("{id}")
   @JsonView(BaseModel.DetailView::class)
-  fun findOne(@PathVariable("id") id: String): Role {
+  fun findOne(@PathVariable("id") id: String): Menu {
     var ret = manager.findById(id)
     if(ret != null) {
       return ret
@@ -48,13 +48,13 @@ class RoleRest: BaseRest() {
 
   @PostMapping
   @JsonView(BaseModel.DetailView::class)
-  fun addEntity(@Validated(BaseModel.AddCheck::class) @RequestBody entity: Role): Role {
+  fun addEntity(@Validated(BaseModel.AddCheck::class) @RequestBody entity: Menu): Menu {
     return manager!!.add(entity)
   }
 
   @PutMapping
   @JsonView(BaseModel.DetailView::class)
-  fun updateEntity(@Validated(BaseModel.UpdateCheck::class) @RequestBody entity: Role): Role {
+  fun updateEntity(@Validated(BaseModel.UpdateCheck::class) @RequestBody entity: Menu): Menu {
     return manager.update(entity)
   }
 
@@ -64,7 +64,7 @@ class RoleRest: BaseRest() {
   }
 
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Role> {
+  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Menu> {
     return manager.pageQuery(pageRequest, conditions)
   }
 }

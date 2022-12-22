@@ -26,3 +26,6 @@ fields:
   - name: caption
     caption: 角色名称
     type: String
+  - name: perms
+    caption: 授权
+    type: String[]

@@ -1,0 +1,15 @@
+superClass: com.zy.mylib.mongo.model.BaseMongoModel
+type: mongo
+name: Menu
+caption: 菜单
+pkg: com.zy.mylib.security
+fields:
+  - name: code
+    caption: 菜单code
+    type: String
+  - name: caption
+    caption: 菜单名
+    type: String
+  - name: parentId
+    caption: 父级id
+    type: String

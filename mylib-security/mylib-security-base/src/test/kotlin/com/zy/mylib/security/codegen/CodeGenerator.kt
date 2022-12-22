@@ -23,6 +23,6 @@ object CodeGenerator {
   @Test
   @Disabled
   fun gen() {
-    CodeGen.run("role", "role_extend", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
+    CodeGen.run("menu", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
   }
 }

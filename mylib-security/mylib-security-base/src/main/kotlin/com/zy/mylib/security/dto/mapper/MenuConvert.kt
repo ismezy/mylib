@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.dto
+package com.zy.mylib.security.dto.mapper
 
-import com.zy.mylib.mongo.model.BaseMongoModel
+import com.zy.mylib.security.entity.Menu
+import com.zy.mylib.security.dto.*
+import org.mapstruct.Mapper
 
 /**
- * 角色 DTO
+ * 菜单 DTO Response  mapper
  * @author 代码生成器
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+@Mapper(componentModel = "spring")
+interface MenuConvert {
+  fun toRequest(entity: Menu): MenuRequest
+  fun toResponse(entity: Menu): MenuResponse
+  fun fromRequest(request: MenuRequest): Menu
+  fun fromResponse(response: MenuResponse): Menu
 }

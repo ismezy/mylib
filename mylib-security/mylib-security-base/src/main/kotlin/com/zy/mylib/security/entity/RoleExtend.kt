@@ -36,7 +36,7 @@ class RoleExtend: BaseMongoModel() {
   @Column
   var type: String? = null
   /**
-   * 角色
+   * 继承roldId
    */
   @Column
   var extendId: String? = null

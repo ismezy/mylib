@@ -15,14 +15,17 @@
  */
 package com.zy.mylib.security.dto
 
-import com.zy.mylib.mongo.model.BaseMongoModel
+import com.zy.mylib.security.LoginUser
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 
 /**
- * 角色 DTO
- * @author 代码生成器
+ * 登录响应
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+@ApiModel("登录成功返回结果")
+class LoginResponse {
+  @ApiModelProperty("token")
+  lateinit var token: String
+  @ApiModelProperty("登录用户信息")
+  lateinit var loginUser: LoginUser
 }

@@ -13,16 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.dto
+package com.zy.mylib.security.entity
 
 import com.zy.mylib.mongo.model.BaseMongoModel
+import javax.persistence.*
+import org.springframework.data.mongodb.core.mapping.*
 
 /**
- * 角色 DTO
+ * 菜单
  * @author 代码生成器
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+@Document("menu")
+class Menu: BaseMongoModel() {
+  /**
+   * 菜单
+   */
+  @Column
+  var code: String? = null
+  /**
+   * 菜单
+   */
+  @Column
+  var caption: String? = null
+  /**
+   * 菜单
+   */
+  @Column
+  var parentId: String? = null
 }

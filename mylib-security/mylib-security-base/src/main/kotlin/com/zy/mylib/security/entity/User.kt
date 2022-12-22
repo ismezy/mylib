@@ -26,4 +26,5 @@ class User : BaseMongoModel() {
   var enabled: Boolean? = null
   var username: String? = null
   var lastLogin: Date? = null
+  var role = mutableListOf<String>()
 }

@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
 @Configuration
-@ComponentScan("com.zy.mylib.security.manager", "com.zy.mylib.security.provider")
+@ComponentScan("com.zy.mylib.security.manager", "com.zy.mylib.security.provider", "com.zy.mylib.security.dto.mapper")
 @EnableMongoRepositories("com.zy.mylib.security.dao")
 open class SecurityModule {
 }

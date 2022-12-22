@@ -28,4 +28,7 @@ import javax.inject.Named
  */
 @Named
 open class RoleManagerImpl: BaseMongoManagerImpl<RoleDao, Role, String>(), RoleManager {
+  override fun findByCode(code: String): Role {
+    return repository.findOneByCode(code)
+  }
 }

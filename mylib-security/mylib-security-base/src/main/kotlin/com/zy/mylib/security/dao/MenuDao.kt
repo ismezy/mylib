@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.security.dto
+package com.zy.mylib.security.dao
 
-import com.zy.mylib.mongo.model.BaseMongoModel
+import com.zy.mylib.security.entity.Menu
+import com.zy.mylib.mongo.repos.BaseMongoRepository
 
 /**
- * 角色 DTO
+ * 菜单 mongo dao
  * @author 代码生成器
  */
-class RoleExtendRequest: BaseMongoModel() {
-  var roleId: String? = null
-  var type: String? = null
-  var extendId: String? = null
+interface MenuDao : BaseMongoRepository<Menu, String> {
+  fun findByCodeIn(codes: List<String>): List<Menu>
 }
