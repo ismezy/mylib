@@ -18,6 +18,8 @@ package com.zy.mylib.security.casbin.jwt.impl
 import com.zy.mylib.base.exception.BusException.Companion.builder
 import com.zy.mylib.security.Passport
 import org.casbin.jcasbin.main.Enforcer
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
@@ -42,5 +44,9 @@ class AuthzFilter : Filter {
       throw builder().message(if (isLogin) "未授权" else "未登录").httpStatus(if (isLogin) 403 else 401).build()
     }
     chain.doFilter(req, res)
+  }
+
+  companion object {
+    val log: Logger = LoggerFactory.getLogger(AuthzFilter::class.java)
   }
 }

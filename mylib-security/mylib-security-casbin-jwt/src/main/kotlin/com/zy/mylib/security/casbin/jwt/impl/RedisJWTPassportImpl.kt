@@ -54,7 +54,11 @@ class RedisJWTPassportImpl : AbstractPassport(), InitializingBean {
     }
   override val isAuthenticated: Boolean
     get() {
-      return if(token.isNullOrBlank()) false else userCache[token!!, "isAuthenticated"]
+      return if(token.isNullOrBlank()) {
+        false
+      } else {
+        userCache[token!!, "isAuthenticated"] ?: false
+      }
     }
 
   override fun login(user: LoginUser): String? {
