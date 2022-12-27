@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.oauth.server.controller;
+package com.zy.mylib.oauth.server.controller
 
-import com.zy.mylib.webmvc.base.BaseRest;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.zy.mylib.webmvc.base.BaseRest
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @author zhouyang
  */
 @RestController
 @RequestMapping("/oauth")
-public class OAuthRest extends BaseRest {
-
-}
+class OAuthRest : BaseRest()
