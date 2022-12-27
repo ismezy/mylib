@@ -59,6 +59,10 @@
       <groupId>com.zy.mylib</groupId>
       <artifactId>mylib-codegen</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-webmvc-swagger</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>com.zy.mylib</groupId>

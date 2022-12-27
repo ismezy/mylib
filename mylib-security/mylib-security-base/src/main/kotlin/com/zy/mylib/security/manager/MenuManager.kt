@@ -24,4 +24,5 @@ import com.zy.mylib.base.service.Manager
  */
 interface MenuManager : Manager<Menu, String> {
   fun findByCodes(codes: List<String>): List<Menu>
+  fun findByParentId(parentId: String?): List<Menu>
 }

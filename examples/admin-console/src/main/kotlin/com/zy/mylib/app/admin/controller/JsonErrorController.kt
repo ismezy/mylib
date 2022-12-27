@@ -30,7 +30,7 @@ class JsonErrorController : ErrorController {
   @RequestMapping("/error")
   fun error(request: HttpServletRequest, response: HttpServletResponse): RestMessage {
     response.status = 400
-    val e = request.getAttribute("javax.servlet.error.exception") as Throwable
+    val e = request.getAttribute("javax.servlet.error.exception")
     if (e == null) {
       response.status = (request.getAttribute("javax.servlet.error.status_code") as Int)
       return RestMessage("" + response.status, request.getAttribute("javax.servlet.error.message") as String)
@@ -38,7 +38,7 @@ class JsonErrorController : ErrorController {
       val ex = e
       response.status = ex.httpStatus
       return RestMessage(ex.code, ex.message)
-    } else if(e.cause is BusException) {
+    } else if((e as Throwable).cause is BusException) {
       val ex = e.cause as BusException
       response.status = ex.httpStatus
       return RestMessage(ex.code, ex.message)

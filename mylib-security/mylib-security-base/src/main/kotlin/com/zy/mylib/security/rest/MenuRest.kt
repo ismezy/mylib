@@ -24,17 +24,26 @@ import com.zy.mylib.webmvc.base.BaseRest
 import javax.inject.Inject
 import com.zy.mylib.base.model.*
 import com.zy.mylib.base.exception.BusException
+import com.zy.mylib.security.dto.MenuRequest
+import com.zy.mylib.security.dto.MenuResponse
+import com.zy.mylib.security.dto.MenuTreeNode
+import com.zy.mylib.security.dto.mapper.MenuConvert
+import com.zy.mylib.security.service.MenuQueryComponent
 import org.springframework.validation.annotation.Validated
 
 /**
  * 菜单 rest接口
  * @author 代码生成器
  */
-//@RestController
-//@RequestMapping("/填写rest地址")
+@RestController
+@RequestMapping("/sys/menu-manage")
 class MenuRest: BaseRest() {
   @Inject
   private lateinit var manager: MenuManager
+  @Inject
+  private lateinit var menuQuery: MenuQueryComponent
+  @Inject
+  private lateinit var menuConvert: MenuConvert
 
   @GetMapping("{id}")
   @JsonView(BaseModel.DetailView::class)
@@ -47,15 +56,13 @@ class MenuRest: BaseRest() {
   }
 
   @PostMapping
-  @JsonView(BaseModel.DetailView::class)
-  fun addEntity(@Validated(BaseModel.AddCheck::class) @RequestBody entity: Menu): Menu {
-    return manager!!.add(entity)
+  fun addEntity(@Validated @RequestBody entity: MenuRequest): MenuResponse {
+    return manager.add(menuConvert.fromRequest(entity)).let { menuConvert.toResponse(it)}
   }
 
   @PutMapping
-  @JsonView(BaseModel.DetailView::class)
-  fun updateEntity(@Validated(BaseModel.UpdateCheck::class) @RequestBody entity: Menu): Menu {
-    return manager.update(entity)
+  fun updateEntity(@Validated @RequestBody entity: MenuRequest): MenuResponse {
+    return manager.update(menuConvert.fromRequest(entity)).let { menuConvert.toResponse(it)}
   }
 
   @DeleteMapping("{id}")
@@ -66,5 +73,10 @@ class MenuRest: BaseRest() {
   @GetMapping("/pager")
   fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Menu> {
     return manager.pageQuery(pageRequest, conditions)
+  }
+
+  @GetMapping("/tree-view")
+  fun manageTree(): List<MenuTreeNode> {
+    return menuQuery.genTreeView(null)
   }
 }

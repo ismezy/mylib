@@ -24,5 +24,6 @@ import com.zy.mylib.mongo.model.BaseMongoModel
 class MenuResponse: BaseMongoModel() {
   var code: String? = null
   var caption: String? = null
+  var iconKey: String? = null
   var parentId: String? = null
 }

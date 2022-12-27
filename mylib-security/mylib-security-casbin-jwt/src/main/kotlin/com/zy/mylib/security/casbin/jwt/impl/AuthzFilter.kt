@@ -20,6 +20,8 @@ import com.zy.mylib.security.Passport
 import org.casbin.jcasbin.main.Enforcer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import java.io.IOException
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
@@ -34,12 +36,13 @@ class AuthzFilter : Filter {
 
   @Throws(IOException::class, ServletException::class)
   override fun doFilter(req: ServletRequest, res: ServletResponse, chain: FilterChain) {
+    RequestContextHolder.setRequestAttributes(ServletRequestAttributes(req as HttpServletRequest))
     val isLogin = passport.isAuthenticated
     val user = passport.user
 
     val request = req as HttpServletRequest
     val pass = enforcer.enforce(
-        if (user!!.userId.isNullOrBlank()) "guest" else user.userId, request.requestURI, request.method)
+        if (user == null || user.userId.isNullOrBlank()) "guest" else user.userId, request.requestURI, request.method)
     if (!pass) {
       throw builder().message(if (isLogin) "未授权" else "未登录").httpStatus(if (isLogin) 403 else 401).build()
     }

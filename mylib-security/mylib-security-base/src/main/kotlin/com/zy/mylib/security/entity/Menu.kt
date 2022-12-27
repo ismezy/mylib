@@ -23,21 +23,27 @@ import org.springframework.data.mongodb.core.mapping.*
  * 菜单
  * @author 代码生成器
  */
-@Document("menu")
+@Document("sys_menu")
 class Menu: BaseMongoModel() {
   /**
-   * 菜单
+   * 菜单编号
    */
   @Column
   var code: String? = null
   /**
-   * 菜单
+   * 菜单标题
    */
   @Column
   var caption: String? = null
   /**
-   * 菜单
+   * 低级菜单id
    */
   @Column
   var parentId: String? = null
+
+  /**
+   * 图标
+   */
+  @Column
+  var iconKey: String? = null
 }

@@ -24,13 +24,15 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.inject.Inject
 
 /**
  * 当前用户信息接口
  */
-@RestController("/current-user")
+@RestController()
+@RequestMapping("/current-user")
 @Api("当前登录用户接口")
 class CurrentUserRest : BaseRest() {
   @Inject
@@ -52,7 +54,9 @@ class CurrentUserRest : BaseRest() {
   @GetMapping("/menus")
   @ApiOperation("获取当前用户菜单")
   fun loadMenus(): List<MenuResponse>? {
-    return passport.user?.let { userQuery.findUserMenus(it) }
+    return passport.user?.let {
+      userQuery.findUserMenus(it)
+    }
   }
 
 }

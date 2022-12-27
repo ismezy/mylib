@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.core.mapping.*
  * 角色
  * @author 代码生成器
  */
-@Document("role")
+@Document("sys_role")
 class Role: BaseMongoModel() {
   /**
    * 角色

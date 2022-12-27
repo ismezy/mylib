@@ -31,4 +31,17 @@ open class MenuManagerImpl: BaseMongoManagerImpl<MenuDao, Menu, String>(), MenuM
   override fun findByCodes(codes: List<String>): List<Menu> {
     return repository.findByCodeIn(codes)
   }
+
+  override fun findByParentId(parentId: String?): List<Menu> {
+    return repository.findByParentIdOrderByCode(parentId)
+  }
+
+  /**
+   * 级联删除
+   */
+  override fun delete(id: String) {
+    val children = findByParentId(id)
+    children.forEach { delete(it.id!!) }
+    super.delete(id)
+  }
 }

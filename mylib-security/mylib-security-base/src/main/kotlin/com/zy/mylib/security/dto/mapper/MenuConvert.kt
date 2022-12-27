@@ -29,4 +29,5 @@ interface MenuConvert {
   fun toResponse(entity: Menu): MenuResponse
   fun fromRequest(request: MenuRequest): Menu
   fun fromResponse(response: MenuResponse): Menu
+  fun toMenuTreeNode(entity: Menu): MenuTreeNode
 }

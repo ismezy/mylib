@@ -13,17 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 spring:
   data:
     mongodb:
       uri: mongodb://test:test@wsl/test
   redis:
     host: wsl
-shiro:
-  loginUrl: /login
 logging:
   level:
     org.springframework.data.mongodb: trace
+    org.springframework.web: trace
 server:
   servlet:
     context-path: /api

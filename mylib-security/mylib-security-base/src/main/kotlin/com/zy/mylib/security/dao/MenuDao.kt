@@ -24,4 +24,5 @@ import com.zy.mylib.mongo.repos.BaseMongoRepository
  */
 interface MenuDao : BaseMongoRepository<Menu, String> {
   fun findByCodeIn(codes: List<String>): List<Menu>
+  fun findByParentIdOrderByCode(parentId: String?): List<Menu>
 }

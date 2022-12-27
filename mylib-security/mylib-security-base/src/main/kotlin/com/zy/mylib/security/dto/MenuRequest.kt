@@ -25,4 +25,5 @@ class MenuRequest: BaseMongoModel() {
   var code: String? = null
   var caption: String? = null
   var parentId: String? = null
+  var iconKey: String? = null
 }
