@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty
  * @author 代码生成器
  */
 @ApiModel("${entity.caption}")
-class ${entity.name}${dtoSuffix}: ${entity.superClassName}() {
+class ${dtoPrefix}${entity.name}${dtoSuffix}: ${entity.superClassName}() {
 #foreach($field in ${entity.fields})
   /**
    * ${field.caption}

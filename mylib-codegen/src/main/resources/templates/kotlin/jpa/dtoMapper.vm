@@ -1,15 +1,24 @@
 package ${package}.dto.mapper
 
-import com.zy.mylib.mapstruct.BaseMapper
 import ${package}.entity.${entity.name}
-import ${package}.dto.${entity.name}${dtoSuffix}
+#foreach($prefix in ${requestDtoList})
+import ${package}.dto.${prefix}${entity.name}Request
+#end
+#foreach($prefix in ${responseDtoList})
+import ${package}.dto.${prefix}${entity.name}Response
+#end
 import org.mapstruct.Mapper
 
 /**
  * ${entity.caption} DTO ${dtoSuffix}  mapper
  * @author 代码生成器
  */
-@Mapper
-interface ${entity.name}${dtoSuffix}Mapper: BaseMapper<${entity.name}, ${entity.name}${dtoSuffix}> {
-
+@Mapper(componentModel = "spring")
+interface ${entity.name}Convert {
+#foreach($prefix in ${requestDtoList})
+  fun from${prefix}${entity.name}Request(req: ${prefix}${entity.name}Request): ${entity.name}
+#end
+#foreach($prefix in ${responseDtoList})
+  fun to${prefix}${entity.name}Response(entity: ${entity.name}): ${prefix}${entity.name}Response
+#end
 }

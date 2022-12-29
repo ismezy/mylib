@@ -12,6 +12,13 @@ import javax.inject.Inject;
 import com.zy.mylib.base.exception.BusException;
 import org.springframework.validation.annotation.Validated;
 import java.util.List;
+import ${package}.dto.Add${entity.name}Request;
+import ${package}.dto.Add${entity.name}Response;
+import ${package}.dto.Update${entity.name}Request;
+import ${package}.dto.Update${entity.name}Response;
+import ${package}.dto.Get${entity.name}Response;
+import ${package}.dto.Query${entity.name}Response;
+import ${package}.dto.mapper.${entity.name}Convert;
 
 /**
  * ${entity.caption} rest接口
@@ -19,39 +26,63 @@ import java.util.List;
  */
 //@RestController
 //@RequestMapping("/填写rest地址")
+@Api(description = "${entity.caption}接口")
 public class ${entity.name}Rest extends BaseRest {
   @Inject
   private ${entity.name}Manager manager;
+  @Inject
+  private ${entity.name}Convert convert;
 
+  /**
+   * 获取${entity.caption}详情
+   */
   @GetMapping("{id}")
-  @JsonView(BaseModel.DetailView.class)
-  public ${entity.name} findOne(@PathVariable("id") String id) {
+  @ApiOperation("获取${entity.caption}详情")
+  public Get${entity.name}Response findOne(@PathVariable("id") String id) {
     ${entity.name} ret = manager.findById(id);
     if(ret != null) {
-      return ret;
+      return convert.toGet${entity.name}Response(ret);
     }
     throw BusException.builder().message("数据不存在").httpStatus(404).build();
   }
 
+  /**
+   * 创建${entity.caption}
+   */
   @PostMapping
-  @JsonView(BaseModel.DetailView.class)
-  public ${entity.name} addEntity(@Validated(BaseModel.AddCheck.class) @RequestBody ${entity.name} entity) {
-    return manager.add(entity);
+  @ApiOperation("创建${entity.caption}")
+  public Add${entity.name}Response addEntity(@Validated @RequestBody Add${entity.name}Request req) {
+    ${entity.name} entity = convert.fromAdd${entity.name}Request(req);
+    return convert.toAdd${entity.name}Response(manager.add(entity));
   }
 
+  /**
+   * 更新${entity.caption}
+   */
+  @ApiOperation("更新${entity.caption}")
   @PutMapping
-  @JsonView(BaseModel.DetailView.class)
-  public ${entity.name} updateEntity(@Validated(BaseModel.UpdateCheck.class) @RequestBody ${entity.name} entity) {
-    return manager.update(entity);
+  public Update${entity.name}Response updateEntity(@Validated @RequestBody Update${entity.name}Request req) {
+    ${entity.name} entity = convert.fromUpdate${entity.name}Request(req);
+    return convert.toUpdate${entity.name}Response(manager.update(entity));
   }
 
+  /**
+   * 删除${entity.caption}
+   */
+  @ApiOperation("删除${entity.caption}")
   @DeleteMapping("{id}")
   public void remove(@PathVariable("id") String id) {
     manager.delete(id);
   }
 
+  /**
+   * 分页查询${entity.caption}
+   */
+  @ApiOperation("分页查询${entity.caption}")
   @GetMapping("/pager")
-  public PageResponse<${entity.name}> findPage(PageRequest pageRequest, List<Condition> conditions) {
-    return manager.pageQuery(pageRequest, conditions);
+  public PageResponse<Query${entity.name}Response> findPage(PageRequest pageRequest, List<Condition> conditions) {
+    PageResponse<${entity.name}> pageResult = manager.pageQuery(pageRequest, conditions);
+    return PageResponse.fromRequest<Query${entity.name}Response>(pageRequest, pageResult.totalElement,
+      pageResult.list.stream().map(it -> convert.toQuery${entity.name}Response(it)).collect(Collectors.toList()));
   }
 }

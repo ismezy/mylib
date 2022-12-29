@@ -1,18 +1,24 @@
 package ${package}.rest
 
 import ${package}.manager.${entity.name}Manager
-import ${entityPackage}.${entity.name}
+import ${package}.entity.${entity.name}
 import org.springframework.web.bind.annotation.*
 import com.fasterxml.jackson.annotation.JsonView
-import com.zy.mylib.base.model.*
-import com.zy.mylib.data.jpa.PageUtils
-import com.zy.mylib.security.LoginUser
+import com.zy.mylib.base.model.BaseModel
 import com.zy.mylib.webmvc.base.BaseRest
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import javax.inject.Inject
+import com.zy.mylib.base.model.*
 import com.zy.mylib.base.exception.BusException
 import org.springframework.validation.annotation.Validated
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import ${package}.dto.Add${entity.name}Request
+import ${package}.dto.Add${entity.name}Response
+import ${package}.dto.Update${entity.name}Request
+import ${package}.dto.Update${entity.name}Response
+import ${package}.dto.Get${entity.name}Response
+import ${package}.dto.Query${entity.name}Response
+import ${package}.dto.mapper.${entity.name}Convert
 
 /**
  * ${entity.caption} rest接口
@@ -20,39 +26,63 @@ import org.springframework.validation.annotation.Validated
  */
 //@RestController
 //@RequestMapping("/填写rest地址")
+@Api(description = "${entity.caption}接口")
 class ${entity.name}Rest: BaseRest() {
   @Inject
-  private val manager: ${entity.name}Manager? = null
+  private lateinit var manager: ${entity.name}Manager
+  @Inject
+  private lateinit var convert: ${entity.name}Convert
 
+  /**
+   * 获取${entity.caption}详情
+   */
   @GetMapping("{id}")
-  @JsonView(BaseModel.DetailView::class)
-  fun findOne(@PathVariable("id") id: String): ${entity.name} {
-    var ret = manager!!.findById(id)
-    if(ret.isPresent) {
-      return ret.get()
+  @ApiOperation("获取${entity.caption}详情")
+  fun findOne(@PathVariable("id") id: String): Get${entity.name}Response {
+    var ret = manager.findById(id)
+    if(ret != null) {
+      return convert.toGet${entity.name}Response(ret)
     }
     throw BusException.builder().message("数据不存在").httpStatus(404).build()
   }
 
+  /**
+   * 创建${entity.caption}
+   */
+  @ApiOperation("创建${entity.caption}")
   @PostMapping
-  @JsonView(BaseModel.DetailView::class)
-  fun addEntity(@Validated(BaseModel.AddCheck::class) @RequestBody entity: ${entity.name}): ${entity.name} {
-    return manager!!.add(entity)
+  fun addEntity(@Validated @RequestBody req: Add${entity.name}Request): Add${entity.name}Response {
+    val entity = convert.fromAdd${entity.name}Request(req)
+    return convert.toAdd${entity.name}Response(manager!!.add(entity))
   }
-
+  /**
+   * 更新${entity.caption}
+   */
+  @ApiOperation("更新${entity.caption}")
   @PutMapping
-  @JsonView(BaseModel.DetailView::class)
-  fun updateEntity(@Validated(BaseModel.UpdateCheck::class) @RequestBody entity: ${entity.name}): ${entity.name} {
-    return manager!!.update(entity)
+  fun updateEntity(@Validated @RequestBody req: Update${entity.name}Request): Update${entity.name}Response {
+    val entity = convert.fromUpdate${entity.name}Request(req)
+    return convert.toUpdate${entity.name}Response(manager.update(entity))
   }
 
+  /**
+   * 删除${entity.caption}
+   */
+  @ApiOperation("删除${entity.caption}")
   @DeleteMapping("{id}")
   fun remove(@PathVariable("id") id: String) {
-    return manager!!.remove(id)
+    return manager.delete(id)
   }
 
+  /**
+   * 分页查询${entity.caption}
+   */
+  @ApiOperation("分页查询${entity.caption}")
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<${entity.name}> {
-    return manager.pageQuery(pageRequest, conditions)
+  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Query${entity.name}Response> {
+    return manager.pageQuery(pageRequest, conditions).let {
+      PageResponse.fromRequest<Query${entity.name}Response>(pageRequest, it.totalElement,
+      it.list?.map { it1 -> convert.toQuery${entity.name}Response(it1) })
+    }
   }
 }

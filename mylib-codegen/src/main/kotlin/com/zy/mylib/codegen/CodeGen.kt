@@ -79,16 +79,27 @@ class GenImpl(
   }
 
   private fun genDto(context: VelocityContext, entity: EntityConfig) {
+    val requestDtoList = listOf("Add", "Update")
+    val responseDtoList = listOf("Add", "Update", "Query", "Get")
     val dtoTmpl = engine.getTemplate("templates/${config.lang}/${entity.type}/dto.vm")
     val mapperTmpl = engine.getTemplate("templates/${config.lang}/${entity.type}/dtoMapper.vm")
     // 创建目录
     val dtoPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dto")
     val mapperPath = File(config.srcPath, config.pkg.replace('.', '/') + "/dto/mapper")
     mapperPath.mkdirs()
-    context.put("dtoSuffix", "Request")
-    write(File(dtoPath, "${entity.name}Request.${config.fileExtName}"), dtoTmpl, context)
-    context.put("dtoSuffix", "Response")
-    write(File(dtoPath, "${entity.name}Response.${config.fileExtName}"), dtoTmpl, context)
+    // 生成dto
+    for (prefix in requestDtoList) {
+      context.put("dtoSuffix", "Request")
+      context.put("dtoPrefix", prefix)
+      write(File(dtoPath, "${prefix}${entity.name}Request.${config.fileExtName}"), dtoTmpl, context)
+    }
+    for (prefix in responseDtoList) {
+      context.put("dtoSuffix", "Response")
+      context.put("dtoPrefix", prefix)
+      write(File(dtoPath, "${prefix}${entity.name}Response.${config.fileExtName}"), dtoTmpl, context)
+    }
+    context.put("requestDtoList", requestDtoList)
+    context.put("responseDtoList", responseDtoList)
     write(File(mapperPath, "${entity.name}Convert.${config.fileExtName}"), mapperTmpl, context)
   }
 
