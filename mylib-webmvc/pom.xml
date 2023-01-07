@@ -37,8 +37,6 @@
 
   <modules>
     <module>mylib-webmvc-base</module>
-    <module>mylib-webmvc-data-jpa</module>
-    <module>mylib-webmvc-mybatis</module>
     <module>mylib-webmvc-security</module>
     <module>mylib-webmvc-swagger</module>
     <module>mylib-webmvc-logger</module>
