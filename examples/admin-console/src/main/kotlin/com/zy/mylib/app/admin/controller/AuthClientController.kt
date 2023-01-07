@@ -21,6 +21,7 @@ import me.zhyd.oauth.request.AuthGiteeRequest
 import me.zhyd.oauth.request.AuthRequest
 import me.zhyd.oauth.utils.AuthStateUtils
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.ModelAndView
 import java.io.IOException
@@ -32,13 +33,13 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 @RequestMapping("/oauth")
 class AuthClientController {
-  @RequestMapping("/render")
+  @GetMapping("/render")
   @Throws(IOException::class)
   fun renderAuth(response: HttpServletResponse) {
     response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()))
   }
 
-  @RequestMapping("/callback")
+  @GetMapping("/callback")
   fun login(callback: AuthCallback?): ModelAndView {
     val response = authRequest.login(callback)
     return ModelAndView("index", "user", response)
