@@ -68,6 +68,10 @@
       <groupId>com.zy.mylib</groupId>
       <artifactId>mylib-webmvc-security</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.zy.mylib</groupId>
+      <artifactId>mylib-config-module</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>

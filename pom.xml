@@ -59,6 +59,7 @@
     <module>mylib-security</module>
     <module>mylib-webmvc</module>
     <module>mylib-mapstruct</module>
+    <module>mylib-modules</module>
   </modules>
 
   <repositories>

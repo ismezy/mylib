@@ -75,11 +75,6 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-webmvc-data-jpa</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.zy.mylib</groupId>
         <artifactId>mylib-cache-guava</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -130,11 +125,6 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-webmvc-mybatis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.zy.mylib</groupId>
         <artifactId>mylib-graphql</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -157,6 +147,11 @@
       <dependency>
         <groupId>com.zy.mylib</groupId>
         <artifactId>mylib-mapstruct</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zy.mylib</groupId>
+        <artifactId>mylib-config-module</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
