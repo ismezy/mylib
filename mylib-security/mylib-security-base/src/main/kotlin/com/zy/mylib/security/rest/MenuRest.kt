@@ -29,6 +29,8 @@ import com.zy.mylib.security.dto.MenuResponse
 import com.zy.mylib.security.dto.MenuTreeNode
 import com.zy.mylib.security.dto.mapper.MenuConvert
 import com.zy.mylib.security.service.MenuQueryComponent
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import org.springframework.validation.annotation.Validated
 
 /**
@@ -37,6 +39,7 @@ import org.springframework.validation.annotation.Validated
  */
 @RestController
 @RequestMapping("/sys/menu-manage")
+@Api(description = "菜单管理接口")
 class MenuRest: BaseRest() {
   @Inject
   private lateinit var manager: MenuManager
@@ -47,6 +50,7 @@ class MenuRest: BaseRest() {
 
   @GetMapping("{id}")
   @JsonView(BaseModel.DetailView::class)
+  @ApiOperation("获取菜单详情")
   fun findOne(@PathVariable("id") id: String): Menu {
     var ret = manager.findById(id)
     if(ret != null) {

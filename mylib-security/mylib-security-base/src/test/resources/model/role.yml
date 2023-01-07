@@ -26,6 +26,9 @@ fields:
   - name: caption
     caption: 角色名称
     type: String
+  - name: parents
+    caption: 父角色代码
+    type: List<String>
   - name: perms
     caption: 授权
-    type: String[]
+    type: List<String>

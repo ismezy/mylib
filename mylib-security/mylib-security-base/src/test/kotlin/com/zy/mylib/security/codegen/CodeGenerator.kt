@@ -22,7 +22,5 @@ import org.junit.jupiter.api.Test
 object CodeGenerator {
   @Test
   @Disabled
-  fun gen() {
-    CodeGen.run("menu", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
-  }
+  fun gen() = CodeGen.run("role", srcPath = System.getProperty("user.dir") + "/src/main/kotlin")
 }
