@@ -40,11 +40,15 @@ class EntityConfig {
   lateinit var fields: List<FieldConfig>
   lateinit var name: String
   lateinit var caption: String
+  var _tableName: String? = null
 
   val superClassName: String
     get() = superClass.substringAfterLast('.')
-  val tableName: String
-    get() = humpToLine(name)
+  var tableName: String
+    get() = if(this._tableName.isNullOrBlank()) humpToLine(name) else this._tableName!!
+    set(value) {
+      this._tableName = value
+    }
 }
 
 class FieldConfig {
@@ -54,8 +58,12 @@ class FieldConfig {
   /**
    * string | int | long | Datetime
    */
-  var type = "string"
+  var type = "String"
   var len = 0
-  val fieldName: String
-    get() = humpToLine(name)
+  var _fieldName: String? = null
+  var fieldName: String
+    get() = if(_fieldName.isNullOrBlank()) humpToLine(name) else _fieldName!!
+    set(value) {
+      _fieldName = value
+    }
 }
