@@ -1,10 +1,7 @@
 package ${package}.rest
 
 import ${package}.manager.${entity.name}Manager
-import ${package}.entity.${entity.name}
 import org.springframework.web.bind.annotation.*
-import com.fasterxml.jackson.annotation.JsonView
-import com.zy.mylib.base.model.BaseModel
 import com.zy.mylib.webmvc.base.BaseRest
 import javax.inject.Inject
 import com.zy.mylib.base.model.*
@@ -53,7 +50,7 @@ class ${entity.name}Rest: BaseRest() {
   @PostMapping
   fun addEntity(@Validated @RequestBody req: Add${entity.name}Request): Add${entity.name}Response {
     val entity = convert.fromAdd${entity.name}Request(req)
-    return convert.toAdd${entity.name}Response(manager!!.add(entity))
+    return convert.toAdd${entity.name}Response(manager.add(entity))
   }
   /**
    * 更新${entity.caption}
