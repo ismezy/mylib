@@ -19,12 +19,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
 import com.zy.mylib.security.casbin.jwt.CasbinSecurityJwtModule;
+import com.zy.mylib.sys.config.SysConfigModule
 import com.zy.mylib.webmvc.swagger.SwaggerUiConfig
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @SpringBootApplication(scanBasePackages = ["com.zy.mylib.app.admin"])
-@Import(CasbinSecurityJwtModule::class, SwaggerUiConfig::class)
+@Import(CasbinSecurityJwtModule::class, SwaggerUiConfig::class, SysConfigModule::class)
 @EnableSwagger2 @EnableWebMvc
 class Application
 
