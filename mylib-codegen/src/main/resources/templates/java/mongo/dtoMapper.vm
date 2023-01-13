@@ -1,7 +1,6 @@
 package ${package}.dto.mapper;
 
 import ${package}.entity.${entity.name};
-import ${package}.dto.${entity.name}${dtoSuffix};
 import org.mapstruct.Mapper;
 #foreach($prefix in ${requestDtoList})
 import ${package}.dto.${prefix}${entity.name}Request;
@@ -15,11 +14,11 @@ import ${package}.dto.${prefix}${entity.name}Response;
  * @author 代码生成器
  */
 @Mapper(componentModel = "spring")
-public interface ${entity.name}${dtoSuffix}Mapper {
+public interface ${entity.name}Convert {
 #foreach($prefix in ${requestDtoList})
-  ${entity.name} from${prefix}${entity.name}Request(req: ${prefix}${entity.name}Request);
+  ${entity.name} from${prefix}${entity.name}Request(${prefix}${entity.name}Request req);
 #end
 #foreach($prefix in ${responseDtoList})
-  ${prefix}${entity.name}Response to${prefix}${entity.name}Response(entity: ${entity.name});
+  ${prefix}${entity.name}Response to${prefix}${entity.name}Response(${entity.name} entity);
 #end
 }

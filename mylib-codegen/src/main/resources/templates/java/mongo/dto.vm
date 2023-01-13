@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 @ApiModel("${entity.caption}")
-public class ${entity.name}${dtoSuffix} extends ${entity.superClassName} {
+public class ${dtoPrefix}${entity.name}${dtoSuffix} extends ${entity.superClassName} {
 #foreach($field in ${entity.fields})
   /**
    * ${field.caption}
