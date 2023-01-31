@@ -94,7 +94,7 @@ class GlobalConfigRest: BaseRest() {
   @GetMapping("/pager")
   fun findPage(queryWrapper: QueryWrapper): PageResponse<QueryGlobalConfigResponse> {
     return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
-      PageResponse.fromRequest<QueryGlobalConfigResponse>(queryWrapper.page, it.totalElement,
+      PageResponse.fromRequest(queryWrapper.page, it.totalElement,
       it.list?.map { it1 -> convert.toQueryGlobalConfigResponse(it1) })
     }
   }

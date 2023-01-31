@@ -6,6 +6,7 @@ import com.zy.mylib.webmvc.base.BaseRest
 import javax.inject.Inject
 import com.zy.mylib.base.model.*
 import com.zy.mylib.base.exception.BusException
+import com.zy.mylib.webmvc.model.QueryWrapper
 import org.springframework.validation.annotation.Validated
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -76,10 +77,10 @@ class ${entity.name}Rest: BaseRest() {
    */
   @ApiOperation("分页查询${entity.caption}")
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Query${entity.name}Response> {
-    return manager.pageQuery(pageRequest, conditions).let {
-      PageResponse.fromRequest<Query${entity.name}Response>(pageRequest, it.totalElement,
-      it.list?.map { it1 -> convert.toQuery${entity.name}Response(it1) })
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<Query${entity.name}Response> {
+    return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
+      PageResponse.fromRequest(queryWrapper.page, it.totalElement,
+        it.list?.map { it1 -> convert.toQuery${entity.name}Response(it1) })
     }
   }
 }

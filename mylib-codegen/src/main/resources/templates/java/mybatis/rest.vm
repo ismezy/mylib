@@ -5,6 +5,7 @@ import ${package}.manager.${entity.name}Manager;
 import org.springframework.web.bind.annotation.*;
 import com.zy.mylib.base.model.*;
 import com.zy.mylib.webmvc.base.BaseRest;
+import com.zy.mylib.webmvc.model.QueryWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import javax.inject.Inject;
@@ -82,9 +83,9 @@ public class ${entity.name}Rest extends BaseRest {
    */
   @ApiOperation("分页查询${entity.caption}")
   @GetMapping("/pager")
-  public PageResponse<Query${entity.name}Response> findPage(PageRequest pageRequest, List<Condition> conditions) {
-    PageResponse<${entity.name}> pageResult = manager.pageQuery(pageRequest, conditions);
-    return PageResponse.Companion.fromRequest(pageRequest, pageResult.getTotalElement(),
+  public PageResponse<Query${entity.name}Response> findPage(QueryWrapper queryWrapper) {
+    PageResponse<${entity.name}> pageResult = manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond);
+    return PageResponse.Companion.fromRequest(queryWrapper.page, pageResult.getTotalElement(),
       pageResult.getList().stream().map(it -> convert.toQuery${entity.name}Response(it)).collect(Collectors.toList()));
   }
 }
