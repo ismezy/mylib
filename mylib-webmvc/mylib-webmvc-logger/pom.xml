@@ -21,7 +21,7 @@
         <artifactId>mylib-webmvc</artifactId>
         <groupId>com.zy.mylib</groupId>
         <!--suppress MavenPropertyInParent-->
-        <version>1.18.0</version>
+        <version>1.18.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

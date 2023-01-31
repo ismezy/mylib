@@ -84,8 +84,9 @@ public class ${entity.name}Rest extends BaseRest {
   @ApiOperation("分页查询${entity.caption}")
   @GetMapping("/pager")
   public PageResponse<Query${entity.name}Response> findPage(QueryWrapper queryWrapper) {
-    PageResponse<${entity.name}> pageResult = manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond);
-    return PageResponse.Companion.fromRequest(queryWrapper.page, pageResult.getTotalElement(),
+    PageResponse<${entity.name}> pageResult = manager.pageQuery(queryWrapper.getPage(),
+      queryWrapper.getSort(), queryWrapper.getCond());
+    return PageResponse.Companion.fromRequest(queryWrapper.getPage(), pageResult.getTotalElement(),
       pageResult.getList().stream().map(it -> convert.toQuery${entity.name}Response(it)).collect(Collectors.toList()));
   }
 }
