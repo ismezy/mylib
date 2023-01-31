@@ -58,7 +58,7 @@ interface Manager<T : BaseModel, PK> {
    * @param conditionGroup
    * @return
    */
-  fun pageQuery(request: PageRequest, conditionGroup: List<Condition>): PageResponse<T>
+  fun pageQuery(request: PageRequest, sorts: List<SortRequest>, conditionGroup: List<Condition>): PageResponse<T>
 
   /**
    * 根据id查找

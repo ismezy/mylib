@@ -114,11 +114,11 @@ abstract class BaseMongoManagerImpl<DAO: BaseMongoRepository<T, PK>, T : BaseMod
   /**
    * 分页查询
    */
-  override fun pageQuery(request: PageRequest, conditionGroup: List<Condition>): PageResponse<T> {
+  override fun pageQuery(request: PageRequest, sorts: List<SortRequest>, conditionGroup: List<Condition>): PageResponse<T> {
     val criteria = createCriteria(conditionGroup)
     val query = Query.query(criteria)
     val count = mongoTemplate!!.count(query, tClass)
-    query.with(PageUtils.toSpringPageRequest(request))
+    query.with(PageUtils.toSpringPageRequest(request, sorts))
     val list = mongoTemplate!!.find(query, tClass)
     return fromRequest(request, count, list)
   }

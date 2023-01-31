@@ -31,6 +31,7 @@ import com.zy.mylib.sys.config.dto.UpdateGlobalConfigResponse
 import com.zy.mylib.sys.config.dto.GetGlobalConfigResponse
 import com.zy.mylib.sys.config.dto.QueryGlobalConfigResponse
 import com.zy.mylib.sys.config.dto.mapper.GlobalConfigConvert
+import com.zy.mylib.webmvc.model.QueryWrapper
 
 /**
  * 全局配置 rest接口
@@ -91,9 +92,9 @@ class GlobalConfigRest: BaseRest() {
    */
   @ApiOperation("分页查询全局配置")
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<QueryGlobalConfigResponse> {
-    return manager.pageQuery(pageRequest, conditions).let {
-      PageResponse.fromRequest<QueryGlobalConfigResponse>(pageRequest, it.totalElement,
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<QueryGlobalConfigResponse> {
+    return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
+      PageResponse.fromRequest<QueryGlobalConfigResponse>(queryWrapper.page, it.totalElement,
       it.list?.map { it1 -> convert.toQueryGlobalConfigResponse(it1) })
     }
   }

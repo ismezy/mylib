@@ -25,6 +25,7 @@ import com.zy.mylib.security.dto.UserSaveRequest
 import com.zy.mylib.security.dto.mapper.UserConvert
 import com.zy.mylib.security.manager.UserManager
 import com.zy.mylib.webmvc.base.BaseRest
+import com.zy.mylib.webmvc.model.QueryWrapper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
@@ -66,9 +67,9 @@ class UserManageRest : BaseRest() {
    */
   @GetMapping("/pager")
   @ApiOperation("分页查询")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<UserListResponse> {
-    return userManager.pageQuery(pageRequest, conditions).let {
-      PageResponse.fromRequest<UserListResponse>(pageRequest, it.totalElement,
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<UserListResponse> {
+    return userManager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
+      PageResponse.fromRequest(queryWrapper.page, it.totalElement,
           it.list?.map { it1 -> userConvert.toUserListResponse(it1) })
     }
   }

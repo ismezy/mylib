@@ -83,9 +83,9 @@ abstract class MyBatisBaseManagerImpl<MAPPER: MyBatisBaseMapper<T>, T: BaseModel
         return mapper.selectList(Wrappers.emptyWrapper())
     }
 
-    override fun pageQuery(request: PageRequest, conditionGroup: List<Condition>): PageResponse<T> {
+    override fun pageQuery(request: PageRequest, sorts: List<SortRequest>, conditionGroup: List<Condition>): PageResponse<T> {
         var page = Page<T>(request.page + 1, request.size)
-        val queryWrapper: QueryWrapper<T> = QueryWrapperUtils.build<T>(conditionGroup, request.sortRequests)
+        val queryWrapper: QueryWrapper<T> = QueryWrapperUtils.build<T>(conditionGroup, sorts)
         page = mapper.selectPage(page, queryWrapper)
         return PageResponse.fromRequest(request, page.total, page.records)
     }

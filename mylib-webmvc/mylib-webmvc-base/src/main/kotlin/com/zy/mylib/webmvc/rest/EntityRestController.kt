@@ -85,12 +85,12 @@ abstract class EntityRestController<T : BaseModel, PK : Serializable> : BaseRest
   @RequestMapping(value = [""], method = [RequestMethod.GET])
   @JsonView(BaseModel.ListView::class)
   fun queryList(queryWrapper: QueryWrapper): List<T>? {
-    return getManager().findList(queryWrapper!!.conditions!!, queryWrapper.sorts!!)
+    return getManager().findList(queryWrapper!!.cond!!, queryWrapper.sort!!)
   }
 
   @RequestMapping(value = ["/pager"], method = [RequestMethod.GET])
   @JsonView(BaseModel.ListView::class)
-  fun queryPager(queryWrapper: QueryWrapper?): PageResponse<T>? {
-    return getManager().pageQuery(queryWrapper!!.page!!, queryWrapper.conditions!!)
+  fun queryPager(queryWrapper: QueryWrapper): PageResponse<T> {
+    return getManager().pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond)
   }
 }

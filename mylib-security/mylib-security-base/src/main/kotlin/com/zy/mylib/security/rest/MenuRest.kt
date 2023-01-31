@@ -29,6 +29,7 @@ import com.zy.mylib.security.dto.MenuResponse
 import com.zy.mylib.security.dto.MenuTreeNode
 import com.zy.mylib.security.dto.mapper.MenuConvert
 import com.zy.mylib.security.service.MenuQueryComponent
+import com.zy.mylib.webmvc.model.QueryWrapper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.validation.annotation.Validated
@@ -75,8 +76,8 @@ class MenuRest: BaseRest() {
   }
 
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<Menu> {
-    return manager.pageQuery(pageRequest, conditions)
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<Menu> {
+    return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond)
   }
 
   @GetMapping("/tree-view")

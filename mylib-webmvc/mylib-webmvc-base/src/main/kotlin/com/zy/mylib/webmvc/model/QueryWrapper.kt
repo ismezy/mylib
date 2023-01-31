@@ -20,7 +20,7 @@ import com.zy.mylib.base.model.PageRequest
 import com.zy.mylib.base.model.SortRequest
 
 class QueryWrapper {
-  var conditions: List<Condition>? = null
-  var sorts: List<SortRequest>? = null
-  var page: PageRequest? = null
+  var cond: List<Condition> = mutableListOf()
+  var sort: List<SortRequest> = mutableListOf()
+  var page: PageRequest = PageRequest()
 }

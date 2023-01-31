@@ -62,9 +62,4 @@ class CasbinModelRest: BaseRest() {
   fun remove(@PathVariable("id") id: String) {
     return manager.delete(id)
   }
-
-  @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<CasbinModel> {
-    return manager.pageQuery(pageRequest, conditions)
-  }
 }

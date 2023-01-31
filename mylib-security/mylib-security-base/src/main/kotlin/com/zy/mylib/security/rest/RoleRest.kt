@@ -34,6 +34,7 @@ import com.zy.mylib.security.dto.UpdateRoleResponse
 import com.zy.mylib.security.dto.GetRoleResponse
 import com.zy.mylib.security.dto.QueryRoleResponse
 import com.zy.mylib.security.dto.mapper.RoleConvert
+import com.zy.mylib.webmvc.model.QueryWrapper
 
 /**
  * 角色 rest接口
@@ -93,9 +94,9 @@ class RoleRest: BaseRest() {
    * 分页查询角色
    */
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<QueryRoleResponse> {
-    return manager.pageQuery(pageRequest, conditions).let {
-      PageResponse.fromRequest<QueryRoleResponse>(pageRequest, it.totalElement,
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<QueryRoleResponse> {
+    return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
+      PageResponse.fromRequest(queryWrapper.page, it.totalElement,
       it.list?.map { it1 -> convert.toQueryRoleResponse(it1) })
     }
   }

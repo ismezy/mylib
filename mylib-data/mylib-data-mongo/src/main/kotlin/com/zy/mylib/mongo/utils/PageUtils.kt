@@ -21,8 +21,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 
 object PageUtils {
-  fun toSpringPageRequest(request: com.zy.mylib.base.model.PageRequest): PageRequest {
-    val sort = toSpringSort(request.sortRequests)
+  fun toSpringPageRequest(request: com.zy.mylib.base.model.PageRequest,
+                          sortRequests: List<SortRequest>): PageRequest {
+    val sort = toSpringSort(sortRequests)
     return PageRequest.of(request.page.toInt(), request.size.toInt(), sort)
   }
 

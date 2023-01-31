@@ -31,6 +31,7 @@ import com.zy.mylib.sys.config.dto.UpdateCodeMapResponse
 import com.zy.mylib.sys.config.dto.GetCodeMapResponse
 import com.zy.mylib.sys.config.dto.QueryCodeMapResponse
 import com.zy.mylib.sys.config.dto.mapper.CodeMapConvert
+import com.zy.mylib.webmvc.model.QueryWrapper
 
 /**
  * 代码集 rest接口
@@ -91,9 +92,9 @@ class CodeMapRest: BaseRest() {
    */
   @ApiOperation("分页查询代码集")
   @GetMapping("/pager")
-  fun findPage(pageRequest: PageRequest, conditions: List<Condition>): PageResponse<QueryCodeMapResponse> {
-    return manager.pageQuery(pageRequest, conditions).let {
-      PageResponse.fromRequest<QueryCodeMapResponse>(pageRequest, it.totalElement,
+  fun findPage(queryWrapper: QueryWrapper): PageResponse<QueryCodeMapResponse> {
+    return manager.pageQuery(queryWrapper.page, queryWrapper.sort, queryWrapper.cond).let {
+      PageResponse.fromRequest(queryWrapper.page, it.totalElement,
       it.list?.map { it1 -> convert.toQueryCodeMapResponse(it1) })
     }
   }

@@ -297,9 +297,9 @@ abstract class BaseJpaManager<DAO : JpaRepository<T, PK>, T : JpaEntity, PK> : I
     return query
   }
 
-  override fun pageQuery(request: PageRequest, conditionGroup: List<Condition>): PageResponse<T> {
+  override fun pageQuery(request: PageRequest, sorts: List<SortRequest>, conditionGroup: List<Condition>): PageResponse<T> {
     val whereAndParams = genWhereAndParams(conditionGroup)
-    val orderByString = genOrderBy(request.sortRequests)
+    val orderByString = genOrderBy(sorts)
     val entityName = tClass.name
     val jpql = "select t from $entityName  t where t.id in ?1 $orderByString"
     val countJpql = "select count(t) from " + entityName + " t " + whereAndParams.whereSql()
