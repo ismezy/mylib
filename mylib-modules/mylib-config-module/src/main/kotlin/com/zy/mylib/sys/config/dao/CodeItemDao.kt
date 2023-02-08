@@ -23,4 +23,5 @@ import com.zy.mylib.mongo.repos.BaseMongoRepository
  * @author 代码生成器
  */
 interface CodeItemDao : BaseMongoRepository<CodeItem, String> {
+  fun findByCodemapOrderBySortNumAscCodeAsc(codemap: String): List<CodeItem>
 }

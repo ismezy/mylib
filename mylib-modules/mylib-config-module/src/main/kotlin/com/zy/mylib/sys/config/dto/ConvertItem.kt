@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.sys.config.manager.impl
+package com.zy.mylib.sys.config.dto
 
-import com.zy.mylib.sys.config.dao.CodeItemDao
-import com.zy.mylib.sys.config.entity.CodeItem
-import com.zy.mylib.sys.config.manager.CodeItemManager
-import com.zy.mylib.mongo.manager.impl.BaseMongoManagerImpl
-
-import javax.inject.Named
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 
 /**
- * 代码项 管理类
- * @author 代码生成器
+ * 数据转换项
  */
-@Named
-open class CodeItemManagerImpl: BaseMongoManagerImpl<CodeItemDao, CodeItem, String>(), CodeItemManager {
-  override fun findByCodemap(codemap: String): List<CodeItem> {
-    return repository.findByCodemapOrderBySortNumAscCodeAsc(codemap)
-  }
+@ApiModel("转换项")
+class ConvertItem {
+  @ApiModelProperty("编号")
+  var code: String? = null
+  @ApiModelProperty("值")
+  var value: String? = null
+  @ApiModelProperty("文本")
+  var text: String? = null
 }

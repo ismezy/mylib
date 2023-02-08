@@ -13,22 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.sys.config.manager.impl
+package com.zy.mylib.sys.config.manager
 
-import com.zy.mylib.sys.config.dao.CodeItemDao
-import com.zy.mylib.sys.config.entity.CodeItem
-import com.zy.mylib.sys.config.manager.CodeItemManager
-import com.zy.mylib.mongo.manager.impl.BaseMongoManagerImpl
-
-import javax.inject.Named
+import com.zy.mylib.sys.config.dto.ConvertItem
+import org.springframework.stereotype.Component
+import javax.inject.Inject
 
 /**
- * 代码项 管理类
- * @author 代码生成器
+ * 字典服务组件
  */
-@Named
-open class CodeItemManagerImpl: BaseMongoManagerImpl<CodeItemDao, CodeItem, String>(), CodeItemManager {
-  override fun findByCodemap(codemap: String): List<CodeItem> {
-    return repository.findByCodemapOrderBySortNumAscCodeAsc(codemap)
+@Component
+class ConvertService {
+  @Inject
+  lateinit var codeItemManager: CodeItemManager
+
+  fun listByGroup(group: String): List<ConvertItem> {
+    return codeItemManager.findByCodemap(group).map {
+      ConvertItem().apply {
+        this.code = it.code
+        this.value = it.value
+        this.text = it.caption
+      }
+    }
   }
 }

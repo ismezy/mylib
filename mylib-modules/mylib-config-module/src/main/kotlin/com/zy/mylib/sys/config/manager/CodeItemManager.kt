@@ -23,4 +23,5 @@ import com.zy.mylib.base.service.Manager
  * @author 代码生成器
  */
 interface CodeItemManager : Manager<CodeItem, String> {
+  fun findByCodemap(codemap: String): List<CodeItem>
 }
