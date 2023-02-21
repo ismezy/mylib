@@ -115,7 +115,7 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-excel</artifactId>
+        <artifactId>mylib-file-excel</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

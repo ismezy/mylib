@@ -1,0 +1,24 @@
+package com.zy.mylib.gridfs.dto.mapper
+
+import com.zy.mylib.gridfs.entity.FileInfo
+import com.zy.mylib.gridfs.dto.AddFileInfoRequest
+import com.zy.mylib.gridfs.dto.UpdateFileInfoRequest
+import com.zy.mylib.gridfs.dto.AddFileInfoResponse
+import com.zy.mylib.gridfs.dto.UpdateFileInfoResponse
+import com.zy.mylib.gridfs.dto.QueryFileInfoResponse
+import com.zy.mylib.gridfs.dto.GetFileInfoResponse
+import org.mapstruct.Mapper
+
+/**
+ * 文件信息 DTO Response  mapper
+ * @author 代码生成器
+ */
+@Mapper(componentModel = "spring")
+interface FileInfoConvert {
+  fun fromAddFileInfoRequest(req: AddFileInfoRequest): FileInfo
+  fun fromUpdateFileInfoRequest(req: UpdateFileInfoRequest): FileInfo
+  fun toAddFileInfoResponse(entity: FileInfo): AddFileInfoResponse
+  fun toUpdateFileInfoResponse(entity: FileInfo): UpdateFileInfoResponse
+  fun toQueryFileInfoResponse(entity: FileInfo): QueryFileInfoResponse
+  fun toGetFileInfoResponse(entity: FileInfo): GetFileInfoResponse
+}

@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://test:test@127.0.0.1/test
+      auto-index-creation: true
+logging:
+  level:
+    org.springframework.data.mongodb: debug

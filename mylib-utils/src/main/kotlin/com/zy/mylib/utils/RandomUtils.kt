@@ -23,16 +23,10 @@ import java.util.*
  */
 object RandomUtils {
   /**
-   * 生成随机数字符串
-   *
-   * @param len     随机数长度
-   * @param padChar 被位数字符
-   * @return
-   */
-  /**
    * 生成随机数字符串，长度不足时补0
    *
    * @param len 随机数长度
+   * @param padChar 补位数字符
    * @return
    */
   @JvmOverloads
@@ -49,5 +43,12 @@ object RandomUtils {
    */
   fun randomFor6(): String {
     return randNumberString(6, '0')
+  }
+
+  /**
+   * 返回uuid
+   */
+  fun uuid(): String {
+    return UUID.randomUUID().toString().replace("-", "");
   }
 }
