@@ -23,7 +23,7 @@
   <parent>
     <groupId>com.zy.mylib</groupId>
     <artifactId>mylib</artifactId>
-    <version>1.18.2</version>
+    <version>1.18.3</version>
   </parent>
   <artifactId>mylib-modules</artifactId>
   <packaging>pom</packaging>
