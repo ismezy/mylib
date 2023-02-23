@@ -36,8 +36,9 @@
   </properties>
 
   <modules>
-    <module>mylib-file-excel</module>
+    <module>mylib-file-xls</module>
     <module>mylib-file-gridfs</module>
     <module>mylib-file-convert</module>
+    <module>mylib-file-doc</module>
   </modules>
 </project>

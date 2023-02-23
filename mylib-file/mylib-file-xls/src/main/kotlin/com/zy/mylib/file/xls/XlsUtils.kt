@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.excel
+package com.zy.mylib.file.xls
 
 import org.jxls.transform.poi.PoiTransformer
 import org.jxls.util.JxlsHelper
@@ -27,9 +27,9 @@ import java.io.InputStream
  *
  * @author ASUS
  */
-object ExcelUtils {
+object XlsUtils {
   /**
-   * 生成excel文件
+   * 生成xls文件
    * @param data 模板参数
    * @param template 模板
    * @param target 保存路径
@@ -37,7 +37,7 @@ object ExcelUtils {
    */
   @JvmStatic
   @Throws(IOException::class)
-  fun genExcel(data: Map<String?, Any?>, template: InputStream?, target: File?) {
+  fun genXls(data: Map<String, Any>, template: InputStream, target: File) {
     val jxlsHelper = JxlsHelper.getInstance()
     val context = PoiTransformer.createInitialContext()
     data.forEach { (key: String?, value: Any?) -> context.putVar(key, value) }

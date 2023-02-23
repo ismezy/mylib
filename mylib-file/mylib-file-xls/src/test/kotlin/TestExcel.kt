@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.zy.mylib.excel.ExcelUtils
+import com.zy.mylib.file.xls.XlsUtils
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.IOException
@@ -43,7 +43,7 @@ class TestExcel {
       students.add(s)
     }
     data["students"] = students
-    ExcelUtils.genExcel(data, inputStream, File("/test.xlsx"))
+    XlsUtils.genXls(data, inputStream, File("/test.xlsx"))
   }
 
   private fun randName(): String {
