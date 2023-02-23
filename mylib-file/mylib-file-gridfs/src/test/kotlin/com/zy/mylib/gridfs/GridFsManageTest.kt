@@ -17,6 +17,7 @@ package com.zy.mylib.gridfs
 
 import com.zy.mylib.gridfs.manager.FileInfoManager
 import com.zy.mylib.gridfs.manager.GridFsManage
+import com.zy.mylib.gridfs.service.PdfService
 import com.zy.mylib.gridfs.service.impl.FileServiceImpl
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

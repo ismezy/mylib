@@ -21,10 +21,11 @@ import java.io.InputStream
 
 interface FileService {
 
-  @Transactional
   fun createDirectory(fullPath: String): DirectoryInfo
-  @Transactional
   fun createDirectory(parent: String, name: String): DirectoryInfo
-  @Transactional
   fun saveFile(inputStream: InputStream, path: String): FileInfo
+  fun saveLocalFile(localPath: String, path: String): FileInfo
+  fun saveFile(templateFileId: String, path: String): FileInfo
+  fun downloadStream(filename: String): ByteArray
+  fun uploadStream(byteArray: ByteArray): String
 }

@@ -24,6 +24,7 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.gridfs.GridFsTemplate
 import org.springframework.stereotype.Component
+import java.io.ByteArrayOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -61,6 +62,13 @@ class GridFsManageImpl : GridFsManage {
    */
   override fun delete(id: String) {
     gridFsTemplate.delete(Query.query(Criteria.where("_id").`is`(id)))
+  }
+
+  override fun loadByte(id: String): ByteArray {
+    ByteArrayOutputStream().use {
+      load(id, it)
+      return it.toByteArray()
+    }
   }
 
   override fun load(id: String, outputStream: OutputStream) {

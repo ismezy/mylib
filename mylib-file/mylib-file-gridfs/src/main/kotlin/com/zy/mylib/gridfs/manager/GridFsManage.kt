@@ -45,4 +45,5 @@ interface GridFsManage {
   fun load(id: String, targetPath: String)
 
   fun findById(templateFileId: String): GridFSFile
+  fun loadByte(id: String): ByteArray
 }

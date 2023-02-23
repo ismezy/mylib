@@ -24,6 +24,7 @@ import com.zy.mylib.gridfs.manager.GridFsManage
 import com.zy.mylib.gridfs.service.FileService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
 import java.util.*
@@ -55,6 +56,9 @@ open class FileServiceImpl : FileService {
   @Transactional
   override fun createDirectory(parent: String, name: String): DirectoryInfo {
     println("$parent, $name")
+    if(name.isNullOrBlank()) {
+      return DirectoryInfo()
+    }
     if (parent != "/" && parent.isNotBlank()) {
       val parentDir = directoryInfoManager.findByFullPath(parent)
       if (parentDir == null) {
@@ -83,21 +87,30 @@ open class FileServiceImpl : FileService {
     return saveFile(gridFs, path)
   }
 
-  fun saveLocalFile(localPath: String, path: String): FileInfo {
+  @Transactional
+  override fun saveLocalFile(localPath: String, path: String): FileInfo {
     return saveFile(File(localPath).inputStream(), path)
   }
 
-  fun saveFile(templateFileId: String, path: String): FileInfo {
+  override fun downloadStream(filename: String): ByteArray {
+    return gridFsManager.loadByte(filename)
+  }
+
+  @Transactional
+  override fun saveFile(templateFileId: String, path: String): FileInfo {
     val gridFs = gridFsManager.findById(templateFileId)
     return saveFile(gridFs, path)
   }
 
+  override fun uploadStream(byteArray: ByteArray): String {
+    ByteArrayInputStream(byteArray).use {
+      return gridFsManager.save(it).objectId.toHexString()
+    }
+  }
+
   private fun saveFile(gridFs: GridFSFile, path: String): FileInfo {
     createDirectory(path.substringBeforeLast('/', "/"))
-    val fi = fileInfoManager.findByFullpath(path)
-    if(fi == null) {
-      return addFile(gridFs, path)
-    }
+    val fi = fileInfoManager.findByFullpath(path) ?: return addFile(gridFs, path)
     return updateFile(fi, gridFs, path)
   }
 

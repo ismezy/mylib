@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://test:test@127.0.0.1/test
+logging:
+  level:
+    org.springframework.data.mongodb: debug
+office:
+  home: C:\Program Files\LibreOffice
