@@ -115,7 +115,22 @@
       </dependency>
       <dependency>
         <groupId>com.zy.mylib</groupId>
-        <artifactId>mylib-file-excel</artifactId>
+        <artifactId>mylib-file-xls</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zy.mylib</groupId>
+        <artifactId>mylib-file-gridfs</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zy.mylib</groupId>
+        <artifactId>mylib-file-doc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zy.mylib</groupId>
+        <artifactId>mylib-file-convert</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
