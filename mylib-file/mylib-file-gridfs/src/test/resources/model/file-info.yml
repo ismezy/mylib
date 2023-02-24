@@ -23,8 +23,8 @@ fields:
   - name: fullpath
     caption: 文件全路径
     type: String
-  - name: filename
-    caption: 文件名
+  - name: fileId
+    caption: 文件Id
     type: String
   - name: extName
     caption: 文件扩展名

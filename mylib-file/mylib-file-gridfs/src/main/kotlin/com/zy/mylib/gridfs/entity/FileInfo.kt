@@ -34,11 +34,11 @@ class FileInfo: BaseMongoModel() {
   @Indexed(unique = true)
   var fullpath: String? = null
   /**
-   * 文件名
+   * 文件ID
    */
   @Column
   @Indexed(unique = true)
-  var filename: String? = null
+  var fileId: String? = null
   /**
    * 文件扩展名
    */

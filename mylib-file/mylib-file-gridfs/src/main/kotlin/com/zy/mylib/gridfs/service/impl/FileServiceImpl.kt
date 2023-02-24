@@ -92,13 +92,13 @@ open class FileServiceImpl : FileService {
     return saveFile(File(localPath).inputStream(), path)
   }
 
-  override fun downloadStream(filename: String): ByteArray {
-    return gridFsManager.loadByte(filename)
+  override fun downloadStream(fileId: String): ByteArray {
+    return gridFsManager.loadByte(fileId)
   }
 
   @Transactional
-  override fun saveFile(templateFileId: String, path: String): FileInfo {
-    val gridFs = gridFsManager.findById(templateFileId)
+  override fun saveFile(tempFileId: String, path: String): FileInfo {
+    val gridFs = gridFsManager.findById(tempFileId)
     return saveFile(gridFs, path)
   }
 
@@ -118,7 +118,7 @@ open class FileServiceImpl : FileService {
     return fileInfoManager.update(FileInfo().apply {
       id = old.id
       fullpath = path
-      filename = gridFs.objectId.toHexString()
+      fileId = gridFs.objectId.toHexString()
       this.path = path.substringBeforeLast('/')
       extName = path.substringAfterLast('.', "")
       originName = path.substringAfterLast('/')
@@ -131,7 +131,7 @@ open class FileServiceImpl : FileService {
   private fun addFile(gridFs: GridFSFile, path: String): FileInfo {
     return fileInfoManager.add(FileInfo().apply {
       fullpath = path
-      filename = gridFs.objectId.toHexString()
+      fileId = gridFs.objectId.toHexString()
       this.path = path.substringBeforeLast('/')
       extName = path.substringAfterLast('.', "")
       createTime = Date()

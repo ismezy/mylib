@@ -15,6 +15,7 @@
  */
 package com.zy.mylib.file.doc
 
+import fr.opensagres.xdocreport.document.images.IImageProvider
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry
 import fr.opensagres.xdocreport.template.TemplateEngineKind
 import java.io.File
@@ -23,7 +24,7 @@ import java.io.InputStream
 
 
 object DocUtils {
-  fun genDoc(data: Map<String, Any>, template: InputStream, target: File) {
+  fun genDoc(data: Map<String, Any?>, template: InputStream, target: File) {
     //1.通过freemarker模板引擎加载文档，并缓存到registry中
     val report = XDocReportRegistry
         .getRegistry()
@@ -35,7 +36,13 @@ object DocUtils {
       if(it.value is List<*> || it.value is Array<*>) {
         meta.addFieldAsList(it.key)
       }
+      if(it.value is IImageProvider) {
+        meta.addFieldAsImage(it.key)
+      }
     }
+//    report.fieldsMetadata.load("users", UserInfo::class.java, true)
+//    meta.load("users", UserInfo::class.java, true)
+//    context.put("users", data["users"])
     FileOutputStream(target).use {
       report.process(context, it)
     }

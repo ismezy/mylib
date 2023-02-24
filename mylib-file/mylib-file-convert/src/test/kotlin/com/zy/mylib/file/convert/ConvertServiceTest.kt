@@ -33,9 +33,8 @@ class ConvertServiceTest {
 
   @Test
   fun excel2Pdf() {
-    val file = File("D:\\document\\WeChat Files\\wxid_rksat3g83imi21\\FileStorage\\File\\2023-02\\BDA0710010_《核定定额通知》.doc")
     ByteArrayOutputStream().use { os ->
-      file.inputStream().use { fis ->
+      ClassLoader.getSystemResourceAsStream("test.docx").use { fis ->
         IOUtils.copy(fis, os)
         docService.convertWordToPdf(os.toByteArray(), "doc", "/pdf/核定定额通知.pdf")
         docService.stop()

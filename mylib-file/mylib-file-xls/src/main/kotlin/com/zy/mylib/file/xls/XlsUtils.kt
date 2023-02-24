@@ -37,7 +37,7 @@ object XlsUtils {
    */
   @JvmStatic
   @Throws(IOException::class)
-  fun genXls(data: Map<String, Any>, template: InputStream, target: File) {
+  fun genXls(data: Map<String, Any?>, template: InputStream, target: File) {
     val jxlsHelper = JxlsHelper.getInstance()
     val context = PoiTransformer.createInitialContext()
     data.forEach { (key: String?, value: Any?) -> context.putVar(key, value) }

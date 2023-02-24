@@ -31,7 +31,7 @@ class TestExcel {
   @Throws(IOException::class)
   fun genExcel() {
     val inputStream = ClassLoader.getSystemResourceAsStream("sample.xlsx")
-    val data: MutableMap<String?, Any?> = HashMap(1)
+    val data: MutableMap<String, Any?> = HashMap(1)
     val students: MutableList<Map<String, Any>> = ArrayList(10)
     for (i in 0..9) {
       val s: MutableMap<String, Any> = HashMap(5)
