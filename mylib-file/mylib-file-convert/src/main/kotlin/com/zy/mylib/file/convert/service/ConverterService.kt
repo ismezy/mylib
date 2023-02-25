@@ -16,12 +16,11 @@
 package com.zy.mylib.file.convert.service
 
 import com.zy.mylib.gridfs.entity.FileInfo
-import java.io.File
 
 /**
  * @author ASUS
  */
-interface DocService {
+interface ConverterService {
     /**
      * 转换base64文档
      *

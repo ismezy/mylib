@@ -18,6 +18,9 @@ package com.zy.mylib.file.doc
 import fr.opensagres.xdocreport.document.images.IImageProvider
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry
 import fr.opensagres.xdocreport.template.TemplateEngineKind
+import org.apache.commons.io.IOUtils
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -25,6 +28,19 @@ import java.io.InputStream
 
 object DocUtils {
   fun genDoc(data: Map<String, Any?>, template: InputStream, target: File) {
+
+//    report.fieldsMetadata.load("users", UserInfo::class.java, true)
+//    meta.load("users", UserInfo::class.java, true)
+//    context.put("users", data["users"])
+    FileOutputStream(target).use {
+      val bytes = genDoc(data, template)
+      ByteArrayInputStream(bytes).use { bis ->
+        IOUtils.copy(bis, it)
+      }
+    }
+  }
+
+  fun genDoc(data: Map<String, Any?>, template: InputStream): ByteArray {
     //1.通过freemarker模板引擎加载文档，并缓存到registry中
     val report = XDocReportRegistry
         .getRegistry()
@@ -40,11 +56,10 @@ object DocUtils {
         meta.addFieldAsImage(it.key)
       }
     }
-//    report.fieldsMetadata.load("users", UserInfo::class.java, true)
-//    meta.load("users", UserInfo::class.java, true)
-//    context.put("users", data["users"])
-    FileOutputStream(target).use {
+
+    ByteArrayOutputStream().use {
       report.process(context, it)
+      return it.toByteArray()
     }
   }
 }

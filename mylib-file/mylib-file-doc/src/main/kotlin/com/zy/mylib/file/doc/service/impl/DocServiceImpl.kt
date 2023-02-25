@@ -29,7 +29,7 @@ class DocServiceImpl : DocService {
   /**
    * 获取图片，返回模板ImageProvider
    */
-  fun loadImageProvider(fileId: String): IImageProvider {
+  override fun loadImageProvider(fileId: String): IImageProvider {
     val byteArray = fileService.downloadStream(fileId)
     return ByteArrayImageProvider(byteArray, true)
   }

@@ -16,7 +16,7 @@
 package com.zy.mylib.file.convert.service.impl
 
 import com.zy.mylib.base.exception.BusException
-import com.zy.mylib.file.convert.service.DocService
+import com.zy.mylib.file.convert.service.ConverterService
 import com.zy.mylib.gridfs.entity.FileInfo
 import com.zy.mylib.gridfs.manager.GridFsManage
 import com.zy.mylib.gridfs.service.FileService
@@ -38,7 +38,7 @@ import javax.inject.Inject
  * @author ASUS
  */
 @Service
-class OpenOfficeManager : DocService {
+class OpenOfficeConverter: ConverterService {
   @Inject
   private lateinit var fileService: FileService
   @Inject

@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zy.mylib.file.doc.service
+package com.zy.mylib.file.doc
 
-import fr.opensagres.xdocreport.document.images.IImageProvider
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 
-interface DocService {
-  fun loadImageProvider(fileId: String): IImageProvider
+@Configuration
+@ComponentScan("com.zy.mylib.file.doc")
+open class DocModule {
+
 }
