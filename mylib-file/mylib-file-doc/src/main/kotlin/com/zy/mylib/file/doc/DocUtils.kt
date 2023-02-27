@@ -27,20 +27,16 @@ import java.io.InputStream
 
 
 object DocUtils {
-  fun genDoc(data: Map<String, Any?>, template: InputStream, target: File) {
-
-//    report.fieldsMetadata.load("users", UserInfo::class.java, true)
-//    meta.load("users", UserInfo::class.java, true)
-//    context.put("users", data["users"])
+  fun genDoc(data: Map<String, Any?>, template: InputStream, target: File, metaList: List<MetaInfo>) {
     FileOutputStream(target).use {
-      val bytes = genDoc(data, template)
+      val bytes = genDoc(data, template, metaList)
       ByteArrayInputStream(bytes).use { bis ->
         IOUtils.copy(bis, it)
       }
     }
   }
 
-  fun genDoc(data: Map<String, Any?>, template: InputStream): ByteArray {
+  fun genDoc(data: Map<String, Any?>, template: InputStream, metaList: List<MetaInfo>): ByteArray {
     //1.通过freemarker模板引擎加载文档，并缓存到registry中
     val report = XDocReportRegistry
         .getRegistry()
@@ -49,12 +45,17 @@ object DocUtils {
     val context = report.createContext(data)
     val meta = report.createFieldsMetadata()
     data.forEach {
-      if(it.value is List<*> || it.value is Array<*>) {
-        meta.addFieldAsList(it.key)
+      if (metaList.find { m -> m.key == it.key } == null) {
+        if (it.value is List<*> || it.value is Array<*>) {
+          meta.addFieldAsList(it.key)
+        }
+        if (it.value is IImageProvider) {
+          meta.addFieldAsImage(it.key)
+        }
       }
-      if(it.value is IImageProvider) {
-        meta.addFieldAsImage(it.key)
-      }
+    }
+    metaList.forEach {
+      meta.load(it.key, it.classes, it.list)
     }
 
     ByteArrayOutputStream().use {
