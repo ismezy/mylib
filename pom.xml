@@ -21,7 +21,7 @@
   <groupId>com.zy.mylib</groupId>
   <artifactId>mylib</artifactId>
   <packaging>pom</packaging>
-  <version>1.18.3</version>
+  <version>1.18.5</version>
 
   <properties>
     <java.version>1.8</java.version>
