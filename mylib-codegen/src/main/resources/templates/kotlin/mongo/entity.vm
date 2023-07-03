@@ -14,11 +14,7 @@ class ${entity.name}: ${entity.superClassName}() {
   /**
    * ${field.caption}
    */
-  #if(${field.len} > 0)
-  @Column(length = ${field.len})
-  #else
-  @Column
-  #end
+  @Field
   var ${field.name}: ${field.type}? = null
 #end
 }

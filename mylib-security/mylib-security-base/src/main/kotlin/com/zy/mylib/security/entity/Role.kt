@@ -16,7 +16,6 @@
 package com.zy.mylib.security.entity
 
 import com.zy.mylib.mongo.model.BaseMongoModel
-import javax.persistence.*
 import org.springframework.data.mongodb.core.mapping.*
 
 /**
@@ -28,12 +27,12 @@ class Role: BaseMongoModel() {
   /**
    * 角色
    */
-  @Column
+  @Field
   var code: String? = null
   /**
    * 角色
    */
-  @Column
+  @Field
   var caption: String? = null
   var menus = mutableListOf<String>()
 }

@@ -16,7 +16,6 @@
 package com.zy.mylib.security.entity
 
 import com.zy.mylib.mongo.model.BaseMongoModel
-import javax.persistence.*
 import org.springframework.data.mongodb.core.mapping.*
 
 /**
@@ -28,22 +27,22 @@ class Menu: BaseMongoModel() {
   /**
    * 菜单编号
    */
-  @Column
+  @Field
   var code: String? = null
   /**
    * 菜单标题
    */
-  @Column
+  @Field
   var caption: String? = null
   /**
    * 低级菜单id
    */
-  @Column
+  @Field
   var parentId: String? = null
 
   /**
    * 图标
    */
-  @Column
+  @Field
   var iconKey: String? = null
 }

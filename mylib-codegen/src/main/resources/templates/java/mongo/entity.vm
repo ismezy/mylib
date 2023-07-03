@@ -1,7 +1,6 @@
 package ${package}.entity;
 
 import ${entity.superClass};
-import javax.persistence.*;
 import org.springframework.data.mongodb.core.mapping.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,18 +11,14 @@ import lombok.NoArgsConstructor;
  * ${entity.caption}
  * @author 代码生成器
  */
-@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 @Document("${entity.tableName}")
 public class ${entity.name} extends ${entity.superClassName} {
 #foreach($field in ${entity.fields})
   /**
    * ${field.caption}
    */
-  #if(${field.len} > 0)
-  @Column(length = ${field.len})
-  #else
-  @Column
-  #end
+  @Field
   private ${field.type} ${field.name};
 #end
 }
