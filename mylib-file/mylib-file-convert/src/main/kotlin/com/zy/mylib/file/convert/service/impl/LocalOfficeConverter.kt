@@ -51,7 +51,9 @@ class OpenOfficeConverter: ConverterService {
 
   private fun init() {
     if (officeManager == null) {
-      officeManager = LocalOfficeManager.builder().officeHome(officeHome).install().build()
+      officeManager = LocalOfficeManager.builder().officeHome(officeHome).install()
+          .maxTasksPerProcess(50)
+          .build()
     }
     if (officeManager?.isRunning == false) {
       officeManager?.start()
