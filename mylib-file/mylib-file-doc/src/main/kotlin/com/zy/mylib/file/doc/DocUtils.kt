@@ -15,9 +15,10 @@
  */
 package com.zy.mylib.file.doc
 
-import fr.opensagres.xdocreport.document.images.IImageProvider
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry
-import fr.opensagres.xdocreport.template.TemplateEngineKind
+import com.deepoove.poi.XWPFTemplate
+import com.deepoove.poi.config.Configure
+import com.deepoove.poi.plugin.table.LoopColumnTableRenderPolicy
+import com.deepoove.poi.plugin.table.LoopRowTableRenderPolicy
 import org.apache.commons.io.IOUtils
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -27,39 +28,34 @@ import java.io.InputStream
 
 
 object DocUtils {
-  fun genDoc(data: Map<String, Any?>, template: InputStream, target: File, metaList: List<MetaInfo>) {
+  fun genDoc(data: Map<String, Any?>, template: InputStream, target: File, typeMap: Map<String, String> = mapOf()) {
     FileOutputStream(target).use {
-      val bytes = genDoc(data, template, metaList)
+      val bytes = genDoc(data, template, typeMap)
       ByteArrayInputStream(bytes).use { bis ->
         IOUtils.copy(bis, it)
       }
     }
   }
 
-  fun genDoc(data: Map<String, Any?>, template: InputStream, metaList: List<MetaInfo>): ByteArray {
-    //1.通过freemarker模板引擎加载文档，并缓存到registry中
-    val report = XDocReportRegistry
-        .getRegistry()
-        .loadReport(template, TemplateEngineKind.Velocity)
-    //2.设置填充字段、填充类以及是否为list。
-    val context = report.createContext(data)
-    val meta = report.createFieldsMetadata()
-    data.forEach {
-      if (metaList.find { m -> m.key == it.key } == null) {
-        if (it.value is List<*> || it.value is Array<*>) {
-          meta.addFieldAsList(it.key)
-        }
-        if (it.value is IImageProvider) {
-          meta.addFieldAsImage(it.key)
-        }
+  fun genDoc(data: Map<String, Any?>, template: InputStream, typeMap: Map<String, String> = mapOf()): ByteArray {
+    var tableRowPlugin = LoopRowTableRenderPolicy()
+    var tableColumnPlugin = LoopColumnTableRenderPolicy()
+    var pluginMap = mapOf("tableRow" to tableRowPlugin, "tableColumn" to tableColumnPlugin)
+    var config = Configure.builder()
+
+    for (entry in data.entries) {
+      if(typeMap.containsKey(entry.key) && pluginMap.containsKey(typeMap[entry.key])) {
+        config = config.bind(entry.key, pluginMap[typeMap[entry.key]])
+      } else if(entry.value is List<*>) {
+        // 默认数组为table列表
+        config = config.bind(entry.key, tableRowPlugin)
       }
     }
-    metaList.forEach {
-      meta.load(it.key, it.classes, it.list)
-    }
 
-    ByteArrayOutputStream().use {
-      report.process(context, it)
+    var report = XWPFTemplate.compile(template, config.build())
+    report = report.render(data)
+    return ByteArrayOutputStream().use {
+      report.write(it)
       return it.toByteArray()
     }
   }

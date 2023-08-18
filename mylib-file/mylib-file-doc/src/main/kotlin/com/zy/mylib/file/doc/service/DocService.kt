@@ -15,8 +15,5 @@
  */
 package com.zy.mylib.file.doc.service
 
-import fr.opensagres.xdocreport.document.images.IImageProvider
-
 interface DocService {
-  fun loadImageProvider(fileId: String): IImageProvider
 }

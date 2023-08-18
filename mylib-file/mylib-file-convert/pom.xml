@@ -23,7 +23,7 @@
   <parent>
     <groupId>com.zy.mylib</groupId>
     <artifactId>mylib-file</artifactId>
-    <version>1.18.5</version>
+    <version>1.19.0</version>
   </parent>
 
   <artifactId>mylib-file-convert</artifactId>

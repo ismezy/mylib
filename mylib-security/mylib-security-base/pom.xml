@@ -22,7 +22,7 @@
     <artifactId>mylib-security</artifactId>
     <groupId>com.zy.mylib</groupId>
     <!--suppress MavenPropertyInParent-->
-    <version>1.18.5</version>
+    <version>1.19.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
