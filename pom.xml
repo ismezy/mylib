@@ -32,7 +32,7 @@
     <guava-version>32.0.0-jre</guava-version>
     <commons-lang-version>3.7</commons-lang-version>
     <inject-version>1</inject-version>
-    <commons-io-version>2.7</commons-io-version>
+    <commons-io-version>2.14.0</commons-io-version>
     <casbin-version>1.6.1</casbin-version>
     <java-jwt-version>3.12.0</java-jwt-version>
     <swagger-version>3.0.0</swagger-version>
