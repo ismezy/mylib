@@ -28,7 +28,7 @@
     <spring-cloud-version>2021.0.3</spring-cloud-version>
     <spring-boot-version>2.6.9</spring-boot-version>
     <javax.persistence-api-version>2.2</javax.persistence-api-version>
-    <commons-beanutils-version>1.9.4</commons-beanutils-version>
+    <commons-beanutils-version>1.11.0</commons-beanutils-version>
     <guava-version>32.0.0-jre</guava-version>
     <commons-lang-version>3.7</commons-lang-version>
     <inject-version>1</inject-version>
